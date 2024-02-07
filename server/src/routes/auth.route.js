@@ -1,10 +1,11 @@
 import express from "express";
+
 import {
   registerUser,
   loginUser,
   requestRefreshToken,
   logoutUser,
-} from "../controllers/authController";
+} from "../controllers/auth.controller";
 import { verifyToken } from "../middlewares/verifyToken";
 
 const router = express.Router();

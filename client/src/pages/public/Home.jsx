@@ -9,74 +9,27 @@ function Home() {
     return (
         <>
             {/* BANNER */}
-            <div className="bg-neutralSilver">
-                <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen">
-                    <Carousel className="w-full mx-auto">
-                        <div className="my-28 md:my-8 flex flex-col md:flex-row-reverse items-center justify-between gap-12">
+            <div>
+                <div className="px-4 py-4 lg:px-14 max-w-screen-2xl mx-auto">
+                    <div className="grid h-56 grid-cols-2 gap-4 sm:h-64 xl:h-80 2xl:h-96">
+                        {/* hero text */}
+                        <div className="m-auto">
                             <div>
-                                <img src={banner1} alt="" />
-                            </div>
-
-                            {/* hero text */}
-                            <div className="md:w-1/2">
                                 <h1 className="text-5xl font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
-                                    Welcome to <span className="text-brandPrimary">Quick Booking</span>
+                                    Welcome to <span className="text-green-500">Quick Booking</span>
                                 </h1>
                                 <p className="text-neutralGrey text-base mb-8">welcome to Quick booking</p>
-                                <button className="px-7 py-2 bg-brandPrimary text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
+                                <button className="px-7 py-2 bg-green-500 text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
                                     Post New
                                 </button>
                             </div>
                         </div>
-                        <div className="my-28 md:my-8 flex flex-col md:flex-row-reverse items-center justify-between gap-12">
-                            <div>
-                                <img src={banner1} alt="" />
-                            </div>
-
-                            {/* hero text */}
-                            <div className="md:w-1/2">
-                                <h1 className="text-5xl font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
-                                    Welcome to <span className="text-brandPrimary">Quick Booking</span>
-                                </h1>
-                                <p className="text-neutralGrey text-base mb-8">welcome to Quick booking</p>
-                                <button className="px-7 py-2 bg-brandPrimary text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
-                                    Post New
-                                </button>
-                            </div>
-                        </div>
-                        <div className="my-28 md:my-8 flex flex-col md:flex-row-reverse items-center justify-between gap-12">
-                            <div>
-                                <img src={banner2} alt="" />
-                            </div>
-
-                            {/* hero text */}
-                            <div className="md:w-1/2">
-                                <h1 className="text-5xl font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
-                                    Welcome to <span className="text-brandPrimary">Quick Booking</span>
-                                </h1>
-                                <p className="text-neutralGrey text-base mb-8">welcome to Quick booking</p>
-                                <button className="px-7 py-2 bg-brandPrimary text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
-                                    Post New
-                                </button>
-                            </div>
-                        </div>
-                        <div className="my-28 md:my-8 flex flex-col md:flex-row-reverse items-center justify-between gap-12">
-                            <div>
-                                <img src={banner3} alt="" />
-                            </div>
-
-                            {/* hero text */}
-                            <div className="md:w-1/2">
-                                <h1 className="text-5xl font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
-                                    Welcome to <span className="text-brandPrimary">Quick Booking</span>
-                                </h1>
-                                <p className="text-neutralGrey text-base mb-8">welcome to Quick booking</p>
-                                <button className="px-7 py-2 bg-brandPrimary text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
-                                    Post New
-                                </button>
-                            </div>
-                        </div>
-                    </Carousel>
+                        <Carousel pauseOnHover>
+                            <img src={banner1} alt="" />
+                            <img src={banner2} alt="" />
+                            <img src={banner3} alt="" />
+                        </Carousel>
+                    </div>
                 </div>
             </div>
             <Cards />

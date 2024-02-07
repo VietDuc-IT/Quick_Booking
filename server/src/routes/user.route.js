@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllUser, deleteUser } from "../controllers/userController";
+import { getAllUser, deleteUser } from "../controllers/user.controller";
 import {
   verifyToken,
   verifyTokenAndAdminAuth,

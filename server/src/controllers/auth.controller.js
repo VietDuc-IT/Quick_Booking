@@ -1,4 +1,4 @@
-import { userModel } from "../models/userModel";
+import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 require("dotenv").config();
@@ -8,22 +8,26 @@ const ACCESS_TOKEN_EXPIRES_TIME = "60s";
 const REFRESH_TOKEN_EXPIRES_TIME = "1d";
 
 // [POST] /auth/register
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+  // Hash the user's password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  // Create new user
+  const newUser = await new User({
+    username,
+    email,
+    password: hashedPassword,
+  });
+
   try {
-    // Hash the user's password
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(req.body.password, salt);
-
-    // Create new user
-    const newUser = await new userModel({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashed,
-    });
-
     // Save user to DB
-    const user = await newUser.save();
-    return res.status(200).json(user);
+    await newUser.save();
+    return res.status(200).json({ message: "Registered successful!" });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -55,27 +59,29 @@ const generateRefreshToken = (user) => {
 
 // [POST] /auth/login
 export const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  if ((!username, !password)) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
   try {
-    const { username, password } = req.body;
+    const validUser = await User.findOne({ username });
 
-    const user = await userModel.findOne({ username });
-
-    if (!user) {
-      return res.status(404).json("Wrong username!");
+    if (!validUser) {
+      return res.status(404).json({ message: "User not found!" });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, validUser.password);
 
     if (!validPassword) {
-      return res.status(404).json("Wrong password!");
+      return res.status(404).json({ message: "Wrong password!" });
     }
 
-    if (user && validPassword) {
+    if (validUser && validPassword) {
       // Generate access token
-      const accessToken = generateAccessToken(user);
+      const accessToken = generateAccessToken(validUser);
 
       // Generate refresh token
-      const refreshToken = generateRefreshToken(user);
+      const refreshToken = generateRefreshToken(validUser);
 
       arr_refreshToken.push(refreshToken);
 
@@ -87,7 +93,7 @@ export const loginUser = async (req, res) => {
         sameSite: "strict",
       });
 
-      const { password, ...others } = user._doc;
+      const { password, ...others } = validUser._doc;
       return res.status(200).json({ ...others, accessToken });
     }
   } catch (err) {
