@@ -10,15 +10,23 @@ function Home() {
         <>
             {/* BANNER */}
             <div>
-                <div className="px-4 py-4 lg:px-14 max-w-screen-2xl mx-auto">
+                <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto">
                     <div className="grid h-56 grid-cols-2 gap-4 sm:h-64 xl:h-80 2xl:h-96">
                         {/* hero text */}
                         <div className="m-auto">
                             <div>
-                                <h1 className="text-5xl font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
-                                    Welcome to <span className="text-green-500">Quick Booking</span>
+                                <h1 className="font-semibold mb-4 text-neutralDGrey md:w-3/4 leading-snug">
+                                    <span className="text-4xl">Welcome to</span>
+                                    <div>
+                                        <span className="text-green-500 text-5xl">
+                                            Quick <span className="text-m_text dark:text-d_text text-4xl">Booking</span>
+                                        </span>
+                                    </div>
                                 </h1>
-                                <p className="text-neutralGrey text-base mb-8">welcome to Quick booking</p>
+                                <p className="text-neutralGrey text-base mb-8">
+                                    Welcome to Quick booking, take a deep dive and browse homes or apartments for rent
+                                    and local insights to find what is right for you.
+                                </p>
                                 <button className="px-7 py-2 bg-green-500 text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
                                     Post New
                                 </button>

@@ -1,14 +1,22 @@
 import './App.css';
-import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Loader from './common/Loader';
-import Home from './pages/public/Home';
-import routes from './routes';
-
+import DefaultLayout from './layout/default.layout';
+import SystemLayout from './layout/system.layout';
+import PrivateRoute from './setRoute/PrivateRoute';
+import NotFound from './common/NotFound';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-const DefaultLayout = lazy(() => import('./layout/LayoutPublic'));
+
+// ============ Public =============
+import Home from './pages/public/Home';
+import Rent from './pages/public/Rent';
+import About from './pages/public/About';
+
+// ============ Private =============
+import Dashboard from './pages/system/Dashboard';
+import User from './pages/system/User';
+import Profile from './pages/system/Profile';
 
 function App() {
     return (
@@ -16,22 +24,22 @@ function App() {
             <Routes>
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="*" element={<NotFound />} />
+
+                {/* DefaultLayout */}
                 <Route element={<DefaultLayout />}>
                     <Route index element={<Home />} />
-                    {routes.map((routes, index) => {
-                        const { path, component: Component } = routes;
-                        return (
-                            <Route
-                                key={index}
-                                path={path}
-                                element={
-                                    <Suspense fallback={<Loader />}>
-                                        <Component />
-                                    </Suspense>
-                                }
-                            />
-                        );
-                    })}
+                    <Route path="/rent" element={<Rent />} />
+                    <Route path="/about" element={<About />} />
+                </Route>
+
+                {/* SystemLayout */}
+                <Route element={<PrivateRoute />}>
+                    <Route element={<SystemLayout />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/user" element={<User />} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

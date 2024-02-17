@@ -22,7 +22,17 @@ export const verifyTokenAndAdminAuth = (req, res, next) => {
     if (req.user.id == req.params.id || req.user.admin) {
       next();
     } else {
-      return res.status(403).json("You're not allowed to delete other");
+      return res.status(403).json("You're not allowed to delete this user!");
+    }
+  });
+};
+
+export const verifyTokenUpdate = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.id == req.params.id) {
+      next();
+    } else {
+      return res.status(403).json("You're not allowed to update user other!");
     }
   });
 };

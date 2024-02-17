@@ -71,25 +71,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ###
 
-<Toaster position="top-right" reverseOrder={false} containerClassName="overflow-auto" />
-            <Routes>
-                <Route path="/SignIn" element={<SignIn />} />
-                <Route path="/SignUp" element={<SignUp />} />
-                <Route element={<DefaultLayout />}>
-                    <Route index element={<Home />} />
-                    {routes.map((routes, index) => {
-                        const { path, component: Component } = routes;
-                        return (
-                            <Route
-                                key={index}
-                                path={path}
-                                element={
-                                    <Suspense fallback={<Loader />}>
-                                        <Component />
-                                    </Suspense>
-                                }
-                            />
-                        );
-                    })}
-                </Route>
-            </Routes>
+4:42:00

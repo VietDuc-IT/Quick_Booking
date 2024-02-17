@@ -54,10 +54,10 @@ function cards() {
                 {dataCard.map((card) => (
                     <div
                         key={card.id}
-                        className="px-4 py-8 text-center md:w-[300] mx -auto md:h-80 rounded-md shadow cursor-pointer hover:-translate-y-5 hover:border-b-4 hover:border-indigo-700 transition-all duration-300 flex items-center justify-center h-full"
+                        className="px-4 py-8 text-center md:w-[300] mx -auto md:h-80 rounded-md shadow cursor-pointer hover:-translate-y-5 hover:border-b-4 hover:border-primary dark:hover:border-primary dark:hover:border-b-4 transition-all duration-300 flex items-center justify-center h-full dark:border-2 dark:border-gray-700 "
                     >
                         <div>
-                            <div className="bg-[#E8F5E9] mb-4 h-14 w-14 mx-auto rounded-tl-3xl rounded-br-3xl">
+                            <div className="bg-gray-200 mb-4 h-14 w-14 mx-auto rounded-tl-3xl rounded-br-3xl">
                                 <img src={card.img} alt="" className="-ml-5" />
                             </div>
                             <h4 className="text-2xl font-bold text-neutralDGrey mb-2 px-2">{card.title}</h4>

@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema(
       require: true,
       min: 6,
       max: 20,
-      unique: true,
     },
     email: {
       type: String,
@@ -19,6 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
       min: 6,
+    },
+    profilePicture: {
+      type: String,
+      default: "https://furness.media/wp-content/uploads/2023/01/Boy.png",
     },
     admin: {
       type: Boolean,

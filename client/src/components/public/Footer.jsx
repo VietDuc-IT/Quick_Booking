@@ -1,16 +1,14 @@
 import React from 'react';
-import { Footer } from 'flowbite-react';
-import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
 
 function myFooter() {
     return (
-        <footer className="px-4 divide-y dark:bg-gray-800 dark:text-gray-100 border-t border-gray-200">
+        <footer className="px-4 divide-y dark:bg-d_main dark:text-d_text border-t border-gray-200 dark:border-slate-500">
             <div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
                 <div className="lg:w-1/3">
                     {/* ================== LOGO ================= */}
                     <a href="/" className="text-2xl font-semibold flex items-center space-x-3">
-                        <span className="text-[#263238] text-4xl">
-                            Quick <span className="text-green-500 text-3xl">Booking</span>
+                        <span className="text-primary text-4xl">
+                            Quick <span className="text-m_text dark:text-d_text text-3xl">Booking</span>
                         </span>
                     </a>
                 </div>

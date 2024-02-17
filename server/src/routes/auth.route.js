@@ -5,8 +5,10 @@ import {
   loginUser,
   requestRefreshToken,
   logoutUser,
+  loginGG,
+  updateProfile,
 } from "../controllers/auth.controller";
-import { verifyToken } from "../middlewares/verifyToken";
+import { verifyToken, verifyTokenUpdate } from "../middlewares/verifyToken";
 
 const router = express.Router();
 
@@ -15,6 +17,10 @@ router.post("/register", registerUser);
 
 // LOGIN
 router.post("/login", loginUser);
+router.post("/google", loginGG);
+
+// [PUT] UPDATE FROFILE
+router.put("/update/:id", verifyTokenUpdate, updateProfile);
 
 // LOGOUT
 router.post("/logout", verifyToken, logoutUser);

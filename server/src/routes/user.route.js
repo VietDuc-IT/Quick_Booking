@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/", verifyToken, getAllUser);
 
 // [DELETE] USER
-router.delete("/:id", verifyTokenAndAdminAuth, deleteUser);
+router.delete("/delete/:id", verifyTokenAndAdminAuth, deleteUser);
 
 export default router;

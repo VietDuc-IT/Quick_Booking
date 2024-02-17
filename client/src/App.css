@@ -5,5 +5,5 @@ body {
 }
 
 header {
-    z-index: 10001 !important;
+    z-index: 50 !important;
 }
