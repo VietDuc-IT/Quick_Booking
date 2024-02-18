@@ -116,6 +116,7 @@ export default function Profile() {
             dispatch(deleteUserStart());
             const res = await axiosJWT.delete('/user/delete/' + currentUser._id, {
                 headers: { token: `bearer ${currentUser.accessToken}` },
+                withCredentials: true,
             });
             dispatch(deleteUserSuccess(res.data));
         } catch (err) {

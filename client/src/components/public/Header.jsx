@@ -39,6 +39,7 @@ function Header() {
         try {
             const res = await axiosJWT.post('/auth/logout', '', {
                 headers: { token: `bearer ${currentUser.accessToken}` },
+                withCredentials: true,
             });
             dispatch(signOutSuccess(res.data));
             window.location = '/';

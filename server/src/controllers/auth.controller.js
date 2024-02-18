@@ -1,10 +1,10 @@
 import User from "../models/user.model";
+import RefreshToken from "../models/refreshToken.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 require("dotenv").config();
 
-let arr_refreshToken = [];
-const ACCESS_TOKEN_EXPIRES_TIME = "30s";
+const ACCESS_TOKEN_EXPIRES_TIME = "10s";
 const REFRESH_TOKEN_EXPIRES_TIME = "24h";
 
 // [POST] /auth/register
@@ -83,7 +83,9 @@ export const loginUser = async (req, res) => {
       // Generate refresh token
       const refreshToken = generateRefreshToken(validUser);
 
-      arr_refreshToken.push(refreshToken);
+      // save refreshToken with data
+      const arr_refreshToken = await new RefreshToken({ token: refreshToken });
+      await arr_refreshToken.save();
 
       // Save refresh to cookie
       res.cookie("refresh_Token", refreshToken, {
@@ -113,7 +115,9 @@ export const loginGG = async (req, res) => {
       const accessToken = generateAccessToken(user);
       // Generate refresh token
       const refreshToken = generateRefreshToken(user);
-      arr_refreshToken.push(refreshToken);
+      // save refreshToken with data
+      const arr_refreshToken = await new RefreshToken({ token: refreshToken });
+      await arr_refreshToken.save();
       // Save refresh to cookie
       res.cookie("refresh_Token", refreshToken, {
         httpOnly: true,
@@ -147,7 +151,8 @@ export const loginGG = async (req, res) => {
       // Generate refresh token
       const refreshToken = generateRefreshToken(newUser);
 
-      arr_refreshToken.push(refreshToken);
+      const arr_refreshToken = await new RefreshToken({ token: refreshToken });
+      await arr_refreshToken.save();
 
       // Save refresh to cookie
       res.cookie("refresh_Token", refreshToken, {
@@ -175,22 +180,30 @@ export const requestRefreshToken = async (req, res) => {
     if (!refreshToken) {
       return res.status(401).json("You're not acthenticated!");
     }
-    if (!arr_refreshToken.includes(refreshToken)) {
+
+    const arr_token = await RefreshToken.findOne({ token: refreshToken });
+    if (arr_token.token !== refreshToken) {
       return res.status(403).json("Refresh Token is not valid!");
     }
-    jwt.verify(refreshToken, process.env.JWT_ACCESS_KEY, (err, user) => {
+    jwt.verify(refreshToken, process.env.JWT_ACCESS_KEY, async (err, user) => {
       if (err) {
         console.log(err);
       }
-      arr_refreshToken = arr_refreshToken.filter(
-        (token) => token !== refreshToken
-      );
 
       // Create new access token, redresh token and send to user
       const newAccessToken = generateAccessToken(user);
       const newRefreshToken = generateRefreshToken(user);
 
-      arr_refreshToken.push(newRefreshToken);
+      await RefreshToken.findOneAndUpdate(
+        { token: arr_token.token },
+        {
+          $set: {
+            token: newRefreshToken,
+          },
+        },
+        { new: true }
+      );
+
       res.cookie("refresh_Token", newRefreshToken, {
         httpOnly: true,
         secure: false,
@@ -209,17 +222,15 @@ export const requestRefreshToken = async (req, res) => {
 
 // [PUT] /auth/update/:id
 export const updateProfile = async (req, res) => {
-  // if (req.user.id !== req.params.id) {
-  //   return res.status(403).json("You are not allowed to update this user!");
-  // }
   // if (req.body.password) {
   //   if (req.body.password.length < 6) {
   //     return res.status(400).json("Password must be at least 6 characters");
   //   }
   // }
   // Hash the user's password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  // const salt = await bcrypt.genSalt(10);
+  // const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
   try {
     const updateUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -228,7 +239,7 @@ export const updateProfile = async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           profilePicture: req.body.profilePicture,
-          password: hashedPassword,
+          password: "a",
         },
       },
       { new: true }
@@ -246,9 +257,9 @@ export const updateProfile = async (req, res) => {
 
 // [POST] /auth/logout
 export const logoutUser = async (req, res) => {
-  arr_refreshToken = arr_refreshToken.filter(
-    (token) => token !== req.cookies.refreshToken
-  );
+  // Delete token
+  const refreshToken = req.cookies.refresh_Token;
+  await RefreshToken.findOneAndDelete({ token: refreshToken });
 
   res.clearCookie("refresh_Token", { path: "/" });
   return res.status(200).json("Logged out successfully!");
