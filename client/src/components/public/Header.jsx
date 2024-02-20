@@ -50,9 +50,9 @@ function Header() {
 
     // Navitems array
     const navItems = [
-        { link: 'Home', path: '/' },
-        { link: 'Rent', path: '/rent' },
-        { link: 'About', path: '/about' },
+        { link: 'Trang chủ', path: '/' },
+        { link: 'Thuê nhà', path: '/rent' },
+        { link: 'Giới thiệu', path: '/about' },
     ];
     return (
         <header className="w-full bg-white dark:bg-d_main fixed top-0 left-0 right-0 border-b border-gray-200 dark:border-slate-500">
@@ -94,7 +94,7 @@ function Header() {
                             <input
                                 type="search"
                                 name="Search"
-                                placeholder="Search..."
+                                placeholder="Tìm kiếm ..."
                                 className="w-full py-2 pl-12 text-sm font-medium rounded-full sm:w-96 focus:outline-none text-gray-900 dark:bg-d_text dark:text-m_text "
                             />
                         </div>
@@ -110,7 +110,7 @@ function Header() {
                             >
                                 <path d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
                             </svg>
-                            <span>Search</span>
+                            <span>Tìm kiếm</span>
                         </button>
                     </div>
 
@@ -136,16 +136,20 @@ function Header() {
                                 label={<Avatar alt="user" img={currentUser.profilePicture} rounded />}
                             >
                                 <Dropdown.Header>
-                                    <span className="block text-sm">Hello {currentUser.username}</span>
+                                    <span className="block text-sm">Xin chào {currentUser.username}</span>
                                     <span className="block text-sm font-medium truncate">{currentUser.email}</span>
                                 </Dropdown.Header>
 
+                                <Link to={'/dashboard'}>
+                                    <Dropdown.Item>Hệ thống</Dropdown.Item>
+                                </Link>
+
                                 <Link to={'/profile'}>
-                                    <Dropdown.Item>Profile</Dropdown.Item>
+                                    <Dropdown.Item>Trang cá nhân</Dropdown.Item>
                                 </Link>
 
                                 <Dropdown.Divider />
-                                <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+                                <Dropdown.Item onClick={handleSignout}>Đăng xuất</Dropdown.Item>
                             </Dropdown>
                         ) : (
                             <>
@@ -154,11 +158,11 @@ function Header() {
                                         to={'sign-in'}
                                         className="px-4 py-2 text-sm font-medium border-green-400 text-green-500 hover:shadow-sm hover:shadow-green-500 dark:hover:shadow-md dark:hover:shadow-green-500 cursor-pointer rounded border-2"
                                     >
-                                        Login
+                                        Đăng nhập
                                     </Link>
                                     <Link to={'sign-up'}>
                                         <button className="py-2 px-4 text-sm font-medium bg-green-500 hover:bg-green-600 text-white transition-all duration-300 rounded">
-                                            Sign up
+                                            Đăng ký
                                         </button>
                                     </Link>
                                 </div>
@@ -236,11 +240,11 @@ function Header() {
                             to={'sign-in'}
                             className="px-4 py-2 text-sm font-medium border-white text-white rounded-lg border-2"
                         >
-                            Login
+                            Đăng nhập
                         </Link>
                         <Link to={'sign-up'}>
                             <button className="py-2 px-4 text-sm font-medium bg-white text-green-500 transition-all duration-300 rounded-lg">
-                                Sign up
+                                Đăng ký
                             </button>
                         </Link>
                     </div>

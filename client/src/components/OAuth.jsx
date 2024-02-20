@@ -64,7 +64,7 @@ function OAuth() {
                         </defs>
                     </svg>
                 </span>
-                Sign in with Google
+                Đăng nhập với Google
             </div>
         </div>
     );

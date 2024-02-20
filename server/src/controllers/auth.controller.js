@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 require("dotenv").config();
 
-const ACCESS_TOKEN_EXPIRES_TIME = "10s";
+const ACCESS_TOKEN_EXPIRES_TIME = "90s";
 const REFRESH_TOKEN_EXPIRES_TIME = "24h";
 
 // [POST] /auth/register
@@ -38,7 +38,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user.id,
-      // admin: user.admin,
+      role: user.role,
     },
     process.env.JWT_ACCESS_KEY,
     { expiresIn: ACCESS_TOKEN_EXPIRES_TIME }
@@ -50,7 +50,7 @@ const generateRefreshToken = (user) => {
   return jwt.sign(
     {
       id: user.id,
-      // admin: user.admin,
+      role: user.role,
     },
     process.env.JWT_ACCESS_KEY,
     { expiresIn: REFRESH_TOKEN_EXPIRES_TIME }
@@ -222,14 +222,19 @@ export const requestRefreshToken = async (req, res) => {
 
 // [PUT] /auth/update/:id
 export const updateProfile = async (req, res) => {
-  // if (req.body.password) {
-  //   if (req.body.password.length < 6) {
-  //     return res.status(400).json("Password must be at least 6 characters");
-  //   }
-  // }
-  // Hash the user's password
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  if (req.body.password) {
+    if (req.body.password.length < 6) {
+      return res.status(400).json("Password must be at least 6 characters!");
+    }
+    // Hash the user's password
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+  }
+  if (req.body.phone) {
+    if (req.body.phone.toString().length != 10) {
+      return res.status(400).json("PhoneNumber must be 10 number!");
+    }
+  }
 
   try {
     const updateUser = await User.findByIdAndUpdate(
@@ -239,14 +244,15 @@ export const updateProfile = async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           profilePicture: req.body.profilePicture,
-          password: "a",
+          password: req.body.password,
+          phoneNumber: req.body.phone,
         },
       },
       { new: true }
     );
 
     // Generate access token
-    const accessToken = generateAccessToken(req.params.id);
+    const accessToken = generateAccessToken(req.user);
 
     const { password, ...others } = updateUser._doc;
     return res.status(200).json({ ...others, accessToken });

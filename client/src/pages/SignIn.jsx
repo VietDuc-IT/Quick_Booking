@@ -32,7 +32,7 @@ export default function SignIn() {
     };
 
     return (
-        <section className="mx-auto py-4 bg-neutralSilver flex min-w-0 max-w-7xl flex-col px-4 lg:px-8">
+        <section className="mx-auto py-10 flex min-w-0 max-w-7xl flex-col px-4 lg:px-8">
             <div className="px-5 rounded-sm border dark:border-slate-500 shadow-default">
                 <div className="flex flex-wrap items-center">
                     <div className="hidden w-full xl:block xl:w-1/2">
@@ -45,7 +45,9 @@ export default function SignIn() {
                                 </a>
                             </div>
 
-                            <p className="2xl:px-20 py-3">Wellcome to Website booking house.</p>
+                            <p className="2xl:px-20 py-3">
+                                Chào mừng bạn đến với trang Web cho thuê nhà của chúng tôi.
+                            </p>
 
                             <span className="mt-15 inline-block">
                                 <svg
@@ -168,9 +170,8 @@ export default function SignIn() {
 
                     <div className="w-full  dark:dark xl:w-1/2 xl:border-l-2">
                         <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-                            <span className="mb-1.5 block font-medium">Start for free</span>
-                            <h2 className="mb-9 text-3xl font-bold text-black dark:text-white sm:text-title-xl2">
-                                Login
+                            <h2 className="my-9 text-3xl font-bold text-black dark:text-white sm:text-title-xl2 flex justify-center">
+                                Đăng nhập
                             </h2>
 
                             <form onSubmit={handleSubmit}>
@@ -180,7 +181,7 @@ export default function SignIn() {
                                     <div className="relative">
                                         <input
                                             type="email"
-                                            placeholder="Enter your email"
+                                            placeholder="Địa chỉ email ..."
                                             id="email"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -208,12 +209,12 @@ export default function SignIn() {
 
                                 <div className="mb-6">
                                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                                        Password
+                                        Mật khẩu
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="password"
-                                            placeholder="Enter your password"
+                                            placeholder="Mật khẩu ..."
                                             id="password"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -255,7 +256,7 @@ export default function SignIn() {
                                             <span className="pl-3">Loading...</span>
                                         </>
                                     ) : (
-                                        'Login'
+                                        'Đăng nhập'
                                     )}
                                 </button>
 
@@ -263,9 +264,9 @@ export default function SignIn() {
 
                                 <div className="mt-6 text-center">
                                     <p>
-                                        Don’t have any account?{' '}
+                                        Bạn chưa có tài khoản?{' '}
                                         <Link to="/sign-up" className="text-green-500">
-                                            Sign Up
+                                            Đăng ký
                                         </Link>
                                     </p>
                                 </div>

@@ -16,6 +16,7 @@ import About from './pages/public/About';
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
 import User from './pages/system/User';
+import PostNew from './pages/system/PostNew';
 import Profile from './pages/system/Profile';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                 <Route element={<PrivateRoute />}>
                     <Route element={<SystemLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/postnew" element={<PostNew />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/user" element={<User />} />
                     </Route>

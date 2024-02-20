@@ -40,7 +40,7 @@ const SignUp = () => {
     };
 
     return (
-        <section className="mx-auto py-4 bg-neutralSilver flex min-w-0 max-w-7xl flex-col px-4 lg:px-8">
+        <section className="mx-auto py-4 flex min-w-0 max-w-7xl flex-col px-4 lg:px-8">
             <div className="rounded-sm border dark:border-slate-500 shadow-default">
                 <div className="flex flex-wrap items-center">
                     <div className="hidden w-full xl:block xl:w-1/2">
@@ -52,7 +52,10 @@ const SignUp = () => {
                                     </span>
                                 </a>
                             </div>
-                            <p className="2xl:px-20 my-5">Wellcome to Website booking house.</p>
+                            <p className="2xl:px-20 my-5">
+                                Chào mừng bạn đến với trang Web cho thuê nhà của chúng tôi. <br />
+                                Đăng ký miễn phí.
+                            </p>
 
                             <span className="mt-15 inline-block">
                                 <svg
@@ -175,17 +178,20 @@ const SignUp = () => {
 
                     <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
                         <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-                            <span className="mb-1.5 block font-medium">Start for free</span>
-                            <h2 className="mb-6 text-3xl font-bold dark:text-d_text sm:text-title-xl2">Sign Up</h2>
+                            <h2 className="mb-6 text-3xl font-bold dark:text-d_text sm:text-title-xl2 flex justify-center">
+                                Đăng ký
+                            </h2>
 
                             {/* ======================= INPUT ==================== */}
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label className="mb-2.5 block font-medium text-black dark:text-white">Name</label>
+                                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                                        Họ tên
+                                    </label>
                                     <div className="relative">
                                         <input
                                             type="text"
-                                            placeholder="Enter your full name"
+                                            placeholder="Họ tên ..."
                                             id="username"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -220,7 +226,7 @@ const SignUp = () => {
                                     <div className="relative">
                                         <input
                                             type="email"
-                                            placeholder="Enter your email"
+                                            placeholder="Địa chỉ email ..."
                                             id="email"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -248,12 +254,12 @@ const SignUp = () => {
 
                                 <div className="mb-4">
                                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                                        Password
+                                        Mật khẩu
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="password"
-                                            placeholder="Enter your password"
+                                            placeholder="Mật khẩu phải có ít nhất 6 kí tự ..."
                                             id="password"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -285,12 +291,12 @@ const SignUp = () => {
 
                                 <div className="mb-6">
                                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                                        Password Comfirm
+                                        Xác nhận mật khẩu
                                     </label>
                                     <div className="relative">
                                         <input
                                             type="password"
-                                            placeholder="Re-enter your password"
+                                            placeholder="Nhập lại mật khẩu ..."
                                             id="rePassword"
                                             onChange={handleChange}
                                             className="w-full rounded-lg border border-green-500 bg-transparent py-4 pl-6 pr-10 outline-none focus:border-green-500 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-green-500"
@@ -332,7 +338,7 @@ const SignUp = () => {
                                             <span className="pl-3">Loading...</span>
                                         </>
                                     ) : (
-                                        'Create account'
+                                        'Tạo tài khoản'
                                     )}
                                 </button>
 
@@ -340,9 +346,9 @@ const SignUp = () => {
 
                                 <div className="mt-6 text-center">
                                     <p>
-                                        Already have an account?{' '}
+                                        Bạn đã có tài khoản?{' '}
                                         <Link to="/sign-in" className="text-green-500">
-                                            Sign in
+                                            Đăng nhập
                                         </Link>
                                     </p>
                                 </div>

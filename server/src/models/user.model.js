@@ -23,9 +23,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://furness.media/wp-content/uploads/2023/01/Boy.png",
     },
-    admin: {
-      type: Boolean,
-      default: false,
+    phoneNumber: {
+      type: Number,
+      default: 0,
+    },
+    // role = [Admin, User, Customer]
+    role: {
+      type: String,
+      default: "Customer",
     },
   },
   { timestamps: true }

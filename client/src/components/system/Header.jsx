@@ -41,7 +41,7 @@ function Header() {
                         <input
                             type="search"
                             name="Search"
-                            placeholder="Search..."
+                            placeholder="Tìm kiếm ..."
                             className="w-full py-2 pl-12 text-sm font-medium rounded-md sm:w-96 focus:outline-none text-gray-900 dark:bg-d_text dark:text-m_text "
                         />
                     </div>
@@ -78,16 +78,16 @@ function Header() {
                         label={<Avatar alt="user" img={currentUser.profilePicture} rounded />}
                     >
                         <Dropdown.Header>
-                            <span className="block text-sm">Hello {currentUser.username}</span>
+                            <span className="block text-sm">Xin chào {currentUser.username}</span>
                             <span className="block text-sm font-medium truncate">{currentUser.email}</span>
                         </Dropdown.Header>
 
-                        <Link to={'/dashboard?tab=profile'}>
-                            <Dropdown.Item>Profile</Dropdown.Item>
+                        <Link to={'/'}>
+                            <Dropdown.Item>Trang chủ</Dropdown.Item>
                         </Link>
 
                         <Dropdown.Divider />
-                        <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleSignout}>Đăng xuất</Dropdown.Item>
                     </Dropdown>
                 </div>
             </div>

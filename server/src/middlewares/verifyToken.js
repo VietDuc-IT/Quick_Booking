@@ -17,22 +17,28 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
-export const verifyTokenAndAdminAuth = (req, res, next) => {
+export const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id == req.params.id || req.user.admin) {
+    if (req.user.role == "Admin") {
       next();
     } else {
-      return res.status(403).json("You're not allowed to delete this user!");
+      return res.status(403).json("You're not allowed!");
     }
   });
 };
 
-export const verifyTokenUpdate = (req, res, next) => {
+export const verifyAdminAndUser = (req, res, next) => {
   verifyToken(req, res, () => {
-    console.log("===================================");
-    console.log(">> params.id", req.params.id);
-    console.log(">> user.id", req.user.id);
-    console.log("===================================");
+    if (req.user.role == "Admin" || req.user.role == "User") {
+      next();
+    } else {
+      return res.status(403).json("You're not allowed!");
+    }
+  });
+};
+
+export const verifyUpdate = (req, res, next) => {
+  verifyToken(req, res, () => {
     if (req.user.id == req.params.id) {
       next();
     } else {

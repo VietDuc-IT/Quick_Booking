@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from 'react-icons/hi';
+import { useState } from 'react';
+import { ImNewspaper } from 'react-icons/im';
+import { GiFamilyHouse } from 'react-icons/gi';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
 import { httpRequest } from '~/ultils/httpRequest';
+import { FaUsers } from 'react-icons/fa';
 
 function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -88,12 +90,31 @@ function Sidebar() {
                                     <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
                                 </svg>
 
-                                <span class="ms-3">Dashboard</span>
+                                <span class="ms-3">Thống kê</span>
                             </Link>
                         </li>
-
-                        {/* ======================= User ======================= */}
+                        {/* ======================= Product ======================= */}
                         <li>
+                            <Link
+                                to="#"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group"
+                            >
+                                <GiFamilyHouse class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                <span class="flex-1 ms-3 whitespace-nowrap">Bài đăng</span>
+                            </Link>
+                        </li>
+                        {/* ======================= PostNew ======================= */}
+                        <li>
+                            <Link
+                                to="/postnew"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group"
+                            >
+                                <ImNewspaper class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                <span class="flex-1 ms-3 whitespace-nowrap">Đăng tin</span>
+                            </Link>
+                        </li>
+                        {/* ======================= User ======================= */}
+                        {/* <li>
                             <button
                                 type="button"
                                 class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
@@ -164,8 +185,16 @@ function Sidebar() {
                                     </Link>
                                 </li>
                             </ul>
+                        </li> */}
+                        <li>
+                            <Link
+                                to="/user"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group"
+                            >
+                                <FaUsers class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                <span class="flex-1 ms-3 whitespace-nowrap">User</span>
+                            </Link>
                         </li>
-
                         {/* ======================= Notification ======================= */}
                         <li>
                             <Link
@@ -186,29 +215,11 @@ function Sidebar() {
                                     />
                                 </svg>
 
-                                <span class="flex-1 ms-3 whitespace-nowrap">Notification</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Thông báo</span>
                                 <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                                     3
                                 </span>
                             </Link>
-                        </li>
-                        {/* ======================= Product ======================= */}
-                        <li>
-                            <a
-                                href="#"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group"
-                            >
-                                <svg
-                                    class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 18 20"
-                                >
-                                    <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-                                </svg>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
-                            </a>
                         </li>
                     </ul>
                     <div class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700" />
@@ -232,9 +243,9 @@ function Sidebar() {
                                     />
                                 </svg>
 
-                                <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Cá nhân</span>
                                 <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                    {'User'}
+                                    {`${currentUser.role}`}
                                 </span>
                             </Link>
                         </li>
@@ -287,7 +298,7 @@ function Sidebar() {
                                         d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
                                     />
                                 </svg>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Đăng xuất</span>
                             </Link>
                         </li>
                     </ul>

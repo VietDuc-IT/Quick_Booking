@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { MdDriveFolderUpload, MdLocationOn } from 'react-icons/md';
 
 function About() {
     return (
@@ -16,9 +18,40 @@ function About() {
                             >
                                 Update
                             </button>
+                            <button
+                                type="button"
+                                class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-primary dark:hover:bg-primary6 dark:focus:ring-primary6 h-10 mt-7 ml-3 w-48"
+                                // className="px-4 py-2 text-sm font-medium border-green-400 text-green-500 hover:shadow-sm hover:shadow-green-500 dark:hover:shadow-md dark:hover:shadow-green-500 cursor-pointer rounded border-2 h-10 mt-7 ml-3 w-48"
+                            >
+                                <MdDriveFolderUpload class="w-4 h-4 me-2" />
+                                Upload image
+                            </button>
 
                             {/*================ TEST =================*/}
-                            <div className="space-x-5 bg-white">123</div>
+                            <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
+                                <Link to={`#id`}>
+                                    <img
+                                        src={
+                                            'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg?width=595&height=400&name=real-estate-business-compressor.jpg'
+                                        }
+                                        alt="listing cover"
+                                        className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
+                                    />
+                                    <div className="p-3 flex flex-col gap-2 w-full">
+                                        <p className="truncate text-lg font-semibold text-slate-700">Home</p>
+                                        <div className="flex items-center gap-1">
+                                            <MdLocationOn className="h-4 w-4 text-green-700" />
+                                            <p className="text-sm text-gray-600 truncate w-full">address</p>
+                                        </div>
+                                        <p className="text-sm text-gray-600 line-clamp-2">description</p>
+                                        <p className="text-slate-500 mt-2 font-semibold ">500k / month</p>
+                                        <div className="text-slate-700 flex gap-4">
+                                            <div className="font-bold text-xs">12 beds</div>
+                                            <div className="font-bold text-xs">3 baths</div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

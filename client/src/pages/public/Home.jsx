@@ -24,11 +24,13 @@ function Home() {
                                     </div>
                                 </h1>
                                 <p className="text-neutralGrey text-base mb-8">
-                                    Welcome to Quick booking, take a deep dive and browse homes or apartments for rent
-                                    and local insights to find what is right for you.
+                                    QuickBooking là nơi người cho thuê dễ dàng đăng tải những tin rao nhà thuê một cách
+                                    dễ dàng với đầy đủ thông tin với giá cả và liên hệ rõ ràng. Từ đó sẽ giúp người tìm
+                                    nhà thuê dễ dàng tìm kiếm và lựa chọn cho mình những căn nhà thuê ưng ý, phù hợp nhu
+                                    cầu sử dụng với mức giá tốt.
                                 </p>
                                 <button className="px-7 py-2 bg-green-500 text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
-                                    Post New
+                                    Đăng tin
                                 </button>
                             </div>
                         </div>

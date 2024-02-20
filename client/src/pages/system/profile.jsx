@@ -1,5 +1,6 @@
-import { Alert, Button, Modal, TextInput } from 'flowbite-react';
+import { Alert, Button, Modal } from 'flowbite-react';
 import { TbInfoTriangleFilled } from 'react-icons/tb';
+import { FaLock, FaUser } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -18,6 +19,7 @@ import {
 } from '~/redux/user/userSlice';
 import { httpRequest } from '~/ultils/httpRequest';
 import { Link } from 'react-router-dom';
+import { FaPhone } from 'react-icons/fa6';
 
 export default function Profile() {
     const { currentUser } = useSelector((state) => state.user);
@@ -155,7 +157,7 @@ export default function Profile() {
                                 >
                                     <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                                 </svg>
-                                Home
+                                Trang chủ
                             </Link>
                         </li>
 
@@ -177,7 +179,7 @@ export default function Profile() {
                                     />
                                 </svg>
                                 <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                                    Profile
+                                    Trang cá nhân
                                 </span>
                             </div>
                         </li>
@@ -187,7 +189,7 @@ export default function Profile() {
 
             <div class="flex items-center justify-center bg-m_main dark:bg-d_main">
                 <form onSubmit={handleSubmit}>
-                    <div class="container lg:w-2/ sm:w-full text-m_text dark:text-d_text shadow-lg transform duration-200 easy-in-out">
+                    <div class="container sm:w-full text-m_text dark:text-d_text shadow-lg transform duration-200">
                         <div class=" h-52 overflow-hidden">
                             <img
                                 class="w-full"
@@ -231,7 +233,7 @@ export default function Profile() {
                             {imageFileUploadError && <Alert color="failure">{imageFileUploadError}</Alert>}
                         </div>
 
-                        <div class=" ">
+                        <div>
                             <div class="text-center px-14">
                                 <h2 class="text-3xl font-bold">{currentUser.username}</h2>
                                 <a
@@ -242,40 +244,83 @@ export default function Profile() {
                                     {currentUser.email}
                                 </a>
                                 <p class="mt-2 text-gray-500 text-sm">
-                                    QuickBooking is one of the leading flight and hotel booking platforms in Southeast
-                                    Asia, serving more than 100,000+ flight routes and 100,000+ hotels worldwide. We
-                                    work hard to provide our customers with the cheapest hotel and flight rates, every
-                                    day!{' '}
+                                    QuickBooking là nơi người cho thuê dễ dàng đăng tải những tin rao nhà thuê một cách
+                                    dễ dàng với đầy đủ thông tin với giá cả và liên hệ rõ ràng. Từ đó sẽ giúp người tìm
+                                    nhà thuê dễ dàng tìm kiếm và lựa chọn cho mình những căn nhà thuê ưng ý, phù hợp nhu
+                                    cầu sử dụng với mức giá tốt.!{' '}
                                 </p>
                             </div>
                             {/* ====================== BUTTON ======================== */}
                             <div class="flex justify-center px-5 -mt-12">
                                 <div className="mt-20 flex flex-col gap-4 justify-center w-3/5">
-                                    <TextInput
-                                        type="text"
-                                        id="username"
-                                        placeholder="username"
-                                        defaultValue={currentUser.username}
-                                        onChange={handleChange}
-                                    />
-                                    <TextInput
-                                        type="email"
-                                        id="email"
-                                        placeholder="email"
-                                        defaultValue={currentUser.email}
-                                        onChange={handleChange}
-                                    />
-                                    <TextInput
-                                        type="text"
-                                        id="password"
-                                        placeholder="password"
-                                        onChange={handleChange}
-                                    />
+                                    {/* ========= Username ======== */}
+                                    <div class="relative mb-2">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <FaUser class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                            placeholder="username"
+                                            defaultValue={currentUser.username}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    {/* ========= Email ======== */}
+                                    <div class="relative mb-2">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <svg
+                                                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 16"
+                                            >
+                                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+                                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+                                            </svg>
+                                        </div>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                            placeholder="email"
+                                            defaultValue={currentUser.email}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    {/* ========= Password ======== */}
+                                    <div class="relative mb-2">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <FaLock class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="password"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                            placeholder="Mật khẩu phải có ít nhất 6 kí tự ..."
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    {/* ========= Phone Number ======== */}
+                                    <div class="relative mb-2">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <FaPhone class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                            placeholder="Số điện thoại ..."
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                                     <button
                                         type="submit"
-                                        class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7"
+                                        class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7"
                                     >
-                                        Update
+                                        Cập nhật
                                     </button>
                                 </div>
                             </div>
@@ -288,7 +333,7 @@ export default function Profile() {
                                 >
                                     <p>
                                         {' '}
-                                        <span class="font-semibold">Delete Account</span>
+                                        <span class="font-semibold">Xóa tài khoản</span>
                                     </p>
                                 </div>
                                 <div class="border"></div>
@@ -298,7 +343,7 @@ export default function Profile() {
                                 >
                                     <p>
                                         {' '}
-                                        <span class="font-semibold">Sign out</span>
+                                        <span class="font-semibold">Đăng xuất</span>
                                     </p>
                                 </div>
                             </div>
@@ -316,17 +361,17 @@ export default function Profile() {
                 <Modal.Body>
                     <div className="space-y-6">
                         <p>
-                            Are you sure you want to delete account <span class="font-bold">{currentUser.email}</span>?
+                            Bạn chắc chắn muốn xóa tài khoản <span class="font-bold">{currentUser.email}</span> này?
                         </p>{' '}
-                        <p>This action cannot be undone.</p>
+                        <p>Hành động này không thể khôi phục lại.</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer className="flex justify-end">
                     <Button color="failure" onClick={handleDeleteUser}>
-                        Delete
+                        Xóa tài khoản
                     </Button>
                     <Button color="gray" onClick={() => setOpenModal(false)}>
-                        Cancel
+                        Thoát
                     </Button>
                 </Modal.Footer>
             </Modal>

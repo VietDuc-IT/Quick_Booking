@@ -8,7 +8,7 @@ import {
   loginGG,
   updateProfile,
 } from "../controllers/auth.controller";
-import { verifyToken, verifyTokenUpdate } from "../middlewares/verifyToken";
+import { verifyToken, verifyUpdate } from "../middlewares/verifyToken";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.post("/login", loginUser);
 router.post("/google", loginGG);
 
 // [PUT] UPDATE FROFILE
-router.put("/update/:id", verifyTokenUpdate, updateProfile);
+router.put("/update/:id", verifyUpdate, updateProfile);
 
 // LOGOUT
 router.post("/logout", verifyToken, logoutUser);
