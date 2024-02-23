@@ -4,13 +4,14 @@ import banner1 from '~/assets/images/banner/house1lg.png';
 import banner2 from '~/assets/images/banner/house2lg.png';
 import banner3 from '~/assets/images/banner/house3lg.png';
 import Cards from '~/components/cards';
+import { Link } from 'react-router-dom';
 
 function Home() {
     return (
         <>
             {/* BANNER */}
             <div>
-                <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto">
+                <div className="lg:px-14 max-w-screen-2xl mx-auto">
                     <div className="grid h-56 grid-cols-2 gap-4 sm:h-64 xl:h-80 2xl:h-96">
                         {/* hero text */}
                         <div className="m-auto">
@@ -29,9 +30,11 @@ function Home() {
                                     nhà thuê dễ dàng tìm kiếm và lựa chọn cho mình những căn nhà thuê ưng ý, phù hợp nhu
                                     cầu sử dụng với mức giá tốt.
                                 </p>
-                                <button className="px-7 py-2 bg-green-500 text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
-                                    Đăng tin
-                                </button>
+                                <Link to="/postnew">
+                                    <button className="px-7 py-2 bg-green-500 text-white rounded hover:bg-neutralDGrey transition-all duration-300 hover:-translate-y-4">
+                                        Đăng tin
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                         <Carousel pauseOnHover>

@@ -1,7 +1,7 @@
 import express from "express";
 
 import { getAllUser, deleteUser } from "../controllers/user.controller";
-import { verifyAdmin } from "../middlewares/verifyToken";
+import { verifyAdmin, verifyDelete } from "../middlewares/verifyToken";
 
 const router = express.Router();
 
@@ -9,6 +9,6 @@ const router = express.Router();
 router.get("/", verifyAdmin, getAllUser);
 
 // [DELETE] USER
-router.delete("/delete/:id", deleteUser);
+router.delete("/delete/:id", verifyDelete, deleteUser);
 
 export default router;

@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '~/components/system/Header';
 import Sidebar from '~/components/system/Sidebar';
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 // SystemLayout Component
 const SystemLayout = () => {
@@ -42,6 +43,17 @@ const SystemLayout = () => {
                     {/* <!-- ===== Main Content End ===== --> */}
                 </div>
                 {/* <!-- ===== Content Area End ===== --> */}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </div>
             {/* <!-- ===== Page Wrapper End ===== --> */}
         </div>

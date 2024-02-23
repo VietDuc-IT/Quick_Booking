@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "User",
     },
     title: {
       type: String,
@@ -18,19 +19,25 @@ const postSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    category: {
+      type: String,
+      require: true,
+    },
     price: {
       type: Number,
       required: true,
     },
-    image: {
+    imageUrls: {
+      type: Array,
+    },
+    status: {
       type: String,
-      default:
-        "https://cdnassets.hw.net/6a/9c/8c1fe2c24fda99c47ae1f196b2c7/docomomous-esherickhouse-04.jpg",
+      default: "Chờ duyệt",
     },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.model("post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 export default Post;

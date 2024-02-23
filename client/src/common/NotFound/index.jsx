@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function NotFound() {
     return (
@@ -8,17 +9,17 @@ function NotFound() {
                     <h2 class="mb-8 font-extrabold text-9xl dark:text-gray-600">
                         <span class="sr-only">Error</span>404
                     </h2>
-                    <p class="text-2xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
+                    <p class="text-2xl font-semibold md:text-3xl">Xin lỗi, chúng tôi không thể tìm thấy trang này.</p>
                     <p class="mt-4 mb-8 dark:text-gray-400">
-                        But dont worry, you can find plenty of other things on our homepage.
+                        Đừng lo lắng, bạn có thể tìm thấy nhiều thức khác hơn ở TRANH CHỦ của chúng tôi.
                     </p>
-                    <a
+                    <Link
                         rel="noopener noreferrer"
-                        href="#"
-                        class="px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+                        to="/"
+                        class="px-8 py-3 font-semibold rounded text-white bg-primary dark:bg-primary dark:text-gray-900"
                     >
-                        Back to homepage
-                    </a>
+                        Trang chủ
+                    </Link>
                 </div>
             </div>
         </section>

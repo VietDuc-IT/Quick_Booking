@@ -46,3 +46,13 @@ export const verifyUpdate = (req, res, next) => {
     }
   });
 };
+
+export const verifyDelete = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.id == req.params.id || req.user.role === "Admin") {
+      next();
+    } else {
+      return res.status(403).json("You're not allowed to delete user other!");
+    }
+  });
+};

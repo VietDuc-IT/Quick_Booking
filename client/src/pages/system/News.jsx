@@ -1,39 +1,28 @@
+import { Tooltip } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import { AiOutlineComment } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { httpRequest } from '~/ultils/httpRequest';
-import { AiOutlineComment } from 'react-icons/ai';
 
-function User() {
+function News() {
     const { currentUser } = useSelector((state) => state.user);
-    const [users, setUsers] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
-    const [showMore, setShowMore] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-    const [userIdToDelete, setUserIdToDelete] = useState('');
+    const [data, setData] = useState([]);
     const dispatch = useDispatch();
-
-    // Refresh Token
     let axiosJWT = httpRequest(currentUser, dispatch);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axiosJWT.get('/user', {
+                const res = await axiosJWT.get('/post/get', {
                     headers: { token: `bearer ${currentUser.accessToken}` },
                 });
-                setUsers(res.data.users);
-            } catch (err) {
-                console.log(err.message);
+                setData(res.data);
+            } catch (error) {
+                console.log(error);
             }
         };
-        if (currentUser.role === 'Admin') {
-            fetchData();
-        } else {
-            console.log('abc');
-        }
+        fetchData();
     }, []);
-
     return (
         <>
             <div className="mb-3 flex justify-end">
@@ -75,14 +64,13 @@ function User() {
                                     />
                                 </svg>
                                 <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                                    user
+                                    Bài đăng
                                 </span>
                             </div>
                         </li>
                     </ol>
                 </nav>
             </div>
-
             <div>
                 <div class="relative overflow-x-auto">
                     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 m-1">
@@ -201,31 +189,37 @@ function User() {
                                         </label>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Tên & email
+                                <th scope="col" class="px-1 py-3">
+                                    Bài đăng
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Số điện thoại
+
+                                {currentUser.role === 'Admin' && (
+                                    <th scope="col" class="px-4 py-3">
+                                        Tác giả
+                                    </th>
+                                )}
+                                <th scope="col" class="px-4 py-3">
+                                    Loại
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Quyền
+                                <th scope="col" class="px-4 py-3">
+                                    Tương tác
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-4 py-3">
                                     Trạng thái
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-4 py-3">
                                     Ngày tạo
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-4 py-3">
                                     Thao tác
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user) => (
+                            {data.map((product) => (
                                 <>
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="w-4 p-4">
+                                        <td class="w-2 p-4">
                                             <div class="flex items-center">
                                                 <input
                                                     id="checkbox-table-search-1"
@@ -233,33 +227,72 @@ function User() {
                                                     class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                 />
                                                 <label for="checkbox-table-search-1" class="sr-only">
-                                                    {currentUser.id}
+                                                    checkbox
                                                 </label>
                                             </div>
                                         </td>
 
                                         <th
                                             scope="row"
-                                            class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                                            class="flex items-center px-1 py-4 text-gray-900 whitespace-nowrap dark:text-white w-96"
                                         >
-                                            <img class="w-10 h-10 rounded-full" src={user.profilePicture} />
+                                            <img class="w-14 h-10 rounded-sm" src={product.imageUrls} />
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{user.username}</div>
-                                                <div class="font-normal text-gray-500">{user.email}</div>
+                                                <div className="w-96">
+                                                    <Tooltip content={product.title}>
+                                                        <p class="text-base font-semibold truncate w-72">
+                                                            {product.title}
+                                                        </p>
+                                                    </Tooltip>
+                                                    <p class="font-normal text-gray-500 truncate w-72">
+                                                        {product.address}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </th>
-                                        <td class="px-6 py-4">{user.phoneNumber}</td>
-                                        <td class="px-6 py-4">{user.role}</td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+
+                                        {currentUser.role === 'Admin' && (
+                                            <td class="px-4 py-4">
+                                                <div className="min-w-32">
+                                                    <div class="text-base font-semibold">{product.userId.username}</div>
+                                                    <div class="font-normal text-gray-500">{product.userId.email}</div>
+                                                </div>
+                                            </td>
+                                        )}
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center w-20">{product.category}</div>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div className="flex justify-center min-w-20">
+                                                50
+                                                <AiOutlineComment className="h-5 w-5 ml-3" />
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4">{new Date(user.createdAt).toLocaleDateString()}</td>
-                                        <td class="px-6 py-4">
-                                            <button class="font-medium text-red-500 dark:text-red-500 hover:underline">
-                                                Xóa
-                                            </button>
+                                        <td class="px-4 py-4">
+                                            {/* <div class="flex items-center w-20">Chờ duyệt</div> */}
+                                            <div class="flex items-center min-w-20">{product.status}</div>
+                                        </td>
+                                        <td class="px-4 py-4">{new Date(product.createdAt).toLocaleDateString()}</td>
+                                        <td class="px-4 py-4">
+                                            <div className="space-x-1 min-w-36">
+                                                <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                                    Xem
+                                                </button>
+                                                <span>/</span>
+                                                {currentUser.role === 'Admin' ? (
+                                                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                        Duyệt
+                                                    </button>
+                                                ) : (
+                                                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                        Sửa
+                                                    </button>
+                                                )}
+                                                <span>/</span>
+                                                <button class="font-medium text-red-500 dark:text-red-500 hover:underline">
+                                                    Xóa
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </>
@@ -272,4 +305,4 @@ function User() {
     );
 }
 
-export default User;
+export default News;

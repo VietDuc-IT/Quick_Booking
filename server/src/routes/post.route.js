@@ -1,10 +1,13 @@
 import express from "express";
-import { postNew } from "../controllers/post.controller";
+import { postNew, getAllPost } from "../controllers/post.controller";
 import { verifyAdminAndUser } from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-// REGISTER
-router.post("/:id", verifyAdminAndUser, postNew);
+// POST
+router.post("/", verifyAdminAndUser, postNew);
+
+// GET
+router.get("/get", verifyAdminAndUser, getAllPost);
 
 export default router;

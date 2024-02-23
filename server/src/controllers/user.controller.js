@@ -38,8 +38,6 @@ export const getAllUser = async (req, res) => {
   }
 };
 
-// [PUT] /user/update/:id
-
 // [DELETE] /user/delete/:id
 export const deleteUser = async (req, res) => {
   try {
