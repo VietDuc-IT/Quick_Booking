@@ -31,8 +31,8 @@ function Sidebar() {
     };
     const menu = [
         { href: '/dashboard', icon: FaChartPie, name: 'Thống kê' },
-        { href: '/news', icon: BsHouseGearFill, name: 'Bài đăng' },
-        { href: '/postnew', icon: ImNewspaper, name: 'Đăng tin' },
+        { href: '/posts', icon: BsHouseGearFill, name: 'Bài đăng' },
+        { href: '/create-post', icon: ImNewspaper, name: 'Đăng tin' },
     ];
     if (currentUser.role === 'Admin') {
         menu.push({ href: '/user', icon: FaUsers, name: 'Người dùng' });

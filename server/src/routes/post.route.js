@@ -1,13 +1,28 @@
 import express from "express";
-import { postNew, getAllPost } from "../controllers/post.controller";
-import { verifyAdminAndUser } from "../middlewares/verifyToken";
+import {
+  postNew,
+  getPosts,
+  deletePost,
+  updatePost,
+} from "../controllers/post.controller";
+import {
+  verifyAdminAndUser,
+  verifyDelete,
+  verifyUpdate,
+} from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-// POST
-router.post("/", verifyAdminAndUser, postNew);
+// [POST] CREATE POST NEW
+router.post("/create", verifyAdminAndUser, postNew);
 
-// GET
-router.get("/get", verifyAdminAndUser, getAllPost);
+// [GET] GET ALL POST
+router.get("/get", getPosts);
+
+// [PUT] UPDATE POST
+router.put("/update/:postId/:id", verifyUpdate, updatePost);
+
+// [DELETE] POST :ID
+router.delete("/delete/:postId/:id", verifyDelete, deletePost);
 
 export default router;

@@ -17,8 +17,9 @@ import About from './pages/public/About';
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
 import User from './pages/system/User';
-import PostNew from './pages/system/PostNew';
-import News from './pages/system/News';
+import CreatePost from './pages/system/CreatePost';
+import Posts from './pages/system/Posts';
+import UpdatePost from './pages/system/UpdatePost';
 import Profile from './pages/system/Profile';
 
 function App() {
@@ -39,12 +40,15 @@ function App() {
                 {/* SystemLayout */}
                 <Route element={<PrivateRoute />}>
                     <Route element={<SystemLayout />}>
+                        {/* Only Admin */}
                         <Route element={<AdminRoute />}>
                             <Route path="/user" element={<User />} />
                         </Route>
+                        {/* Admin and user */}
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/news" element={<News />} />
-                        <Route path="/postnew" element={<PostNew />} />
+                        <Route path="/create-post" element={<CreatePost />} />
+                        <Route path="/posts" element={<Posts />} />
+                        <Route path="/update-post/:postId" element={<UpdatePost />} />
                         <Route path="/profile" element={<Profile />} />
                     </Route>
                 </Route>

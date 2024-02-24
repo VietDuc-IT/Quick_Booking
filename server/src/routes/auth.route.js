@@ -25,7 +25,7 @@ router.put("/update/:id", verifyUpdate, updateProfile);
 // LOGOUT
 router.post("/logout", verifyToken, logoutUser);
 
-// REFRESH
+// REFRESH TOKEN
 router.post("/refresh", requestRefreshToken);
 
 export default router;

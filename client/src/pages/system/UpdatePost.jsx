@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MdDriveFolderUpload } from 'react-icons/md';
 import { TbHomeDollar } from 'react-icons/tb';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { httpRequest } from '~/ultils/httpRequest';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '~/ultils/firebase';
 import { toast } from 'react-toastify';
+import BreadCrumb from '~/components/system/BreadCrumb';
+import axios from '~/ultils/axios';
 
-function PostNew() {
+function UpdatePost() {
     const { currentUser } = useSelector((state) => state.user);
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
@@ -24,7 +26,24 @@ function PostNew() {
     const inputRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { postId } = useParams();
     let axiosJWT = httpRequest(currentUser, dispatch);
+
+    useEffect(() => {
+        try {
+            const fetchPost = async () => {
+                const res = await axios.get(`/post/get?postId=${postId}`);
+                setFormData(res.data[0]);
+            };
+            fetchPost();
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
+
+    useEffect(() => {
+        setCheckedValue(formData.category);
+    }, [formData]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -119,12 +138,12 @@ function PostNew() {
             if (formData.category === '') return toast.error('Bạn phải chọn loại hình cho thuê!');
             if (formData.imageUrls.length < 1) return toast.error('Bạn phải có ít nhất 1 ảnh!');
 
-            await axiosJWT.post('/post', formData, {
+            await axiosJWT.put(`/post/update/${formData._id}/${formData.userId._id}`, formData, {
                 headers: { token: `bearer ${currentUser.accessToken}` },
             });
 
-            toast.success('Đăng tin thành công!');
-            navigate('/news');
+            toast.success('Thay đỗi đã được cập nhật!');
+            navigate('/posts');
         } catch (err) {
             console.log(err.message);
         }
@@ -145,52 +164,8 @@ function PostNew() {
 
     return (
         <>
-            <div className="mb-3 flex justify-end">
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                        <li class="inline-flex items-center">
-                            <Link
-                                to="/dashboard"
-                                class="inline-flex items-center text-sm font-medium hover:text-primary dark:text-d_text dark:hover:text-primary"
-                            >
-                                <svg
-                                    class="w-3 h-3 me-2.5"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-                                </svg>
-                                Trang chủ
-                            </Link>
-                        </li>
+            <BreadCrumb pageName="Sửa bài đăng" />
 
-                        <li aria-current="page">
-                            <div class="flex items-center">
-                                <svg
-                                    class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 6 10"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="m1 9 4-4-4-4"
-                                    />
-                                </svg>
-                                <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                                    Đăng tin
-                                </span>
-                            </div>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
             <div class="flex items-center justify-center bg-m_main dark:bg-d_main">
                 <form className="container p-5 sm:w-full" onSubmit={handleSubmit} ref={inputRef}>
                     {/* ================== Title ==================== */}
@@ -201,6 +176,7 @@ function PostNew() {
                         <input
                             type="text"
                             id="title"
+                            value={formData.title}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                             placeholder="Quick Booking"
                             onChange={handleChange}
@@ -226,6 +202,7 @@ function PostNew() {
                             <input
                                 type="text"
                                 id="address"
+                                value={formData.address}
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                                 placeholder="Địa chỉ ..."
                                 onChange={handleChange}
@@ -239,6 +216,7 @@ function PostNew() {
                         </label>
                         <textarea
                             id="description"
+                            value={formData.description}
                             rows="4"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                             placeholder="Viết mô tả ở đây ..."
@@ -314,6 +292,7 @@ function PostNew() {
                                 <input
                                     type="text"
                                     id="price"
+                                    value={formData.price}
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                                     placeholder="1.000.000 VNĐ"
                                     onChange={handleChange}
@@ -383,7 +362,7 @@ function PostNew() {
                             type="submit"
                             class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7 w-1/4"
                         >
-                            Đăng tin
+                            Cập nhật
                         </button>
                         <div
                             class="py-2.5 px-5 me-2 mb-2 text-base font-medium text-center cursor-pointer w-1/4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -398,4 +377,4 @@ function PostNew() {
     );
 }
 
-export default PostNew;
+export default UpdatePost;

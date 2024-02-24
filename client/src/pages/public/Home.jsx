@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Carousel } from 'flowbite-react';
 import banner1 from '~/assets/images/banner/house1lg.png';
 import banner2 from '~/assets/images/banner/house2lg.png';
 import banner3 from '~/assets/images/banner/house3lg.png';
-import Cards from '~/components/cards';
+import Cards from '~/components/public/Cards';
 import { Link } from 'react-router-dom';
+import axios from '~/ultils/axios';
 
 function Home() {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('/post/get');
+                setData(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             {/* BANNER */}
@@ -45,7 +59,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <Cards />
+            <Cards DataHouse={data} />
         </>
     );
 }

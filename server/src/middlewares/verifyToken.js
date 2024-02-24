@@ -37,22 +37,24 @@ export const verifyAdminAndUser = (req, res, next) => {
   });
 };
 
+// UPDATE User
 export const verifyUpdate = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.id == req.params.id) {
       next();
     } else {
-      return res.status(403).json("You're not allowed to update user other!");
+      return res.status(403).json("You're not allowed to update!");
     }
   });
 };
 
+// DELETE
 export const verifyDelete = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.id == req.params.id || req.user.role === "Admin") {
       next();
     } else {
-      return res.status(403).json("You're not allowed to delete user other!");
+      return res.status(403).json("You're not allowed to delete!");
     }
   });
 };
