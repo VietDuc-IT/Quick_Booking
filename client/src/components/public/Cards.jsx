@@ -52,6 +52,7 @@ const Cards = (props) => {
     const handleCard = (e) => {
         console.log(e.target.id);
     };
+
     return (
         <>
             <section className="mt-14 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:w-11/12 mx-auto gap-4">

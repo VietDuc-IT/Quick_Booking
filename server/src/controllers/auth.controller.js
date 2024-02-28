@@ -2,10 +2,25 @@ import User from "../models/user.model";
 import RefreshToken from "../models/refreshToken.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
 require("dotenv").config();
 
-const ACCESS_TOKEN_EXPIRES_TIME = "90s";
+const ACCESS_TOKEN_EXPIRES_TIME = "60s";
 const REFRESH_TOKEN_EXPIRES_TIME = "24h";
+
+// These id's and secrets should come from .env file.
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLEINT_SECRET = process.env.CLEINT_SECRET;
+const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLEINT_SECRET,
+  REDIRECT_URI
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 // [POST] /auth/register
 export const registerUser = async (req, res) => {
@@ -13,15 +28,21 @@ export const registerUser = async (req, res) => {
   if (!username || !email || !password) {
     return res.status(400).json("All fields are required");
   }
-  // Hash the user's password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  if (password) {
+    if (password.length < 6) {
+      return res.status(400).json("Password must be at least 6 characters!");
+    }
+    // Hash the user's password
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(password, salt);
+  }
 
   // Create new user
   const newUser = await new User({
     username,
     email,
-    password: hashedPassword,
+    password: req.body.password,
   });
 
   try {
@@ -29,7 +50,7 @@ export const registerUser = async (req, res) => {
     await newUser.save();
     return res.status(200).json("Registered successful!");
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json("This is Email had been used!");
   }
 };
 
@@ -269,4 +290,73 @@ export const logoutUser = async (req, res) => {
 
   res.clearCookie("refresh_Token", { path: "/" });
   return res.status(200).json("Logged out successfully!");
+};
+
+// [POST] /auth/forgot-password
+export const forgotPassword = async (req, res) => {
+  try {
+    if (!req.body.email) {
+      return res.status(400).json("Email are required!");
+    }
+
+    const data = await User.findOne({ email: req.body.email });
+    if (data === null) {
+      return res.status(400).json("Account not found.");
+    }
+
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "levietduc4566@gmail.com",
+        clientId: CLIENT_ID,
+        clientSecret: CLEINT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: "levietduc4566@gmail.com",
+      to: req.body.email,
+      subject: "Tạo mật khẩu mới",
+      text: "Bạn vừa gửi yêu cầu reset mật khẩu?",
+      html: `Click vào link sau để reset lại mật khẩu: http://localhost:3000/refresh-password/${data._id}`,
+    };
+
+    await transport.sendMail(mailOptions);
+    return res.status(200).json("Check your mail!");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+// [PUT] /auth/refreshPassword/:id
+export const refreshPassword = async (req, res) => {
+  if (req.body.password) {
+    if (req.body.password.length < 6) {
+      return res.status(400).json("Password must be at least 6 characters!");
+    }
+    // Hash the user's password
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+  }
+
+  try {
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          password: req.body.password,
+        },
+      },
+      { new: true }
+    );
+
+    return res.status(200).json("You can login!");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 };

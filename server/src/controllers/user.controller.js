@@ -1,5 +1,4 @@
 import User from "../models/user.model";
-import bcrypt from "bcrypt";
 import RefreshToken from "../models/refreshToken.model";
 
 // [GET] /user/

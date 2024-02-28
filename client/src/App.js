@@ -4,15 +4,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DefaultLayout from './layout/default.layout';
 import SystemLayout from './layout/system.layout';
 import PrivateRoute from './setRoute/PrivateRoute';
+import SystemRoute from './setRoute/SystemRoute';
 import AdminRoute from './setRoute/AdminRote';
 import NotFound from './common/NotFound';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import ForgotPass from './pages/ForgotPass';
+import RefreshPass from './pages/RefreshPass';
 
 // ============ Public =============
 import Home from './pages/public/Home';
 import Rent from './pages/public/Rent';
 import About from './pages/public/About';
+import Infor from './pages/public/Infor';
 
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
@@ -28,6 +32,8 @@ function App() {
             <Routes>
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPass />} />
+                <Route path="/refresh-password/:id" element={<RefreshPass />} />
                 <Route path="*" element={<NotFound />} />
 
                 {/* DefaultLayout */}
@@ -35,16 +41,20 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="/rent" element={<Rent />} />
                     <Route path="/about" element={<About />} />
+
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/infor/:id" element={<Infor />} />
+                        <Route path="/history/:id" element="" />
+                    </Route>
                 </Route>
 
                 {/* SystemLayout */}
-                <Route element={<PrivateRoute />}>
+                <Route element={<SystemRoute />}>
                     <Route element={<SystemLayout />}>
-                        {/* Only Admin */}
                         <Route element={<AdminRoute />}>
                             <Route path="/user" element={<User />} />
                         </Route>
-                        {/* Admin and user */}
+
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/create-post" element={<CreatePost />} />
                         <Route path="/posts" element={<Posts />} />

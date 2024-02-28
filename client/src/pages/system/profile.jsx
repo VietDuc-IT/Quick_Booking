@@ -131,8 +131,8 @@ export default function Profile() {
             const res = await axiosJWT.post('/auth/logout', '', {
                 headers: { token: `bearer ${currentUser.accessToken}` },
             });
+
             dispatch(signOutSuccess(res.data));
-            window.location = '/';
         } catch (err) {
             console.log(err.message);
         }

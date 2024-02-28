@@ -29,6 +29,24 @@ const TableHouseAdmin = (props) => {
         }
     };
 
+    const handleStatus = async (id) => {
+        const post = props.data.find(({ _id }) => _id === id);
+        try {
+            await axiosJWT.put(
+                `/post/status/${id}`,
+                { status: post.status },
+                {
+                    headers: { token: `bearer ${currentUser.accessToken}` },
+                },
+            );
+
+            props.updateData();
+            toast.success('Thay đổi trạng thái thành công!');
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -116,8 +134,7 @@ const TableHouseAdmin = (props) => {
                                     </div>
                                 </td>
                                 <td class="px-4 py-4">
-                                    {/* <div class="flex items-center w-20">Chờ duyệt</div> */}
-                                    <div class="flex items-center min-w-20">{items.status}</div>
+                                    <div class="flex items-center min-w-24">{items.status}</div>
                                 </td>
                                 <td class="px-4 py-4">{new Date(items.createdAt).toLocaleDateString()}</td>
                                 <td class="px-4 py-4">
@@ -133,8 +150,11 @@ const TableHouseAdmin = (props) => {
                                                 </button>
                                             </Link>
                                         ) : (
-                                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                                Duyệt
+                                            <button
+                                                onClick={() => handleStatus(items._id)}
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                            >
+                                                {items.status === 'Chờ duyệt' ? 'Duyệt' : 'Vô hiệu'}
                                             </button>
                                         )}
 

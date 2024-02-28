@@ -1,5 +1,6 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { MdDriveFolderUpload } from 'react-icons/md';
+import { FaArrowLeft } from 'react-icons/fa';
 import { TbHomeDollar } from 'react-icons/tb';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +34,7 @@ function UpdatePost() {
         try {
             const fetchPost = async () => {
                 const res = await axios.get(`/post/get?postId=${postId}`);
-                setFormData(res.data[0]);
+                setFormData(res.data.Post[0]);
             };
             fetchPost();
         } catch (err) {
@@ -357,7 +358,7 @@ function UpdatePost() {
                                 ))}
                         </div>
                     </div>
-                    <div className="flex justify-center space-x-3">
+                    <div className="relative flex justify-center space-x-3">
                         <button
                             type="submit"
                             class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7 w-1/4"
@@ -369,6 +370,12 @@ function UpdatePost() {
                             onClick={handleRefresh}
                         >
                             Làm mới
+                        </div>
+                        <div className="absolute left-0 top-3">
+                            <Link to="/posts" className="flex">
+                                <FaArrowLeft className="mt-1 mr-1" />
+                                Quay lại
+                            </Link>
                         </div>
                     </div>
                 </form>

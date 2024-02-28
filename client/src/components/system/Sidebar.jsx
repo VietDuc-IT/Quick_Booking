@@ -1,8 +1,9 @@
 import { ImNewspaper } from 'react-icons/im';
-import { FaChartPie, FaUser } from 'react-icons/fa';
+import { FaChartPie, FaUser, FaFileInvoice } from 'react-icons/fa';
 import { BsHouseGearFill } from 'react-icons/bs';
 import { IoMdHelpCircle } from 'react-icons/io';
 import { IoDocumentText } from 'react-icons/io5';
+import { FaCommentDots } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
@@ -24,7 +25,6 @@ function Sidebar() {
                 withCredentials: true,
             });
             dispatch(signOutSuccess(res.data));
-            window.location = '/';
         } catch (err) {
             console.log(err.message);
         }
@@ -33,6 +33,8 @@ function Sidebar() {
         { href: '/dashboard', icon: FaChartPie, name: 'Thống kê' },
         { href: '/posts', icon: BsHouseGearFill, name: 'Bài đăng' },
         { href: '/create-post', icon: ImNewspaper, name: 'Đăng tin' },
+        { href: '/bill', icon: FaFileInvoice, name: 'Hóa đơn' },
+        { href: '/comment', icon: FaCommentDots, name: 'Bình luận' },
     ];
     if (currentUser.role === 'Admin') {
         menu.push({ href: '/user', icon: FaUsers, name: 'Người dùng' });
@@ -96,23 +98,6 @@ function Sidebar() {
                                 </Link>
                             </li>
                         ))}
-                        {/* ======================= Notification ======================= */}
-                        <li>
-                            <Link
-                                to="/notification"
-                                class={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group ${
-                                    activePage === 'notification' ? 'bg-gray-300 dark:bg-gray-700 group' : ''
-                                }`}
-                                onClick={() => setActivePage('notification')}
-                            >
-                                <HiBellAlert class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                                <span class="flex-1 ms-3 whitespace-nowrap">Thông báo</span>
-                                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                                    3
-                                </span>
-                            </Link>
-                        </li>
                     </ul>
                     <div class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700" />
                     <ul class="space-y-2 font-medium">
@@ -130,6 +115,23 @@ function Sidebar() {
                                 <span class="flex-1 ms-3 whitespace-nowrap">Cá nhân</span>
                                 <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     {`${currentUser.role}`}
+                                </span>
+                            </Link>
+                        </li>
+                        {/* ======================= Notification ======================= */}
+                        <li>
+                            <Link
+                                to="/notification"
+                                class={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 group ${
+                                    activePage === 'notification' ? 'bg-gray-300 dark:bg-gray-700 group' : ''
+                                }`}
+                                onClick={() => setActivePage('notification')}
+                            >
+                                <HiBellAlert class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+
+                                <span class="flex-1 ms-3 whitespace-nowrap">Thông báo</span>
+                                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                                    3
                                 </span>
                             </Link>
                         </li>

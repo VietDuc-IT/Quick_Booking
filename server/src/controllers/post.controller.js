@@ -2,8 +2,12 @@ import Post from "../models/post.model";
 
 // [POST] /post/create
 export const postNew = async (req, res) => {
+  if (req.user.role === "Admin") {
+    var statusAdmin = "Bình thường";
+  }
   const newPost = await new Post({
     ...req.body,
+    status: statusAdmin,
     userId: req.user.id,
   });
   try {
@@ -54,7 +58,7 @@ export const getPosts = async (req, res) => {
       createdAt: { $gte: oneMonthAgo },
     });
 
-    return res.status(200).json(Posts, totalPosts, lastMonthPosts);
+    return res.status(200).json({ Post: Posts, totalPosts, lastMonthPosts });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -79,6 +83,27 @@ export const deletePost = async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.postId);
     res.status(200).json("The post has been deleted!");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+// [PUT] /post/status/:postId
+export const statusPost = async (req, res) => {
+  try {
+    if (req.body.status === "Chờ duyệt") {
+      req.body.status = "Bình thường";
+    } else {
+      req.body.status = "Chờ duyệt";
+    }
+
+    await Post.findByIdAndUpdate(
+      req.params.postId,
+      { $set: { status: req.body.status } },
+      { new: true }
+    );
+
+    return res.status(200).json("Change status success");
   } catch (err) {
     return res.status(500).json(err);
   }

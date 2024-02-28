@@ -4,8 +4,10 @@ import {
   getPosts,
   deletePost,
   updatePost,
+  statusPost,
 } from "../controllers/post.controller";
 import {
+  verifyAdmin,
   verifyAdminAndUser,
   verifyDelete,
   verifyUpdate,
@@ -21,6 +23,9 @@ router.get("/get", getPosts);
 
 // [PUT] UPDATE POST
 router.put("/update/:postId/:id", verifyUpdate, updatePost);
+
+// [PUT] STATUS POST
+router.put("/status/:postId", verifyAdmin, statusPost);
 
 // [DELETE] POST :ID
 router.delete("/delete/:postId/:id", verifyDelete, deletePost);

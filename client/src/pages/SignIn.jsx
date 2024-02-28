@@ -18,7 +18,7 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.email || !formData.password) {
-            return dispatch(signInFailure('Please fill all the fields'));
+            return dispatch(signInFailure('Bạn cần điền Email và mật khẩu!'));
         }
         dispatch(signInStart());
         try {
@@ -27,7 +27,7 @@ export default function SignIn() {
             dispatch(signInSuccess(res.data));
             navigator('/');
         } catch (err) {
-            dispatch(signInFailure(err.message));
+            dispatch(signInFailure('Email hoặc mật khẩu không đúng!'));
         }
     };
 
@@ -176,7 +176,7 @@ export default function SignIn() {
 
                             <form onSubmit={handleSubmit}>
                                 {/* ======================= INPUT ====================== */}
-                                <div className="mb-4">
+                                <div className="mb-6">
                                     <label className="mb-2.5 block font-medium text-black dark:text-white">Email</label>
                                     <div className="relative">
                                         <input
@@ -243,6 +243,19 @@ export default function SignIn() {
                                         </span>
                                     </div>
                                 </div>
+                                {errorMessage && (
+                                    <Alert className="my-3" color="failure">
+                                        {errorMessage}
+                                    </Alert>
+                                )}
+                                {/* ======================= Forgot password ====================== */}
+                                <div className="text-end mb-6">
+                                    <p>
+                                        <Link to="/forgot-password" className="text-green-500">
+                                            Quên mật khẩu
+                                        </Link>
+                                    </p>
+                                </div>
 
                                 {/* ======================= BUTTON ====================== */}
                                 <button
@@ -266,16 +279,11 @@ export default function SignIn() {
                                     <p>
                                         Bạn chưa có tài khoản?{' '}
                                         <Link to="/sign-up" className="text-green-500">
-                                            Đăng ký
+                                            Đăng ký ngay!
                                         </Link>
                                     </p>
                                 </div>
                             </form>
-                            {errorMessage && (
-                                <Alert className="mt-5" color="failure">
-                                    {errorMessage}
-                                </Alert>
-                            )}
                         </div>
                     </div>
                 </div>

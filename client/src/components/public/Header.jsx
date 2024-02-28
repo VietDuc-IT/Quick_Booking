@@ -161,17 +161,23 @@ function Header() {
                                 )}
 
                                 {currentUser.role === 'Customer' && (
-                                    <Link to={'/'}>
-                                        <Dropdown.Item>Lịch sử</Dropdown.Item>
-                                    </Link>
+                                    <>
+                                        <Link to={'/infor'}>
+                                            <Dropdown.Item>Trang cá nhân</Dropdown.Item>
+                                        </Link>
+
+                                        <Link to={'/'}>
+                                            <Dropdown.Item>Lịch sử</Dropdown.Item>
+                                        </Link>
+                                    </>
                                 )}
 
                                 <Link to={'/'}>
-                                    <Dropdown.Item>Điều khoản</Dropdown.Item>
+                                    <Dropdown.Item>Lưu trữ</Dropdown.Item>
                                 </Link>
 
-                                <Link to={'/profile'}>
-                                    <Dropdown.Item>Trang cá nhân</Dropdown.Item>
+                                <Link to={'/'}>
+                                    <Dropdown.Item>Điều khoản</Dropdown.Item>
                                 </Link>
 
                                 <Dropdown.Divider />

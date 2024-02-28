@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "https://furness.media/wp-content/uploads/2023/01/Boy.png",
+      default:
+        "https://firebasestorage.googleapis.com/v0/b/quickbooking-7ae9f.appspot.com/o/1708786061810LogoUser.jpg?alt=media&token=18286512-14d7-4927-9aaf-4468e14c3f94",
     },
     phoneNumber: {
       type: Number,

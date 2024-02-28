@@ -18,8 +18,9 @@ function Posts() {
         const fetchDataAdmin = async () => {
             try {
                 const res = await axios.get('/post/get');
-                setData(res.data);
-                if (res.data.length < 9) {
+                const data = res.data.Post;
+                setData(data);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (error) {
@@ -31,8 +32,9 @@ function Posts() {
                 const res = await axiosJWT.get(`/post/get?userId=${currentUser._id}`, {
                     headers: { token: `bearer ${currentUser.accessToken}` },
                 });
-                setData(res.data);
-                if (res.data.length < 9) {
+                const data = res.data.Post;
+                setData(data);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (error) {
@@ -54,8 +56,9 @@ function Posts() {
                 const res = await axiosJWT.get(`/post/get?startIndex=${startIndex}`, {
                     headers: { token: `bearer ${currentUser.accessToken}` },
                 });
-                setData((prev) => [...prev, ...res.data]);
-                if (res.data < 9) {
+                const data = res.data.Post;
+                setData((prev) => [...prev, ...data]);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (err) {
@@ -67,8 +70,9 @@ function Posts() {
                 const res = await axiosJWT.get(`/post/get?userId=${currentUser._id}?startIndex=${startIndex}`, {
                     headers: { token: `bearer ${currentUser.accessToken}` },
                 });
-                setData((prev) => [...prev, ...res.data]);
-                if (res.data < 9) {
+                const data = res.data.Post;
+                setData((prev) => [...prev, ...data]);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (err) {
@@ -81,8 +85,9 @@ function Posts() {
         const fetchDataAdmin = async () => {
             try {
                 const res = await axios.get('/post/get');
-                setData(res.data);
-                if (res.data.length < 9) {
+                const data = res.data.Post;
+                setData(data);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (error) {
@@ -94,8 +99,9 @@ function Posts() {
                 const res = await axiosJWT.get(`/post/get?userId=${currentUser._id}`, {
                     headers: { token: `bearer ${currentUser.accessToken}` },
                 });
-                setData(res.data);
-                if (res.data.length < 9) {
+                const data = res.data.Post;
+                setData(data);
+                if (data.length < 9) {
                     setShowMore(false);
                 }
             } catch (error) {
