@@ -28,6 +28,7 @@ export const getPosts = async (req, res) => {
 
     const Posts = await Post.find({
       ...(req.query.postId && { _id: req.query.postId }),
+      ...(req.query.status && { status: req.query.status }),
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.title && { title: req.query.title }),

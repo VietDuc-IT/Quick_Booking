@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import DefaultLayout from './layout/default.layout';
 import SystemLayout from './layout/system.layout';
-import PrivateRoute from './setRoute/PrivateRoute';
-import SystemRoute from './setRoute/SystemRoute';
-import AdminRoute from './setRoute/AdminRote';
+import PrivateRoute from './ultils/setRoute/PrivateRoute';
+import SystemRoute from './ultils/setRoute/SystemRoute';
+import AdminRoute from './ultils/setRoute/AdminRote';
 import NotFound from './common/NotFound';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';

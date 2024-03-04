@@ -2,22 +2,32 @@
 module.exports = {
     content: ['../public/index.html', './src/**/*.{js,jsx,ts,tsx}', 'node_modules/flowbite-react/lib/esm/**/*.js'],
     theme: {
+        // max-w-7xl
         extend: {
+            screens: {
+                sm: '640px',
+                md: '768px',
+                lg: '1024px',
+                xl: '1280px',
+            },
             colors: {
-                primary3: '#6ee7b7',
-                primary: '#10b981',
-                primary6: '#059669',
-                primary7: '#047857',
-                // moon
-                m_body: '#1e293b',
-                m_body2: '#f3f4f6',
-                m_main: '#fafafa',
-                m_text: '#374151',
-                // dark
+                primary: { default: '#00B14F', hover: '#009643' },
+                black: { default: '#212F3F', hover: '#161F29' },
+
+                // Moon
+                m_body: '#F3F5F7',
+                m_main: '#ffffff',
+                m_text: '#212F3F',
+
+                // Dark
                 d_body: '#0f172a',
                 d_main: '#1e293b',
-                d_text: '#f1f5f9',
-                d_border: '#64748b',
+                d_text: '#e2e8f0',
+            },
+
+            backgroundImage: {
+                imgLight: 'rgb(55 65 81 1)',
+                imgDark: '',
             },
         },
     },

@@ -15,15 +15,15 @@ const Cards = (props) => {
         // Format the result as a string with the appropriate units
         let formattedPrice = '';
         if (millions > 0) {
-            formattedPrice += `${millions} tr`;
+            formattedPrice += `${millions}tr`;
         }
         if (thousands > 0) {
-            formattedPrice += ` ${thousands}`;
+            formattedPrice += `${thousands}`;
         }
         if (units > 0) {
-            formattedPrice += ` ${units}`;
+            formattedPrice += `${units}`;
         }
-        formattedPrice += ' VNĐ';
+        // formattedPrice += ' VNĐ';
 
         return formattedPrice;
     };
@@ -49,24 +49,24 @@ const Cards = (props) => {
         }
     };
 
-    const handleCard = (e) => {
-        console.log(e.target.id);
+    const handleCard = (id) => {
+        console.log(id);
     };
 
     return (
         <>
-            <section className="mt-14 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:w-11/12 mx-auto gap-4">
-                {props.DataHouse.map((items) => (
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 mx-auto gap-4">
+                {props.DataHouse?.map((items) => (
                     <div
-                        id={items.id}
-                        onClick={handleCard}
-                        class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-clip-border shadow shadow-gray-500/40 dark:shadow-gray-600/70 hover:shadow-md hover:shadow-green-500 dark:hover:shadow-md dark:hover:shadow-green-500 cursor-pointer"
+                        onClick={() => handleCard(items._id)}
+                        class="relative flex w-full max-w-[26rem] bg-m_main dark:bg-d_main flex-col rounded-xl bg-clip-border shadow shadow-gray-500/40 dark:shadow-gray-600/70 hover:shadow-md hover:shadow-primary-default dark:hover:shadow-md dark:hover:shadow-primary-default cursor-pointer"
                     >
-                        <div className="relative max-w-xs overflow-hidden shadow-lg rounded-t-md bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+                        {/* top */}
+                        <div className="relative max-w-full overflow-hidden shadow-lg rounded-t-md bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
                             <img
                                 src={items.imageUrls}
                                 alt=""
-                                className="h-52 max-w-xs w-full object-cover transition duration-300 ease-in-out hover:scale-110"
+                                className="h-52 max-w-full w-full object-cover transition duration-300 ease-in-out hover:scale-110"
                             />
 
                             <button
@@ -103,6 +103,7 @@ const Cards = (props) => {
                                 <p className="text-gray-800 text-sm p-1">{items.category}</p>
                             </div>
                         </div>
+                        {/* body */}
                         <div class="px-3 py-2 mt-2">
                             <h5 class="block font-sans text-base antialiased font-medium leading-snug tracking-normal text-blue-gray-900 mb-2">
                                 <p className="line-clamp-2 hover:text-primary">{items.title}</p>
@@ -110,18 +111,22 @@ const Cards = (props) => {
                             <p class="block font-sans text-sm antialiased font-light leading-relaxed text-gray-700 dark:text-gray-400">
                                 <p className="line-clamp-2">{items.description}</p>
                             </p>
-                            <div class="text-sm flex mt-3">
-                                <FaMapMarkerAlt className="mr-1 mt-0.5" />
-                                <p className="line-clamp-1"> {items.address}</p>
+
+                            <div class="text-sm mt-2">
+                                <FaMapMarkerAlt className="relative top-4" />
+                                <p className="ml-4 line-clamp-1"> {items.address}</p>
                             </div>
                         </div>
+                        {/* bot */}
                         <div class="font-medium border-t border-gray-200 dark:border-gray-700" />
                         <div class="px-3 pb-3 my-1">
                             <div className="flex justify-between gap-2 mt-3">
                                 <div className="">
-                                    <p className="font-medium text-xs">{formatPrice(items.price)}/tháng</p>
+                                    <p className="font-medium text-sm">
+                                        {formatPrice(items.price)} <span className="text-xs">VNĐ/tháng</span>
+                                    </p>
                                 </div>
-                                <div className="flex space-x-2">
+                                <div className="flex space-x-2 mt-1">
                                     <div className="font-bold text-xs flex">
                                         <MdOutlineComment className="mr-1 mt-0.5 text-sm" />
                                         {items.comment}5
@@ -135,7 +140,7 @@ const Cards = (props) => {
                         </div>
                     </div>
                 ))}
-            </section>
+            </div>
         </>
     );
 };

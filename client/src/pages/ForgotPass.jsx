@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Alert, Spinner } from 'flowbite-react';
 import axios from '~/ultils/axios';
-import OAuth from '~/components/OAuth';
+import OAuth from '~/components/SignInGG';
 
 export default function ForgotPass() {
     const [formData, setFormData] = useState({});

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '~/components/Button';
 
 function NotFound() {
     return (
@@ -13,13 +14,9 @@ function NotFound() {
                     <p class="mt-4 mb-8 dark:text-gray-400">
                         Đừng lo lắng, bạn có thể tìm thấy nhiều thức khác hơn ở TRANH CHỦ của chúng tôi.
                     </p>
-                    <Link
-                        rel="noopener noreferrer"
-                        to="/"
-                        class="px-8 py-3 font-semibold rounded text-white bg-primary dark:bg-primary dark:text-gray-900"
-                    >
+                    <Button to="/" btn="primary">
                         Trang chủ
-                    </Link>
+                    </Button>
                 </div>
             </div>
         </section>

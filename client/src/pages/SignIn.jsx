@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { signInStart, signInSuccess, signInFailure } from '~/redux/user/userSlice';
 import { Alert, Spinner } from 'flowbite-react';
 import axios from '~/ultils/axios';
-import OAuth from '~/components/OAuth';
+import OAuth from '~/components/SignInGG';
+import { currentUser } from '~/redux/selectors';
 
 export default function SignIn() {
+    const User = useSelector(currentUser);
     const [formData, setFormData] = useState({});
     const { loading, error: errorMessage } = useSelector((state) => state.user);
     const dispatch = useDispatch();

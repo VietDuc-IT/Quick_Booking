@@ -8,13 +8,22 @@ import { ToastContainer } from 'react-toastify';
 const DefaultLayout = () => {
     return (
         <>
+            {/* =============== Header Begin =============== */}
             <Header />
+            {/* =============== Header End =============== */}
+
+            {/* =============== Body Begin =============== */}
             <main>
-                <div className="mx-auto mt-16 py-4 bg-m_main dark:bg-d_main flex min-w-0 max-w-7xl flex-col ">
+                <div className="mt-[61px]">
                     <Outlet />
                 </div>
             </main>
+            {/* =============== Body End =============== */}
+
+            {/* =============== Footer Begin =============== */}
             <Footer />
+            {/* =============== Footer End =============== */}
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

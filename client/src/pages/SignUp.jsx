@@ -2,7 +2,7 @@ import { Alert, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import axios from '~/ultils/axios';
 import { Link, useNavigate } from 'react-router-dom';
-import OAuth from '~/components/OAuth';
+import OAuth from '~/components/SignInGG';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({});

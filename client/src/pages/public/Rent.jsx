@@ -1,9 +1,17 @@
 import React from 'react';
+import FilterTop from '~/components/public/FilterTop';
+import Suggest from '~/components/public/Suggest';
 
 function Product() {
     return (
         <>
-            <div>Rent</div>
+            {/* Filter Top */}
+            <FilterTop />
+
+            {/* Suggest */}
+            <Suggest />
+
+            {/* Card Product */}
         </>
     );
 }
