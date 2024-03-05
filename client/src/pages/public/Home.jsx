@@ -1,23 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from '~/components/public/Banner';
 import Cards from '~/components/public/CardProduct';
-import axios from '~/ultils/axios';
 import { useFetch } from '~/hooks/useFetch';
 import Search from '~/components/Search';
 import DropDown from '~/components/DropDown';
 import Button from '~/components/Button';
-import Avatar from '~/components/Avatar';
-import Header from '~/components/public/Header';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function Home() {
     const [data, setData] = useState();
-    const ref = useRef('Bình thường');
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const status = 'Bình thường';
-                const res = await axios.get(`/post/get?status=${status}`);
+                const res = await axiosPrivate.get(`/post/get`, {
+                    headers: { accessToken: 'bearer ' },
+                });
                 setData(res.data.Post);
             } catch (error) {
                 console.log(error);

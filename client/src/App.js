@@ -7,8 +7,8 @@ import PrivateRoute from './ultils/setRoute/PrivateRoute';
 import SystemRoute from './ultils/setRoute/SystemRoute';
 import AdminRoute from './ultils/setRoute/AdminRote';
 import NotFound from './common/NotFound';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import ForgotPass from './pages/ForgotPass';
 import RefreshPass from './pages/RefreshPass';
 
@@ -30,8 +30,8 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/sign-in" element={<Login />} />
+                <Route path="/sign-up" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPass />} />
                 <Route path="/refresh-password/:id" element={<RefreshPass />} />
                 <Route path="*" element={<NotFound />} />

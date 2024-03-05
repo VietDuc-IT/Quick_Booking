@@ -25,7 +25,7 @@ export default function SignIn() {
         dispatch(signInStart());
         try {
             // API
-            const res = await axios.post(`/auth/login`, formData, { withCredentials: true });
+            const res = await axios.post(`/api/user/login`, formData, { withCredentials: true });
             dispatch(signInSuccess(res.data));
             navigator('/');
         } catch (err) {

@@ -1,11 +1,11 @@
 import userRouter from "./user.route";
-import authRouter from "./auth.route";
 import postRouter from "./post.route";
+import categoryRouter from "./category.route";
 
 function route(app) {
-  app.use("/user", userRouter);
-  app.use("/auth", authRouter);
-  app.use("/post", postRouter);
+  app.use("/api/user", userRouter);
+  app.use("/api/post", postRouter);
+  app.use("/api/category", categoryRouter);
 }
 
 export default route;

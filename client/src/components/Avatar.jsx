@@ -2,18 +2,18 @@ import { Avatar, Dropdown } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
-import { httpRequest } from '~/ultils/httpRequest';
 import { currentUser } from '~/redux/selectors';
 import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from 'react-icons/hi';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function AvatarUser() {
     const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
     const dispatch = useDispatch();
-    let axiosJWT = httpRequest(User, dispatch);
 
     const handleSignout = async () => {
         try {
-            const res = await axiosJWT.post('/auth/logout', '', {
+            const res = await axiosPrivate.post('/api/user/logout', '', {
                 headers: { token: `bearer ${User.accessToken}` },
                 withCredentials: true,
             });

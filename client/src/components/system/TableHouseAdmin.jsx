@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { httpRequest } from '~/ultils/httpRequest';
 
 const TableHouseAdmin = (props) => {
+    const { admin } = props;
     const { currentUser } = useSelector((state) => state.user);
     const [openModal, setOpenModal] = useState(false);
     const [postIdToDelete, setPostIdToDelete] = useState();
@@ -68,9 +69,11 @@ const TableHouseAdmin = (props) => {
                             Bài đăng
                         </th>
 
-                        <th scope="col" class="px-4 py-3">
-                            Tác giả
-                        </th>
+                        {admin && (
+                            <th scope="col" class="px-4 py-3">
+                                Tác giả
+                            </th>
+                        )}
                         <th scope="col" class="px-4 py-3">
                             Loại
                         </th>
@@ -118,12 +121,14 @@ const TableHouseAdmin = (props) => {
                                     </div>
                                 </th>
 
-                                <td class="px-4 py-4">
-                                    <div className="min-w-32">
-                                        <div class="text-base font-semibold">{items.userId.username}</div>
-                                        <div class="font-normal text-gray-500">{items.userId.email}</div>
-                                    </div>
-                                </td>
+                                {admin && (
+                                    <td class="px-4 py-4">
+                                        <div className="min-w-32">
+                                            <div class="text-base font-semibold">{items.userId.username}</div>
+                                            <div class="font-normal text-gray-500">{items.userId.email}</div>
+                                        </div>
+                                    </td>
+                                )}
                                 <td class="px-4 py-4">
                                     <div class="flex items-center w-20">{items.category}</div>
                                 </td>

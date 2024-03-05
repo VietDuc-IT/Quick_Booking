@@ -122,12 +122,7 @@ function Posts() {
             <div>
                 <div class="relative overflow-x-auto">
                     <SearchTop />
-                    {currentUser.role === 'Admin' ? (
-                        <TableHouseAdmin data={data} updateData={updateData} />
-                    ) : (
-                        <TableHouseUser data={data} updateData={updateData} />
-                    )}
-
+                    <TableHouseAdmin data={data} admin={currentUser.role === 'Admin'} updateData={updateData} />
                     {showMore && (
                         <div className="flex justify-center px-6 py-4">
                             <button onClick={handleShowMore} class="font-medium hover:underline">

@@ -4,7 +4,7 @@ import axios from '~/ultils/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '~/components/SignInGG';
 
-const SignUp = () => {
+function Register() {
     const [formData, setFormData] = useState({});
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -31,14 +31,20 @@ const SignUp = () => {
             setLoading(true);
             setErrorMessage(null);
 
-            // API
-            const res = await axios.post(`/auth/register`, formData);
+            const res = await axios.post(`/api/user/register`, formData);
             setLoading(false);
-            setErrorMessage(res.data);
-            navigate('/sign-in');
+            setErrorMessage(res.data.message);
+            // navigate('/sign-in');
         } catch (err) {
-            setErrorMessage('Email này đã được sử dụng');
+            // setErrorMessage(err.message);
             setLoading(false);
+            if (err.res) {
+                console.log(err.res.data);
+                console.log(err.res.status);
+                console.log(err.res.headers);
+            } else {
+                console.log(`Error" ${err.message}`);
+            }
         }
     };
 
@@ -366,6 +372,6 @@ const SignUp = () => {
             </div>
         </section>
     );
-};
+}
 
-export default SignUp;
+export default Register;

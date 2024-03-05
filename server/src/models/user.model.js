@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
       require: true,
       min: 6,
       max: 20,
+      unique: false,
     },
     email: {
       type: String,
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: Number,
-      default: 0,
+      default: null,
     },
     // role = [Admin, User, Customer]
     role: {
