@@ -2,15 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { MdDriveFolderUpload } from 'react-icons/md';
 import { TbHomeDollar } from 'react-icons/tb';
 import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { httpRequest } from '~/ultils/httpRequest';
+import { useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '~/ultils/firebase';
 import { toast } from 'react-toastify';
 import BreadCrumb from '~/components/system/BreadCrumb';
+import { currentUser } from '~/redux/selectors';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function CreatePost() {
-    const { currentUser } = useSelector((state) => state.user);
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
@@ -23,9 +25,7 @@ function CreatePost() {
     const [uploading, setUploading] = useState(false);
     const [checkedValue, setCheckedValue] = useState('');
     const inputRef = useRef();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    let axiosJWT = httpRequest(currentUser, dispatch);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -50,7 +50,7 @@ function CreatePost() {
         }
     };
 
-    const handleImageSubmit = (e) => {
+    const handleImageSubmit = () => {
         if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
             setUploading(true);
             const promises = [];
@@ -108,7 +108,6 @@ function CreatePost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             if (
                 formData.title === '' ||
@@ -120,14 +119,18 @@ function CreatePost() {
             if (formData.category === '') return toast.error('Bạn phải chọn loại hình cho thuê!');
             if (formData.imageUrls.length < 1) return toast.error('Bạn phải có ít nhất 1 ảnh!');
 
-            await axiosJWT.post('/post/create', formData, {
-                headers: { token: `bearer ${currentUser.accessToken}` },
+            const res = await axiosPrivate.post('/api/post', formData, {
+                headers: { token: `bearer ${User.accessToken}` },
             });
 
-            toast.success('Đăng tin thành công!');
+            toast.success(res.data);
             navigate('/posts');
         } catch (err) {
-            console.log(err.message);
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
         }
     };
 
@@ -338,10 +341,11 @@ function CreatePost() {
                     <div className="flex justify-center space-x-3">
                         <button
                             type="submit"
-                            class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7 w-1/4"
+                            class="text-white bg-primary-default hover:bg-primary-hover focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 w-1/4"
                         >
                             Đăng tin
                         </button>
+
                         <div
                             class="py-2.5 px-5 me-2 mb-2 text-base font-medium text-center cursor-pointer w-1/4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             onClick={handleRefresh}

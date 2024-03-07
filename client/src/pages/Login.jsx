@@ -5,10 +5,8 @@ import { signInStart, signInSuccess, signInFailure } from '~/redux/user/userSlic
 import { Alert, Spinner } from 'flowbite-react';
 import axios from '~/ultils/axios';
 import OAuth from '~/components/SignInGG';
-import { currentUser } from '~/redux/selectors';
 
 export default function SignIn() {
-    const User = useSelector(currentUser);
     const [formData, setFormData] = useState({});
     const { loading, error: errorMessage } = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -19,17 +17,25 @@ export default function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!formData.email || !formData.password) {
             return dispatch(signInFailure('Bạn cần điền Email và mật khẩu!'));
         }
+
         dispatch(signInStart());
         try {
-            // API
-            const res = await axios.post(`/api/user/login`, formData, { withCredentials: true });
+            const res = await axios.post(`/api/user/login`, formData, {
+                withCredentials: true,
+            });
+
             dispatch(signInSuccess(res.data));
             navigator('/');
         } catch (err) {
-            dispatch(signInFailure('Email hoặc mật khẩu không đúng!'));
+            if (err.response) {
+                dispatch(signInFailure(err.response.data.message));
+            } else {
+                dispatch(signInFailure(err.message));
+            }
         }
     };
 
@@ -41,7 +47,7 @@ export default function SignIn() {
                         <div className="py-17.5 px-26 text-center">
                             <div>
                                 <a href="/" className="text-2xl font-semibold">
-                                    <span className="text-primary text-4xl">
+                                    <span className="text-primary-default text-4xl">
                                         Quick <span className="text-m_text dark:text-d_text text-3xl">Booking</span>
                                     </span>
                                 </a>

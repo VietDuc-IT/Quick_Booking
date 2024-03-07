@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
 import { currentUser } from '~/redux/selectors';
-import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from 'react-icons/hi';
+import { HiCog, HiLogout, HiViewGrid } from 'react-icons/hi';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function AvatarUser() {
@@ -36,7 +36,7 @@ function AvatarUser() {
             <Dropdown
                 arrowIcon={false}
                 inline
-                label={<Avatar alt="user" className="h-9" img={User.profilePicture} rounded />}
+                label={<Avatar alt="user" size="md" img={User.profilePicture} rounded />}
             >
                 <Dropdown.Header>
                     <span className="block text-sm">

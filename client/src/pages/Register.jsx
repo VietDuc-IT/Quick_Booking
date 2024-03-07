@@ -32,18 +32,16 @@ function Register() {
             setErrorMessage(null);
 
             const res = await axios.post(`/api/user/register`, formData);
+
             setLoading(false);
             setErrorMessage(res.data.message);
-            // navigate('/sign-in');
+            navigate('/sign-in');
         } catch (err) {
-            // setErrorMessage(err.message);
             setLoading(false);
-            if (err.res) {
-                console.log(err.res.data);
-                console.log(err.res.status);
-                console.log(err.res.headers);
+            if (err.response) {
+                setErrorMessage(err.response.data.message);
             } else {
-                console.log(`Error" ${err.message}`);
+                setErrorMessage(`Error: ${err.message}`);
             }
         }
     };
@@ -56,7 +54,7 @@ function Register() {
                         <div className="py-17.5 px-26 text-center">
                             <div>
                                 <a href="/" className="text-2xl font-semibold">
-                                    <span className="text-primary text-4xl">
+                                    <span className="text-primary-default text-4xl">
                                         Quick <span className="text-m_text dark:text-d_text text-3xl">Booking</span>
                                     </span>
                                 </a>

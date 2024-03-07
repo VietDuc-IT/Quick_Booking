@@ -15,21 +15,27 @@ export default function ForgotPass() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!formData.email) {
             setMessage(null);
             return setErrorMessage('Bạn cần điền Email!');
         }
+
         setLoading(true);
         try {
             setErrorMessage(null);
-            // API
-            await axios.post(`/auth/forgot-password`, formData);
+            const res = await axios.post(`/api/user/forgot-password`, formData);
+
+            setMessage(res.data.message);
             setLoading(false);
-            setMessage('Hãy kiểm tra email của bạn. Sau đó nhấn vào link trong hộp thư để đổi lại mật khẩu.');
         } catch (err) {
             setMessage(null);
             setLoading(false);
-            setErrorMessage('Email chưa được đăng ký!');
+            if (err.response) {
+                setErrorMessage(err.response.data.message);
+            } else {
+                setErrorMessage(`Error: ${err.message}`);
+            }
         }
     };
 
@@ -41,7 +47,7 @@ export default function ForgotPass() {
                         <div className="py-17.5 px-26 text-center">
                             <div>
                                 <a href="/" className="text-2xl font-semibold">
-                                    <span className="text-primary text-4xl">
+                                    <span className="text-primary-default text-4xl">
                                         Quick <span className="text-m_text dark:text-d_text text-3xl">Booking</span>
                                     </span>
                                 </a>

@@ -11,8 +11,14 @@ import {
   updateProfile,
   getUser,
   deleteUser,
+  role,
 } from "../controllers/user.controller";
-import { verifyToken } from "../middlewares/verifyToken";
+import {
+  verifyToken,
+  verifyUpdate,
+  verifyDelete,
+  verifyAdmin,
+} from "../middlewares/verifyToken";
 
 const router = express.Router();
 
@@ -38,12 +44,15 @@ router.post("/refreshToken", refreshToken);
 router.post("/logout", verifyToken, logout);
 
 // [PUT] /api/user/:id
-router.put("/:id", updateProfile);
+router.put("/:id", verifyUpdate, updateProfile);
+
+// [PUT] /api/user/role
+router.put("/role/:id", verifyAdmin, role);
 
 // [GET] /api/user
-router.get("/", getUser);
+router.get("/", verifyAdmin, getUser);
 
 // [DELETE] /api/user/:id
-router.delete("/:id", deleteUser);
+router.delete("/:id", verifyDelete, deleteUser);
 
 export default router;

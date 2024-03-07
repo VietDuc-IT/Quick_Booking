@@ -4,10 +4,10 @@ import DarkMode from '../DarkMode';
 import Button from '../Button';
 import { FaXmark } from 'react-icons/fa6';
 import { FaBars } from 'react-icons/fa';
-import Avatar from '../Avatar';
 import { useSelector } from 'react-redux';
 import { currentUser } from '~/redux/selectors';
 import Search from '../Search';
+import AvatarUser from '../Avatar';
 
 function Header() {
     const User = useSelector(currentUser);
@@ -79,7 +79,7 @@ function Header() {
                         {/* ================== Button ================= */}
                         <div className="flex items-center space-x-3 max-lg:hidden">
                             {User ? (
-                                <Avatar />
+                                <AvatarUser />
                             ) : (
                                 <>
                                     <Button btn="outline" to="sign-in">

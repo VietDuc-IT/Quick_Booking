@@ -20,11 +20,11 @@ import Infor from './pages/public/Infor';
 
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
-import User from './pages/system/User';
-import CreatePost from './pages/system/CreatePost';
-import Posts from './pages/system/Posts';
-import UpdatePost from './pages/system/UpdatePost';
-import Profile from './pages/system/Profile';
+import User from './pages/system/User/User';
+import CreatePost from './pages/system/Post/CreatePost';
+import Posts from './pages/system/Post/Posts';
+import EditPost from './pages/system/Post/EditPost';
+import Profile from './pages/system/User/Profile';
 
 function App() {
     return (
@@ -58,7 +58,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/create-post" element={<CreatePost />} />
                         <Route path="/posts" element={<Posts />} />
-                        <Route path="/update-post/:postId" element={<UpdatePost />} />
+                        <Route path="/update-post/:postId" element={<EditPost />} />
                         <Route path="/profile" element={<Profile />} />
                     </Route>
                 </Route>

@@ -1,7 +1,8 @@
 import express from "express";
 import {
-  postNew,
+  createPost,
   getPosts,
+  getPostSystem,
   deletePost,
   updatePost,
   statusPost,
@@ -10,24 +11,28 @@ import {
   verifyAdmin,
   verifyAdminAndUser,
   verifyDelete,
+  verifyToken,
   verifyUpdate,
 } from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-// [POST] CREATE POST NEW
-router.post("/create", verifyAdminAndUser, postNew);
+// [POST] /api/post
+router.post("/", verifyAdminAndUser, createPost);
 
-// [GET] GET ALL POST
-router.get("/get", getPosts);
+// [GET] /api/post
+router.get("/", getPosts);
 
-// [PUT] UPDATE POST
-router.put("/update/:postId/:id", verifyUpdate, updatePost);
+// [GET] /api/post/private
+router.get("/private", verifyToken, getPostSystem);
 
-// [PUT] STATUS POST
-router.put("/status/:postId", verifyAdmin, statusPost);
+// [PUT] /api/post/:postId/:id
+router.put("/:postId/:id", verifyUpdate, updatePost);
 
-// [DELETE] POST :ID
-router.delete("/delete/:postId/:id", verifyDelete, deletePost);
+// [PUT] /api/post/status/:postId
+router.put("/status/abc/:postId", verifyAdmin, statusPost);
+
+// [DELETE] /api/post/:id
+router.delete("/:postId", verifyDelete, deletePost);
 
 export default router;

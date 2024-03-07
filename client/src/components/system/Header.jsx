@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { toggleTheme } from '~/redux/theme/themeSlice';
 import { signOutSuccess } from '~/redux/user/userSlice';
 import { httpRequest } from '~/ultils/httpRequest';
+import AvatarUser from '../Avatar';
+import DarkMode from '../DarkMode';
 
 function Header() {
     const dispatch = useDispatch();
@@ -47,18 +49,9 @@ function Header() {
                     </div>
                 </div>
 
-                <div className="flex space-x-5">
-                    {/* ================== MOON ================= */}
-                    <div class="w-fit">
-                        <Button
-                            className="w-12 h10 hidden sm:inline"
-                            color="gray"
-                            pill
-                            onClick={() => dispatch(toggleTheme())}
-                        >
-                            {theme === 'light' ? <FaSun /> : <FaMoon />}
-                        </Button>
-                    </div>
+                <div className="flex items-center space-x-10 mr-5">
+                    {/* ================== DarkMode ================= */}
+                    <DarkMode />
                     {/* ================== Bell Notification ================= */}
                     <button class="inline-block relative">
                         <svg
@@ -72,25 +65,7 @@ function Header() {
                         {/* <span class="animate-ping absolute top-1 right-0.5 block h-1 w-1 rounded-full ring-2 ring-green-400 bg-green-600"></span> */}
                     </button>
                     {/* ================== Nav-Right ================= */}
-                    <Dropdown
-                        arrowIcon={false}
-                        inline
-                        label={<Avatar alt="user" img={currentUser.profilePicture} rounded />}
-                    >
-                        <Dropdown.Header>
-                            <span className="block text-sm">
-                                Xin chào <span className="font-semibold">{currentUser.username}</span>
-                            </span>
-                            <span className="block text-sm font-medium truncate">{currentUser.email}</span>
-                        </Dropdown.Header>
-
-                        <Link to={'/'}>
-                            <Dropdown.Item>Trang chủ</Dropdown.Item>
-                        </Link>
-
-                        <Dropdown.Divider />
-                        <Dropdown.Item onClick={handleSignout}>Đăng xuất</Dropdown.Item>
-                    </Dropdown>
+                    <AvatarUser />
                 </div>
             </div>
         </header>

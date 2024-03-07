@@ -6,7 +6,7 @@ import nodemailer from "nodemailer";
 import { google } from "googleapis";
 require("dotenv").config();
 
-const ACCESS_TOKEN_EXPIRES_TIME = "60s";
+const ACCESS_TOKEN_EXPIRES_TIME = "10s";
 const REFRESH_TOKEN_EXPIRES_TIME = "24h";
 
 // These id's and secrets should come from .env file.
@@ -346,6 +346,16 @@ export const logout = async (req, res) => {
 
 // [PUT] /api/user/:id
 export const updateProfile = async (req, res) => {
+  const email = req.body.email;
+  if (email) {
+    const validEmail = await User.findOne({ email });
+    if (validEmail) {
+      if (validEmail._id.toString() !== req.user.id) {
+        return res.status(400).json({ message: "Email này đã tồn tại!" });
+      }
+    }
+  }
+
   if (req.body.password) {
     if (req.body.password.length < 6) {
       return res
@@ -356,6 +366,7 @@ export const updateProfile = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
   }
+
   if (req.body.phone) {
     if (req.body.phone.toString().length != 10) {
       return res.status(400).json({ message: "Số điện thoại phải đủ 10 số!" });
@@ -368,7 +379,7 @@ export const updateProfile = async (req, res) => {
       {
         $set: {
           username: req.body.username,
-          email: req.body.email,
+          email: email,
           profilePicture: req.body.profilePicture,
           password: req.body.password,
           phoneNumber: req.body.phone,
@@ -381,9 +392,29 @@ export const updateProfile = async (req, res) => {
     const accessToken = generateAccessToken(req.user);
 
     const { password, ...others } = updateUser._doc;
-    return res.status(200).json({ ...others, accessToken });
+    return res
+      .status(200)
+      .json({ ...others, accessToken, message: "Cập nhật thành công!" });
   } catch (err) {
     return res.status(500).json(err);
+  }
+};
+
+//[PUT] /api/user/role
+export const role = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          role: req.body.role,
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Cấp quyền thành công!" });
+  } catch (err) {
+    return res.status(500).json({ message: "Cấp quyền thất bại!" });
   }
 };
 
@@ -438,6 +469,6 @@ export const deleteUser = async (req, res) => {
 
     return res.status(200).json({ message: "Xóa người dùng thành công!" });
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ message: "Xóa người dùng thất bại!", err });
   }
 };

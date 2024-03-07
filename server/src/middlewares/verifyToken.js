@@ -37,10 +37,10 @@ export const verifyAdminAndUser = (req, res, next) => {
   });
 };
 
-// UPDATE User
+// UPDATE
 export const verifyUpdate = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id == req.params.id) {
+    if (req.user.id === req.params.id) {
       next();
     } else {
       return res.status(403).json("You're not allowed to update!");

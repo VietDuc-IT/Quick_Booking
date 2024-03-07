@@ -3,16 +3,18 @@ import { MdDriveFolderUpload } from 'react-icons/md';
 import { FaArrowLeft } from 'react-icons/fa';
 import { TbHomeDollar } from 'react-icons/tb';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { httpRequest } from '~/ultils/httpRequest';
+import { useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '~/ultils/firebase';
 import { toast } from 'react-toastify';
 import BreadCrumb from '~/components/system/BreadCrumb';
 import axios from '~/ultils/axios';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
+import { currentUser } from '~/redux/selectors';
 
 function UpdatePost() {
-    const { currentUser } = useSelector((state) => state.user);
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
@@ -25,21 +27,19 @@ function UpdatePost() {
     const [uploading, setUploading] = useState(false);
     const [checkedValue, setCheckedValue] = useState('');
     const inputRef = useRef();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { postId } = useParams();
-    let axiosJWT = httpRequest(currentUser, dispatch);
 
     useEffect(() => {
-        try {
-            const fetchPost = async () => {
-                const res = await axios.get(`/post/get?postId=${postId}`);
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(`/api/post?postId=${postId}`);
                 setFormData(res.data.Post[0]);
-            };
-            fetchPost();
-        } catch (err) {
-            console.log(err);
-        }
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -128,25 +128,24 @@ function UpdatePost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            if (
-                formData.title === '' ||
-                formData.description === '' ||
-                formData.address === '' ||
-                formData.price === null
-            )
-                return toast.error('Bạn cần điền đủ các thông tin!');
-            if (formData.category === '') return toast.error('Bạn phải chọn loại hình cho thuê!');
-            if (formData.imageUrls.length < 1) return toast.error('Bạn phải có ít nhất 1 ảnh!');
+        if (formData.title === '' || formData.description === '' || formData.address === '' || formData.price === null)
+            return toast.error('Bạn cần điền đủ các thông tin!');
+        if (formData.category === '') return toast.error('Bạn phải chọn loại hình cho thuê!');
+        if (formData.imageUrls.length < 1) return toast.error('Bạn phải có ít nhất 1 ảnh!');
 
-            await axiosJWT.put(`/post/update/${formData._id}/${formData.userId._id}`, formData, {
-                headers: { token: `bearer ${currentUser.accessToken}` },
+        try {
+            const res = await axiosPrivate.put(`/api/post/${formData._id}/${formData.userId._id}`, formData, {
+                headers: { token: `bearer ${User.accessToken}` },
             });
 
-            toast.success('Thay đỗi đã được cập nhật!');
+            toast.success(res.data.message);
             navigate('/posts');
         } catch (err) {
-            console.log(err.message);
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
         }
     };
 
@@ -361,7 +360,7 @@ function UpdatePost() {
                     <div className="relative flex justify-center space-x-3">
                         <button
                             type="submit"
-                            class="text-white bg-primary hover:bg-primary6 focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 dark:bg-primary dark:hover:bg-primary6 focus:outline-none dark:focus:ring-primary7 w-1/4"
+                            class="text-white bg-primary-default hover:bg-primary-hover focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 w-1/4"
                         >
                             Cập nhật
                         </button>
@@ -372,7 +371,7 @@ function UpdatePost() {
                             Làm mới
                         </div>
                         <div className="absolute left-0 top-3">
-                            <Link to="/posts" className="flex">
+                            <Link to="/posts" className="flex hover:text-primary-default">
                                 <FaArrowLeft className="mt-1 mr-1" />
                                 Quay lại
                             </Link>

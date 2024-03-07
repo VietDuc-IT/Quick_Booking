@@ -1,4 +1,3 @@
-import { axiosPrivate } from '~/ultils/axios';
 import axios from '~/ultils/axios';
 import { jwtDecode } from 'jwt-decode';
 import { signInSuccess } from '~/redux/user/userSlice';

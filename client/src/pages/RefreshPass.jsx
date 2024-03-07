@@ -31,13 +31,18 @@ export default function RefreshPass() {
         setLoading(true);
         try {
             setErrorMessage(null);
-            // API
-            await axios.post(`/auth/refreshPassword/${id}`, formData);
+
+            const res = await axios.put(`/api/user/refresh-password/${id}`, formData);
+
             setLoading(false);
-            setMessage('Mật khẩu mới tạo thành công, bạn có thể đăng nhập lại.');
+            setMessage(res.data.message);
         } catch (err) {
-            setMessage(null);
             setLoading(false);
+            if (err.response) {
+                setMessage(err.response.data.message);
+            } else {
+                setMessage(err.message);
+            }
         }
     };
 
@@ -49,7 +54,7 @@ export default function RefreshPass() {
                         <div className="py-17.5 px-26 text-center">
                             <div>
                                 <a href="/" className="text-2xl font-semibold">
-                                    <span className="text-primary text-4xl">
+                                    <span className="text-primary-default text-4xl">
                                         Quick <span className="text-m_text dark:text-d_text text-3xl">Booking</span>
                                     </span>
                                 </a>
