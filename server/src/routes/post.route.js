@@ -32,7 +32,7 @@ router.put("/:postId/:id", verifyUpdate, updatePost);
 // [PUT] /api/post/status/:postId
 router.put("/status/abc/:postId", verifyAdmin, statusPost);
 
-// [DELETE] /api/post/:id
+// [DELETE] /api/post/:postId
 router.delete("/:postId", verifyDelete, deletePost);
 
 export default router;

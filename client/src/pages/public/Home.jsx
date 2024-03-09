@@ -5,39 +5,10 @@ import { useFetch } from '~/hooks/useFetch';
 import Search from '~/components/Search';
 import DropDown from '~/components/DropDown';
 import Button from '~/components/Button';
-import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function Home() {
-    const [data, setData] = useState();
-    const axiosPrivate = useAxiosPrivate();
+    const { data: product, isLoading, error } = useFetch(`/api/post`);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axiosPrivate.get(`/post/get`, {
-                    headers: { accessToken: 'bearer ' },
-                });
-                setData(res.data.Post);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    // const { data: data, isLoading, error } = useFetch(`/post/get?status=${ref}`);
-    // if (error) {
-    //     return 'Something wrong!!!';
-    // }
-    // return isLoading ? (
-    //     <p>Loading...</p>
-    //   ) : (
-    //     users.map((user) => (
-    //       <p>
-    //         {user.first_name} {user.last_name}
-    //       </p>
-    //     ))
-    //   );
     const area = [
         { id: 1, name: 'TP Hồ Chí Minh' },
         { id: 2, name: 'Hà Nội' },
@@ -83,7 +54,7 @@ function Home() {
                     <div className="mb-5">
                         <span className="text-xl text-primary-default font-semibold">Căn nhà tốt nhất</span>
                     </div>
-                    <Cards DataHouse={data} />
+                    {isLoading ? <p>Is loading ... </p> : <Cards Data={product?.Post} />}
                     <div className="flex justify-center items-center mt-7">
                         <Button btn="outline">Xem thêm ...</Button>
                     </div>
@@ -96,7 +67,7 @@ function Home() {
                     <div className="mb-5">
                         <span className="text-xl text-primary-default font-semibold">Chủ nhà được ưa thích nhất</span>
                     </div>
-                    <Cards DataHouse={data} />
+                    {/* <Cards DataHouse={data} /> */}
                     <div className="flex justify-center items-center mt-7">
                         <Button btn="outline">Xem thêm ...</Button>
                     </div>

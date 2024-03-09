@@ -56,7 +56,7 @@ const Cards = (props) => {
     return (
         <>
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 mx-auto gap-4">
-                {props.DataHouse?.map((items) => (
+                {props.Data?.map((items) => (
                     <div
                         onClick={() => handleCard(items._id)}
                         class="relative flex w-full max-w-[26rem] bg-m_main dark:bg-d_main flex-col rounded-xl bg-clip-border shadow shadow-gray-500/40 dark:shadow-gray-600/70 hover:shadow-md hover:shadow-primary-default dark:hover:shadow-md dark:hover:shadow-primary-default cursor-pointer"

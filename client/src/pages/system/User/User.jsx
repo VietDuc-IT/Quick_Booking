@@ -90,7 +90,7 @@ function User() {
                                     <span className="sr-only">Action</span>
                                 </Table.HeadCell>
                             </Table.Head>
-                            <Table.Body className="divide-y">
+                            <Table.Body className="divide-y text-nowrap">
                                 {data?.map((item) => (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                         <Table.Cell className="p-4">

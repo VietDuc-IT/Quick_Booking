@@ -34,7 +34,7 @@ export const useFetch = (url) => {
             });
             try {
                 const res = await axios(url);
-                const { data } = await res.json();
+                const data = res.data;
 
                 dispatch({
                     type: 'fetchAPI/success',

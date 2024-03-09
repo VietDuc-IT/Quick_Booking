@@ -23,12 +23,12 @@ export const createPost = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
+    const limit = parseInt(req.query.limit) || 8;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     const Posts = await Post.find({
+      status: "Bình thường",
       ...(req.query.postId && { _id: req.query.postId }),
-      ...(req.query.status && { status: req.query.status }),
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.title && { title: req.query.title }),
@@ -70,6 +70,7 @@ export const getPostSystem = async (req, res) => {
   const { role, id } = req.user;
   if (role === "Admin") {
     const Posts = await Post.find().populate("userId");
+    // const Posts = await Post.find({ status: "Bình thường" }).populate("userId");
     return res.status(200).json({ Post: Posts });
   }
 
@@ -91,7 +92,7 @@ export const updatePost = async (req, res) => {
   }
 };
 
-// [DELETE] /post/:postId
+// [DELETE] /api/post/:postId
 export const deletePost = async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.postId);

@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
   {
-    location: {
+    name: {
+      type: String,
+    },
+    value: {
       type: Array,
-      default: ["Thủ Đức", "Q1", "Q2", "Q10"],
     },
   },
   { timestamps: true }

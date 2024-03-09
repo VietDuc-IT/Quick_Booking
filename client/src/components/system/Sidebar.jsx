@@ -1,15 +1,16 @@
 import { ImNewspaper } from 'react-icons/im';
-import { FaChartPie, FaUser, FaFileInvoice } from 'react-icons/fa';
+import { FaChartPie, FaUser, FaFileInvoice, FaUsers } from 'react-icons/fa';
 import { BsHouseGearFill } from 'react-icons/bs';
 import { IoMdHelpCircle } from 'react-icons/io';
 import { IoDocumentText } from 'react-icons/io5';
 import { FaCommentDots } from 'react-icons/fa6';
+import { HiBellAlert } from 'react-icons/hi2';
+import { MdDisplaySettings } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
 import { httpRequest } from '~/ultils/httpRequest';
-import { FaUsers } from 'react-icons/fa';
-import { HiBellAlert } from 'react-icons/hi2';
+
 import { useState } from 'react';
 
 function Sidebar() {
@@ -37,7 +38,10 @@ function Sidebar() {
         { href: '/comment', icon: FaCommentDots, name: 'Bình luận' },
     ];
     if (currentUser.role === 'Admin') {
-        menu.push({ href: '/user', icon: FaUsers, name: 'Người dùng' });
+        menu.push(
+            { href: '/user', icon: FaUsers, name: 'Người dùng' },
+            { href: '/category', icon: MdDisplaySettings, name: 'Thiết lập' },
+        );
     }
     return (
         <div>
