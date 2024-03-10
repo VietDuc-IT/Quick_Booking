@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import Banner from '~/components/public/Banner';
 import Cards from '~/components/public/CardProduct';
-import { useFetch } from '~/hooks/useFetch';
 import Search from '~/components/Search';
 import DropDown from '~/components/DropDown';
 import Button from '~/components/Button';
+import axios from '~/ultils/axios';
 
 function Home() {
-    const { data: product, isLoading, error } = useFetch(`/api/post`);
+    const [posts, setPosts] = useState();
+    const [category, setCategory] = useState();
+
+    const fetchData = async () => {
+        try {
+            const cate = await axios.get('/api/category');
+            setCategory(cate.data);
+            const post = await axios.get('/api/post');
+            setPosts(post.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const area = [
         { id: 1, name: 'TP Hồ Chí Minh' },
@@ -42,6 +58,7 @@ function Home() {
             <div className="flex justify-center -translate-y-8 relative z-10">
                 <div className="flex bg-m_main dark:bg-d_main py-4 px-7 space-x-5 items-center rounded-lg">
                     <Search />
+                    {/* {category.name === 'Vị trí' && <DropDown name="Vị trí" list={area} />} */}
                     <DropDown name="Vị trí" list={area} />
                     <DropDown name="Mức giá" list={price} />
                     <Button btn="primary">Tìm kiếm</Button>
@@ -54,7 +71,7 @@ function Home() {
                     <div className="mb-5">
                         <span className="text-xl text-primary-default font-semibold">Căn nhà tốt nhất</span>
                     </div>
-                    {isLoading ? <p>Is loading ... </p> : <Cards Data={product?.Post} />}
+                    <Cards Data={posts?.Post} />
                     <div className="flex justify-center items-center mt-7">
                         <Button btn="outline">Xem thêm ...</Button>
                     </div>

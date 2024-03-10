@@ -7,17 +7,20 @@ import Suggest from '~/components/public/Suggest';
 
 function Product() {
     const [data, setData] = useState();
+
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('/api/post');
+            setData(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get('/api/post');
-                setData(res.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
         fetchData();
     }, []);
+
     return (
         <>
             {/* Filter Top */}

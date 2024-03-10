@@ -19,7 +19,7 @@ function fetchReducer(state, action) {
     }
 }
 
-export const useFetch = (url) => {
+const useFetch = (url) => {
     const [state, dispatch] = useReducer(fetchReducer, {
         data: [],
         isLoading: false,
@@ -56,3 +56,5 @@ export const useFetch = (url) => {
     // return { data: state.data, isLoading: state.isLoading, error: state.error};
     return { ...state };
 };
+
+// export default useFetch;

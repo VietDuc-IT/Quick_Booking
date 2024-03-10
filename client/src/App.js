@@ -17,6 +17,7 @@ import Home from './pages/public/Home';
 import Rent from './pages/public/Rent';
 import About from './pages/public/About';
 import Infor from './pages/public/Infor';
+import Detail from './pages/public/Details';
 
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
@@ -41,6 +42,7 @@ function App() {
                 <Route element={<DefaultLayout />}>
                     <Route index element={<Home />} />
                     <Route path="/rent" element={<Rent />} />
+                    <Route path="/post/:id" element={<Detail />} />
                     <Route path="/about" element={<About />} />
 
                     <Route element={<PrivateRoute />}>
