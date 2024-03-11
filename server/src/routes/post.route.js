@@ -6,6 +6,7 @@ import {
   deletePost,
   updatePost,
   statusPost,
+  viewPost,
 } from "../controllers/post.controller";
 import {
   verifyAdmin,
@@ -19,6 +20,9 @@ const router = express.Router();
 
 // [POST] /api/post
 router.post("/", verifyAdminAndUser, createPost);
+
+// [GET] /api/post/:postId
+router.get("/:postId", viewPost);
 
 // [GET] /api/post
 router.get("/", getPosts);

@@ -16,7 +16,7 @@ function Details() {
 
     const fetchData = async () => {
         try {
-            const res = await axios.get(`/api/post?id=${id}`);
+            const res = await axios.get(`/api/post/${id}`);
             setData(res.data);
         } catch (err) {
             console.log(err);
@@ -35,10 +35,10 @@ function Details() {
                 <div className="grid grid-cols-3 gap-5">
                     <div className="col-span-2 bg-m_main dark:bg-d_main p-5">
                         {/* Image Slider */}
-                        <ProductSlider img={data?.Post[0].imageUrls} />
+                        <ProductSlider img={data?.imageUrls} />
                         {/* Title */}
                         <div className="mt-10">
-                            <span className="text-xl text-primary-default font-semibold">{data?.Post[0].title}</span>
+                            <span className="text-xl text-primary-default font-semibold">{data?.title}</span>
                         </div>
                         {/* Detail */}
                         <div className="grid grid-cols-2 my-5">
@@ -116,7 +116,7 @@ function Details() {
                             </ul>
                             <div className="col-span-2 mt-10">
                                 <span class="font-semibold text-gray-900 dark:text-white">Mô tả chi tiết</span>
-                                <p className="mt-3">{data?.Post[0].description}</p>
+                                <p className="mt-3">{data?.description}</p>
                             </div>
                         </div>
 

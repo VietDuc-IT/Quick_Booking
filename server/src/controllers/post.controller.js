@@ -19,6 +19,21 @@ export const createPost = async (req, res) => {
   }
 };
 
+// [GET] /api/post/:postId || page detail
+export const viewPost = async (req, res) => {
+  try {
+    const data = await Post.findById(req.params.postId).populate("userId", {
+      password: 0,
+      role: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
 // [GET] /api/post
 export const getPosts = async (req, res) => {
   try {
@@ -40,7 +55,12 @@ export const getPosts = async (req, res) => {
         ],
       }),
     })
-      .populate("userId")
+      .populate("userId", {
+        password: 0,
+        role: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      })
       .sort({
         updatedAt: sortDirection,
       })
@@ -69,8 +89,10 @@ export const getPosts = async (req, res) => {
 export const getPostSystem = async (req, res) => {
   const { role, id } = req.user;
   if (role === "Admin") {
-    const Posts = await Post.find().populate("userId");
-    // const Posts = await Post.find({ status: "Bình thường" }).populate("userId");
+    const Posts = await Post.find().populate("userId", {
+      password: 0,
+    });
+
     return res.status(200).json({ Post: Posts });
   }
 
