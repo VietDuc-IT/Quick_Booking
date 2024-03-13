@@ -1,32 +1,3 @@
-// export const BtnDefault = ({ name }) => {
-//     return (
-//         <>
-//             <button className="py-2 px-4 text-sm font-semibold bg-primary-default hover:bg-primary-hover text-white transition-all duration-300 rounded">
-//                 {name}
-//             </button>
-//         </>
-//     );
-// };
-
-// export const BtnDark = ({ name }) => {
-//     return (
-//         <>
-//             <button className="py-2 px-4 text-sm font-semibold bg-black-default hover:bg-black-hover text-white transition-all duration-300 rounded">
-//                 {name}
-//             </button>
-//         </>
-//     );
-// };
-
-// export const BtnOutline = ({ name }) => {
-//     return (
-//         <>
-//             <button className="py-1.5 px-4 text-sm font-semibold border-primary-default text-primary-default hover:shadow-sm hover:shadow-primary-default cursor-pointer rounded border-2">
-//                 {name}
-//             </button>
-//         </>
-//     );
-// };
 import { Link } from 'react-router-dom';
 
 function Button({ to, href, btn, className, children, onClick, ...passProps }) {
