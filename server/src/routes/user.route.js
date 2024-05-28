@@ -12,6 +12,7 @@ import {
   getUser,
   deleteUser,
   role,
+  renter,
 } from "../controllers/user.controller";
 import {
   verifyToken,
@@ -51,6 +52,9 @@ router.put("/role/:id", verifyAdmin, role);
 
 // [GET] /api/user
 router.get("/", verifyAdmin, getUser);
+
+// [GET] /api/user/renter
+router.get("/renter", renter);
 
 // [DELETE] /api/user/:id
 router.delete("/:id", verifyDelete, deleteUser);

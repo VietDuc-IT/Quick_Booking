@@ -118,3 +118,14 @@ export const deleteComment = async (req, res) => {
     return res.status(500).json({ message: "Xóa bình luận thất bại!" });
   }
 };
+
+// [GET] /api/comment
+export const getAll = async (req, res) => {
+  try {
+    const comment = await Comment.find();
+
+    return res.status(200).json(comment);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};

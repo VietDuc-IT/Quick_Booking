@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { signOutSuccess } from '~/redux/user/userSlice';
 import { currentUser } from '~/redux/selectors';
 import { HiCog, HiLogout, HiViewGrid } from 'react-icons/hi';
+import { FaListAlt, FaUsersCog, FaUserEdit } from 'react-icons/fa';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function AvatarUser() {
@@ -26,8 +27,9 @@ function AvatarUser() {
 
     const menu = [
         { link: '/dashboard', icon: HiViewGrid, name: 'Hệ thống' },
-        { link: '/history', icon: HiViewGrid, name: 'Lịch sử' },
-        { link: '/infomation', icon: HiViewGrid, name: 'Cá nhân' },
+        { link: '/history', icon: FaListAlt, name: 'Lịch sử' },
+        { link: '/newpost', icon: FaUserEdit, name: 'Đăng ký' },
+        { link: '/infomation', icon: FaUsersCog, name: 'Cá nhân' },
         { link: '/setting', icon: HiCog, name: 'Cài đặt' },
     ];
 

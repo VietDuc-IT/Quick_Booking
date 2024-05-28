@@ -16,7 +16,7 @@ function Posts() {
 
     const fetchData = async () => {
         try {
-            const res = await axiosPrivate.get('/api/post/private', {
+            const res = await axiosPrivate.get('/api/post/v1/system', {
                 headers: { token: `bearer ${User.accessToken}` },
             });
             setData(res.data.Post);
@@ -35,7 +35,7 @@ function Posts() {
         const post = data.find(({ _id }) => _id === id);
         try {
             const res = await axiosPrivate.put(
-                `/api/post/status/abc/${id}`,
+                `/api/post/v1/status/${id}`,
                 { status: post.status },
                 {
                     headers: { token: `bearer ${User.accessToken}` },
@@ -87,7 +87,7 @@ function Posts() {
                                 <Table.HeadCell>Bài đăng</Table.HeadCell>
                                 {User.role === 'Admin' && <Table.HeadCell>Tác giả</Table.HeadCell>}
                                 <Table.HeadCell>Loại</Table.HeadCell>
-                                <Table.HeadCell>Tương tác</Table.HeadCell>
+                                {/* <Table.HeadCell>Tương tác</Table.HeadCell> */}
                                 <Table.HeadCell>Trạng thái</Table.HeadCell>
                                 <Table.HeadCell>Ngày tạo</Table.HeadCell>
                                 <Table.HeadCell>
@@ -124,7 +124,7 @@ function Posts() {
                                             </Table.Cell>
                                         )}
                                         <Table.Cell>{item.category}</Table.Cell>
-                                        <Table.Cell>comment</Table.Cell>
+                                        {/* <Table.Cell>comment</Table.Cell> */}
                                         <Table.Cell>{item.status}</Table.Cell>
                                         <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
                                         <Table.Cell>

@@ -3,8 +3,9 @@ import Header from '~/components/public/Header';
 import Footer from '~/components/public/Footer';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import BackToTop from '~/components/BackToTop';
+import ChatBox from '~/components/ChatBox';
 
-// MainLayout Component
 const DefaultLayout = () => {
     return (
         <>
@@ -18,11 +19,15 @@ const DefaultLayout = () => {
                     <Outlet />
                 </div>
             </main>
+
             {/* =============== Body End =============== */}
 
             {/* =============== Footer Begin =============== */}
             <Footer />
             {/* =============== Footer End =============== */}
+
+            <BackToTop />
+            <ChatBox />
 
             <ToastContainer
                 position="top-right"

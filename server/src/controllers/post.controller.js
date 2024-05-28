@@ -38,10 +38,11 @@ export const viewPost = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
+    const page = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 8;
-    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
 
-    const Posts = await Post.find({
+    const posts = await Post.find({
       status: "Bình thường",
       ...(req.query.id && { _id: req.query.id }),
       ...(req.query.userId && { userId: req.query.userId }),
@@ -50,8 +51,9 @@ export const getPosts = async (req, res) => {
       ...(req.query.adrress && { address: req.query.adrress }),
       ...(req.query.searchTerm && {
         $or: [
-          { title: { $regex: req.query.searchTerm, $option: "i" } },
-          { description: { $regex: req.query.searchTerm, $option: "i" } },
+          { title: { $regex: req.query.searchTerm, $options: "i" } },
+          { description: { $regex: req.query.searchTerm, $options: "i" } },
+          { category: { $regex: req.query.searchTerm, $options: "i" } },
         ],
       }),
     })
@@ -67,6 +69,8 @@ export const getPosts = async (req, res) => {
       .skip(startIndex)
       .limit(limit);
 
+    const cate = ["Nhà ở", "Căn hộ / Chung cư", "Phòng trọ"];
+
     const totalPosts = await Post.countDocuments();
 
     const now = new Date();
@@ -79,26 +83,83 @@ export const getPosts = async (req, res) => {
       createdAt: { $gte: oneMonthAgo },
     });
 
-    return res.status(200).json({ Post: Posts, totalPosts, lastMonthPosts });
+    return res.status(200).json({ totalPosts, lastMonthPosts, cate, posts });
   } catch (err) {
     return res.status(500).json(err);
+  }
+};
+
+// [GET] /api/post/v1/fillter
+export const getpostfillter = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) - 1 || 0;
+    const limit = parseInt(req.query.limit) || 5;
+    const search = req.query.search || "";
+    let sort = req.query.sort || "rating";
+    let genre = req.query.genre || "All";
+
+    const genreOption = ["Thủ Đức", "Quận 1", "Quận 2", "Quận 3", "Quận 4"];
+
+    genre === "All"
+      ? (genre = [...genreOption])
+      : (genre = req.query.genre.split(","));
+
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
+    } else {
+      sortBy[sort[0]] = "asc";
+    }
+
+    const posts = await Post.find({ title: { $regex: search, $option: "i" } })
+      .where("genre")
+      .in([...genre])
+      .sort(sortBy)
+      .skip(page * limit)
+      .limit(limit);
+
+    const total = await Post.countDocuments({
+      genre: { $in: [...genre] },
+      title: { $regex: search, $option: "i" },
+    });
+
+    const response = {
+      error: false,
+      total,
+      page: page + 1,
+      limit,
+      genres: genreOption,
+      posts,
+    };
+
+    return res.status(200).json(response);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ err: true, message: "Internal Server Error" });
   }
 };
 
 // [GET] /api/post/private
 export const getPostSystem = async (req, res) => {
   const { role, id } = req.user;
-  if (role === "Admin") {
-    const Posts = await Post.find().populate("userId", {
-      password: 0,
-    });
 
-    return res.status(200).json({ Post: Posts });
-  }
-
-  if (role === "User") {
-    const Posts = await Post.find({ userId: id }).populate("userId");
-    return res.status(200).json({ Post: Posts });
+  try {
+    if (role === "Admin") {
+      const Posts = await Post.find().populate("userId", {
+        password: 0,
+      });
+      return res.status(200).json({ Post: Posts });
+    } else {
+      const Posts = await Post.find({ userId: id }).populate("userId", {
+        password: 0,
+      });
+      return res.status(200).json({ Post: Posts });
+    }
+  } catch (err) {
+    return res.status(500).json(err);
   }
 };
 

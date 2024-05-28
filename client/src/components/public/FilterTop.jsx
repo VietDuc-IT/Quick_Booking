@@ -27,7 +27,7 @@ function FilterTop() {
             <div className="bg-gradient-to-t from-black-default to-primary-default">
                 <div className="max-w-7xl mx-auto px-5 py-3">
                     {/* relative overflow-x-auto */}
-                    <div className="flex items-center flex-row gap-4 text-nowrap">
+                    <div className="flex items-center flex-row gap-4 text-nowrap relative overflow-x-auto">
                         <Button btn="default" className="flex">
                             <FaFilter className="mr-2 translate-y-0.5" /> Bộ lọc
                         </Button>

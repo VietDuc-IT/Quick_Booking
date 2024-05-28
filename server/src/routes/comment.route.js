@@ -3,6 +3,7 @@ import {
   create,
   deleteComment,
   editComment,
+  getAll,
   likeComment,
   view,
 } from "../controllers/comment.controller";
@@ -24,5 +25,8 @@ route.put("/edit/:commentId", verifyToken, editComment);
 
 // [DELETE] /api/comment/:commentId
 route.delete("/:commentId", verifyToken, deleteComment);
+
+// [GET] /api/comment
+route.get("/", verifyToken, getAll);
 
 export default route;

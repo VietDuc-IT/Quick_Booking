@@ -1,7 +1,19 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../Button';
-import DropDown from '../DropDown';
+import { Dropdown } from 'flowbite-react';
 
 function Suggest() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleSort = (e) => {
+        // e.preventDefault();
+        const urlParams = new URLSearchParams(location.search);
+        urlParams.set('sort', e);
+        const searchQuery = urlParams.toString();
+        navigate(`/rent?${searchQuery}`);
+    };
+
     const area = [
         { id: 1, name: 'TP Hồ Chí Minh' },
         { id: 2, name: 'Hà Nội' },
@@ -76,8 +88,12 @@ function Suggest() {
                         <Button btn="round">{name}</Button>
                     ))}
                 </div>
+
                 <div className="flex justify-end">
-                    <DropDown />
+                    <Dropdown label="Lọc theo : " color="light" dismissOnClick={false} id="sort">
+                        <Dropdown.Item onClick={() => handleSort('desc')}>Mới nhất</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleSort('asc')}>Cũ nhất</Dropdown.Item>
+                    </Dropdown>
                 </div>
             </div>
         </>

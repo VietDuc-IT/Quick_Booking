@@ -15,6 +15,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    map: {
+      type: String,
+      require: true,
+    },
     description: {
       type: String,
       require: true,
@@ -28,6 +32,9 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     imageUrls: {
+      type: Array,
+    },
+    detail: {
       type: Array,
     },
     status: {

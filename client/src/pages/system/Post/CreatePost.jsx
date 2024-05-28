@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import BreadCrumb from '~/components/system/BreadCrumb';
 import { currentUser } from '~/redux/selectors';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
+import { FaMapMarkedAlt } from 'react-icons/fa';
+import CategorySection from '~/components/system/CategorySection';
 
 function CreatePost() {
     const User = useSelector(currentUser);
@@ -17,9 +19,11 @@ function CreatePost() {
     const [formData, setFormData] = useState({
         title: '',
         address: '',
+        map: '',
         description: '',
         category: '',
         price: null,
+        detail: [],
         imageUrls: [],
     });
     const [uploading, setUploading] = useState(false);
@@ -147,34 +151,40 @@ function CreatePost() {
         });
     };
 
+    const handleListDetail = (value) => {
+        setFormData({ ...formData, detail: value });
+    };
+
+    console.log('formData>>>', formData);
+
     return (
         <>
             <BreadCrumb pageName="Đăng tin" />
 
-            <div class="flex items-center justify-center bg-m_main dark:bg-d_main">
+            <div className="flex items-center justify-center bg-m_main dark:bg-d_main">
                 <form className="container p-5 sm:w-full" onSubmit={handleSubmit} ref={inputRef}>
                     {/* ================== Title ==================== */}
-                    <div class="mb-6">
-                        <label for="default-input" class="block mb-2 text-sm font-medium">
+                    <div className="mb-6">
+                        <label for="default-input" className="block mb-2 text-sm font-medium">
                             Tiêu đề
                         </label>
                         <input
                             type="text"
                             id="title"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                            placeholder="Quick Booking"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                            placeholder="Phòng Trọ Cho Thuê Cao Cấp"
                             onChange={handleChange}
                         />
                     </div>
                     {/* ================== Address ==================== */}
-                    <div class="mb-6">
-                        <label for="default-input" class="block mb-2 text-sm font-medium">
+                    <div className="mb-6">
+                        <label for="default-input" className="block mb-2 text-sm font-medium">
                             Địa chỉ
                         </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                        <div className="relative">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
                                 <svg
-                                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
@@ -186,76 +196,94 @@ function CreatePost() {
                             <input
                                 type="text"
                                 id="address"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
-                                placeholder="Địa chỉ ..."
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                placeholder="243A68/26, Đường số 41, Phường 8, Quận 4, Tp Hồ Chí Minh"
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    {/* ================== addressMap GG-Map ==================== */}
+                    <div className="mb-6">
+                        <label for="default-input" className="block mb-2 text-sm font-medium">
+                            Đường dẫn Google map
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                <FaMapMarkedAlt className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                            </div>
+                            <input
+                                type="text"
+                                id="map"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                placeholder="Link google map ..."
                                 onChange={handleChange}
                             />
                         </div>
                     </div>
                     {/* ================== Description ==================== */}
-                    <div class="mb-6">
-                        <label for="message" class="block mb-2 text-sm font-medium">
+                    <div className="mb-6">
+                        <label for="message" className="block mb-2 text-sm font-medium">
                             Chi tiết
                         </label>
                         <textarea
                             id="description"
                             rows="4"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                             placeholder="Viết mô tả ở đây ..."
                             onChange={handleChange}
                         ></textarea>
                     </div>
                     <div className="flex">
                         {/* ================== Category ==================== */}
-                        <div class="mb-6 w-1/2">
-                            <label for="message" class="block mb-2 text-sm font-medium">
+                        <div className="mb-6 w-1/2">
+                            <label for="message" className="block mb-2 text-sm font-medium">
                                 Loại hình cho thuê
                             </label>
-                            <div class="flex mt-5">
-                                <div class="flex items-center me-4">
+                            <div className="flex mt-5">
+                                <div className="flex items-center me-4">
                                     <input
                                         id="category"
                                         type="checkbox"
                                         value="Nhà ở"
                                         checked={checkedValue === 'Nhà ở'}
                                         onChange={handleCheckbox}
-                                        class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     />
                                     <label
                                         for="inline-checkbox"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                     >
                                         Nhà ở
                                     </label>
                                 </div>
-                                <div class="flex items-center me-4">
+                                <div className="flex items-center me-4">
                                     <input
                                         id="category"
                                         type="checkbox"
                                         value="Căn hộ / Chung cư"
                                         checked={checkedValue === 'Căn hộ / Chung cư'}
                                         onChange={handleCheckbox}
-                                        class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     />
                                     <label
                                         for="inline-checkbox"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                     >
                                         Căn hộ / Chung cư
                                     </label>
                                 </div>
-                                <div class="flex items-center me-4">
+                                <div className="flex items-center me-4">
                                     <input
                                         id="category"
                                         type="checkbox"
                                         value="Phòng trọ"
                                         checked={checkedValue === 'Phòng trọ'}
                                         onChange={handleCheckbox}
-                                        class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     />
                                     <label
                                         for="inline-checkbox"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                     >
                                         Phòng trọ
                                     </label>
@@ -263,33 +291,36 @@ function CreatePost() {
                             </div>
                         </div>
                         {/* ================== Price ==================== */}
-                        <div class="mb-6 w-1/2">
-                            <label for="message" class="block mb-2 text-sm font-medium">
+                        <div className="mb-6 w-1/2">
+                            <label for="message" className="block mb-2 text-sm font-medium">
                                 Giá <span className="text-gray-400">(VNĐ / tháng)</span>
                             </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                                    <TbHomeDollar class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                    <TbHomeDollar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                                 </div>
                                 <input
                                     type="text"
                                     id="price"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                                     placeholder="1.000.000 VNĐ"
                                     onChange={handleChange}
                                 />
-                                <div class="absolute inset-y-0 end-7 -top-2 flex items-center ps-3.5 pointer-events-none">
-                                    <p class="w-4 h-4 text-gray-500 dark:text-gray-400">VNĐ</p>
+                                <div className="absolute inset-y-0 end-7 -top-2 flex items-center ps-3.5 pointer-events-none">
+                                    <p className="w-4 h-4 text-gray-500 dark:text-gray-400">VNĐ</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {/* Detail */}
+                    <CategorySection onListValue={handleListDetail} />
+
                     {/* ================== Image ==================== */}
-                    <div class="mb-6 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                    <div className="mb-6 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                         <div className="flex">
                             <div className="w-full">
                                 <label
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     for="multiple_files"
                                 >
                                     Thêm ảnh{' '}
@@ -297,7 +328,7 @@ function CreatePost() {
                                 </label>
                                 <input
                                     onChange={(e) => setFiles(e.target.files)}
-                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                     type="file"
                                     id="images"
                                     accept="image/*"
@@ -313,7 +344,7 @@ function CreatePost() {
                                     'Đang tải ...'
                                 ) : (
                                     <>
-                                        <MdDriveFolderUpload class="w-4 h-4 me-2" /> Tải lên
+                                        <MdDriveFolderUpload className="w-4 h-4 me-2" /> Tải lên
                                     </>
                                 )}
                             </button>
@@ -330,7 +361,7 @@ function CreatePost() {
                                         <button
                                             type="button"
                                             onClick={() => handleRemoveImage(index)}
-                                            class="font-medium text-red-500 dark:text-red-500 hover:underline"
+                                            className="font-medium text-red-500 dark:text-red-500 hover:underline"
                                         >
                                             Xóa ảnh
                                         </button>
@@ -341,13 +372,13 @@ function CreatePost() {
                     <div className="flex justify-center space-x-3">
                         <button
                             type="submit"
-                            class="text-white bg-primary-default hover:bg-primary-hover focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 w-1/4"
+                            className="text-white bg-primary-default hover:bg-primary-hover focus:ring-4 focus:ring-primary3 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2 w-1/4"
                         >
                             Đăng tin
                         </button>
 
                         <div
-                            class="py-2.5 px-5 me-2 mb-2 text-base font-medium text-center cursor-pointer w-1/4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            className="py-2.5 px-5 me-2 mb-2 text-base font-medium text-center cursor-pointer w-1/4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             onClick={handleRefresh}
                         >
                             Làm mới

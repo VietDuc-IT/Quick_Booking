@@ -4,6 +4,7 @@ import userRouter from "./user.route";
 import postRouter from "./post.route";
 import categoryRouter from "./category.route";
 import commentRouter from "./comment.route";
+import messageRouter from "./message.route";
 import path from "path";
 import { uploadImage } from "../utils/uploadFile";
 
@@ -27,10 +28,12 @@ const handleUpload = (req, res) => {
 
 function route(app) {
   app.use("/public", express.static(path.join(__dirname, "../../public")));
+
   app.use("/api/user", userRouter);
   app.use("/api/post", postRouter);
   app.use("/api/category", categoryRouter);
   app.use("/api/comment", commentRouter);
+  app.use("/api/message", messageRouter);
 
   app.post(
     "/uploadFile",

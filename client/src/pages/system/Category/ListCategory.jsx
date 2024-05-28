@@ -37,6 +37,7 @@ function ListCategory() {
         const value = e.target.value;
         if (!value.trim()) return;
         setTags([...tags, value]);
+        e.target.value = null;
     };
 
     const removeTag = (index) => {

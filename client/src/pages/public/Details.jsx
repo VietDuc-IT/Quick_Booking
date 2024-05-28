@@ -7,6 +7,7 @@ import CommentSection from '~/components/public/CommentSection';
 import Map from '~/components/public/Map';
 import Description from '~/components/public/Description';
 import Contact from '~/components/public/Contact';
+import Message from '~/components/public/message/Message';
 
 function Details() {
     const { id } = useParams();
@@ -38,7 +39,7 @@ function Details() {
 
                         <Description data={data} />
 
-                        <Map />
+                        <Map data={data} />
 
                         <CommentSection />
                     </div>
@@ -46,6 +47,7 @@ function Details() {
                     <div>
                         <Contact data={data?.userId} />
                     </div>
+                    <Message data={data?.userId} />
                 </div>
             </div>
         </>

@@ -49,6 +49,21 @@ function Description({ data }) {
             return seconds <= 10 ? 'bây giờ' : `${seconds} giây trước`;
         }
     };
+
+    const detail1 = [
+        { icon: PiSelectionBackgroundBold, name: 'Diện tích đất', detail: data?.detail[0] },
+        { icon: FaArrowsAltH, name: 'Chiều ngang', detail: data?.detail[1] },
+        { icon: FaArrowsAltH, name: 'Chiều dài', detail: data?.detail[2] },
+        { icon: MdOutlineChair, name: 'Nội thất', detail: data?.detail[3] },
+    ];
+
+    const detail2 = [
+        { icon: RiHomeGearLine, name: 'Tiện ích', detail: data?.detail[4] },
+        { icon: MdOutlineBedroomParent, name: 'Phòng ngủ', detail: data?.detail[5] },
+        { icon: PiToilet, name: 'Nhà vệ sinh', detail: data?.detail[6] },
+        { icon: MdOutlineAddHomeWork, name: 'Số tầng', detail: data?.detail[7] },
+    ];
+
     return (
         <div>
             {/* Title */}
@@ -86,75 +101,35 @@ function Description({ data }) {
             <div className="grid grid-cols-2 my-5">
                 <div class="flex items-center space-x-3 rtl:space-x-reverse col-span-2 my-4">
                     <MdOutlineMapsHomeWork class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-                    <span class="font-semibold text-gray-900 dark:text-white">Cho Thuê</span>
+
+                    <span>
+                        <span class="font-semibold text-gray-900 dark:text-white">Cho Thuê: </span>
+                        {data?.category}
+                    </span>
                 </div>
                 <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <PiSelectionBackgroundBold class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
+                    {detail1.map((item) => (
+                        <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                            <item.icon class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
 
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Diện tích đất: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <FaArrowsAltH class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Chiều ngang: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <FaArrowsAltV class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Chiều dài: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <MdOutlineChair class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Nội thất: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
+                            <span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{item.name}: </span>
+                                {item.detail}{' '}
+                            </span>
+                        </li>
+                    ))}
                 </ul>
                 <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <RiHomeGearLine class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
+                    {detail2.map((item) => (
+                        <li class="flex items-center space-x-3 rtl:space-x-reverse">
+                            <item.icon class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
 
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Tiện ích: </span>
-                            Nhà ngỏ, hẻm
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <MdOutlineBedroomParent class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Phòng ngủ: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <PiToilet class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Nhà vệ sinh: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
-                    <li class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <MdOutlineAddHomeWork class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" />
-
-                        <span>
-                            <span class="font-semibold text-gray-900 dark:text-white">Số tầng: </span>
-                            Free updates:{' '}
-                        </span>
-                    </li>
+                            <span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{item.name}: </span>
+                                {item.detail}
+                            </span>
+                        </li>
+                    ))}
                 </ul>
                 <div className="col-span-2 mt-10">
                     <span class="font-semibold text-gray-900 dark:text-white">Mô tả chi tiết</span>

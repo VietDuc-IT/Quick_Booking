@@ -7,7 +7,7 @@ import { google } from "googleapis";
 require("dotenv").config();
 
 const ACCESS_TOKEN_EXPIRES_TIME = "10s";
-const REFRESH_TOKEN_EXPIRES_TIME = "24h";
+const REFRESH_TOKEN_EXPIRES_TIME = "48h";
 
 // These id's and secrets should come from .env file.
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -470,5 +470,15 @@ export const deleteUser = async (req, res) => {
     return res.status(200).json({ message: "Xóa người dùng thành công!" });
   } catch (err) {
     return res.status(500).json({ message: "Xóa người dùng thất bại!", err });
+  }
+};
+
+// [GET] /api/user/renter
+export const renter = async (req, res) => {
+  try {
+    const user = await User.find();
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 };
