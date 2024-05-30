@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Messages from './Messages';
 import { toast } from 'react-toastify';
-import useConversation from '~/hooks/useConversation';
+import useConversation from '~/hooks/Message/useConversation';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function MessageContainer() {

@@ -35,7 +35,7 @@ function Sidebar() {
         { href: '/posts', icon: BsHouseGearFill, name: 'Bài đăng' },
         { href: '/create-post', icon: ImNewspaper, name: 'Đăng tin' },
         { href: '/bill', icon: FaFileInvoice, name: 'Hóa đơn' },
-        { href: '/comment', icon: FaCommentDots, name: 'Bình luận' },
+        { href: '/comment', icon: FaCommentDots, name: 'Tin nhắn' },
     ];
     if (currentUser.role === 'Admin') {
         menu.push(

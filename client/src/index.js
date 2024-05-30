@@ -8,13 +8,16 @@ import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ThemeProvider from './components/ThemeProvider';
 import 'react-toastify/dist/ReactToastify.css';
+import { SocketContextProvider } from './socket/SocketContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider>
-                <App />
+                <SocketContextProvider>
+                    <App />
+                </SocketContextProvider>
             </ThemeProvider>
         </PersistGate>
     </Provider>,

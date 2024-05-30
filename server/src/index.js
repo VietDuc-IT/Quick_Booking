@@ -6,11 +6,12 @@ require("dotenv").config();
 
 import route from "./routes";
 import database from "./config/db";
+import { app, server } from "./socket/socket";
 
 // Connect to DB
 database();
 
-const app = express();
+// const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
@@ -25,6 +26,6 @@ app.use(cookieParser());
 
 route(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is runing on port ${port}`);
 });

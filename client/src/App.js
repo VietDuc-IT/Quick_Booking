@@ -29,7 +29,7 @@ import Posts from './pages/system/Post/Posts';
 import EditPost from './pages/system/Post/EditPost';
 import Profile from './pages/system/User/Profile';
 import Category from './pages/system/Category/ListCategory';
-import Comment from './pages/system/Comment/Comment';
+import Comment from './pages/system/Message/Message';
 import Host from './pages/system/User/Host';
 import Bill from './pages/system/Bill';
 
