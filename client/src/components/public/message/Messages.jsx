@@ -1,26 +1,74 @@
-function Messages({ message }) {
+import { useEffect, useRef, useState } from 'react';
+import Message from './Message';
+import MessageSkeleton from '~/components/system/message/skeletons/MessageSkeleton';
+import { useSelector } from 'react-redux';
+import { currentUser } from '~/redux/selectors';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
+import { toast } from 'react-toastify';
+import notificationSound from '~/assets/sounds/notification.mp3';
+import { useSocketContext } from '~/socket/SocketContext';
+import Input from './Input';
+
+function Messages({ userId }) {
+    const [messages, setMessages] = useState([]);
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
+    const lastMessageRef = useRef();
+
+    const { socket } = useSocketContext();
+
+    useEffect(() => {
+        socket?.on('newMessage', (newMessage) => {
+            // newMessage.shouldShake = true;
+            const sound = new Audio(notificationSound);
+            sound.play();
+            setMessages([...messages, newMessage]);
+        });
+
+        return () => socket?.off('newMessage');
+    }, [socket, setMessages, messages]);
+
+    useEffect(() => {
+        getMessages();
+    }, []);
+
+    const getMessages = async () => {
+        // setLoading(true);
+        try {
+            const res = await axiosPrivate.get(`/api/message/${userId}`, {
+                headers: { token: `bearer ${User.accessToken}` },
+            });
+
+            setMessages(res.data);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+        return () => clearTimeout(timer);
+    }, [messages]);
+
+    const handleSend = () => {
+        getMessages();
+    };
+
     return (
         <>
-            <div class="flex w-full mt-2 space-x-3 max-w-xs">
-                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300 dark:bg-slate-700"></div>
-                <div>
-                    <div class="bg-gray-300 dark:bg-gray-700 p-3 rounded-r-lg rounded-bl-lg">
-                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-                    <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-                </div>
+            {/* overflow-auto */}
+            <div className="h-full w-[370px] overflow-auto">
+                {messages.length > 0 &&
+                    messages.map((message) => <Message key={message._id} ref={lastMessageRef} message={message} />)}
+
+                {[...Array(3)].map((_, idx) => (
+                    <MessageSkeleton key={idx} />
+                ))}
+                {messages.length === 0 && <p className="text-center">Gửi tin nhắn để bắt đầu trò chuyện ...</p>}
             </div>
-            <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-                <div>
-                    <div class="bg-primary-default text-white p-3 rounded-l-lg rounded-br-lg">
-                        <p class="text-sm">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod...
-                        </p>
-                    </div>
-                    <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-                </div>
-                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-            </div>
+            <Input userId={userId} onSend={handleSend} />
         </>
     );
 }

@@ -34,6 +34,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Customer",
     },
+    // renter
+    sign: {
+      type: Boolean,
+      default: false,
+    },
+    cccdtruocUrl: {
+      type: String,
+      default: null,
+    },
+    cccdsauUrl: {
+      type: String,
+      default: null,
+    },
+    faceUrl: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );

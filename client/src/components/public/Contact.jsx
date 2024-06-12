@@ -2,16 +2,53 @@ import { Avatar } from 'flowbite-react';
 import Button from '../Button';
 import { FaPhoneVolume } from 'react-icons/fa6';
 import { AiFillMessage } from 'react-icons/ai';
-import { IoCalendarSharp } from 'react-icons/io5';
 import { useState } from 'react';
+import MessageContainer from './message/Container';
+import CalendarContainer from './bookCalendar/ModalContainer';
+import { useSelector } from 'react-redux';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
+import { toast } from 'react-toastify';
+import { currentUser } from '~/redux/selectors';
+import { useParams } from 'react-router-dom';
 
 function Contact({ data }) {
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
+    const { id } = useParams();
     const [call, setCall] = useState(false);
+    const [openMessage, setOpenMessage] = useState(false);
 
     const phone = (number) => {
         const str = number?.toString();
         const replace = '***';
         return str?.slice(0, -3) + replace;
+    };
+
+    const handleBookCalendar = async ({ date, time }) => {
+        const formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        const dataBookcalendar = {
+            renterId: data._id,
+            hostId: User._id,
+            postId: id,
+            date: formattedDate,
+            time,
+        };
+        try {
+            const res = await axiosPrivate.post(`api/schedule`, dataBookcalendar, {
+                headers: { token: `bearer ${User.accessToken}` },
+            });
+            toast.success(res.data.message);
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
+        }
     };
 
     return (
@@ -42,15 +79,19 @@ function Contact({ data }) {
                         <FaPhoneVolume className="h-6 w-6 mr-5" />
                         {call ? `0${data?.phoneNumber}` : 'Alo cho chủ nhà'}
                     </Button>
-                    <Button btn="primary" className="w-full flex justify-center items-center">
+                    <Button
+                        btn="primary"
+                        className="w-full flex justify-center items-center"
+                        onClick={() => setOpenMessage(!openMessage)}
+                    >
                         <AiFillMessage className="h-6 w-6 mr-5" />
                         Nhắn tin với người cho thuê
                     </Button>
-                    <Button btn="dark" className="w-full flex justify-center items-center">
-                        <IoCalendarSharp className="h-6 w-6 mr-5" />
-                        Đặt lịch xem phòng
-                    </Button>
+
+                    <CalendarContainer onBook={handleBookCalendar} />
                 </div>
+
+                {openMessage ? <MessageContainer data={data} onClose={() => setOpenMessage(!openMessage)} /> : null}
             </div>
         </>
     );

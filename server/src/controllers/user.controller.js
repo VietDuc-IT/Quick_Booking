@@ -400,7 +400,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-//[PUT] /api/user/role
+//[PUT] /api/user/role/:id
 export const role = async (req, res) => {
   try {
     await User.findByIdAndUpdate(

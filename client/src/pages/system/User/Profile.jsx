@@ -94,7 +94,7 @@ export default function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+
         setIsLoading(true);
         try {
             const res = await axiosPrivate.put(`/api/user/${User._id}`, formData, {

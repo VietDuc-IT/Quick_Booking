@@ -8,16 +8,60 @@ import { currentUser } from '~/redux/selectors';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
 function Host() {
-    const data = [];
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
+    const [data, setData] = useState([]);
 
-    const handleRole = () => {};
+    const fetchData = async () => {
+        try {
+            const res = await axiosPrivate.get('/api/renter/sign', {
+                headers: { token: `bearer ${User.accessToken}` },
+            });
 
-    const handleDelete = () => {};
+            setData(res.data);
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleConfirm = async (id) => {
+        try {
+            const res = await axiosPrivate.put(`api/renter/confirm/${id}`, null, {
+                headers: { token: `bearer ${User.accessToken}` },
+            });
+            toast.success(res.data.message);
+            fetchData();
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
+        }
+    };
+
+    const handleRemove = async (id) => {
+        try {
+            const res = await axiosPrivate.put(`api/renter/remove/${id}`, null, {
+                headers: { token: `bearer ${User.accessToken}` },
+            });
+            toast.success(res.data.message);
+            fetchData();
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
+        }
+    };
 
     return (
         <>
-            <BreadCrumb pageName="Môi giới" />
-
             <div>
                 <div class="relative overflow-x-auto">
                     <SearchTop />
@@ -29,7 +73,8 @@ function Host() {
                                 </Table.HeadCell>
                                 <Table.HeadCell>Tên & Email</Table.HeadCell>
                                 <Table.HeadCell>Số điện thoại</Table.HeadCell>
-                                <Table.HeadCell>Khu vực</Table.HeadCell>
+                                <Table.HeadCell>Quyền</Table.HeadCell>
+
                                 <Table.HeadCell>Ngày tạo</Table.HeadCell>
                                 <Table.HeadCell>
                                     <span className="sr-only">Action</span>
@@ -52,36 +97,21 @@ function Host() {
                                             </Avatar>
                                         </Table.Cell>
                                         <Table.Cell>{item.phoneNumber && `0${item.phoneNumber}`}</Table.Cell>
+                                        <Table.Cell>{item.role}</Table.Cell>
 
-                                        <Table.Cell>
-                                            <div class="flex items-center">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                            </div>
-                                        </Table.Cell>
                                         <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
 
                                         <Table.Cell>
-                                            <Dropdown label="Cấp quyền" inline placement="bottom">
-                                                <Dropdown.Item
-                                                    onClick={() => handleRole({ id: item._id, role: 'Admin' })}
-                                                >
-                                                    Admin
-                                                </Dropdown.Item>
-                                                <Dropdown.Item
-                                                    onClick={() => handleRole({ id: item._id, role: 'User' })}
-                                                >
-                                                    User
-                                                </Dropdown.Item>
-                                                <Dropdown.Item
-                                                    onClick={() => handleRole({ id: item._id, role: 'Customer' })}
-                                                >
-                                                    Customer
-                                                </Dropdown.Item>
-                                            </Dropdown>
+                                            <button
+                                                onClick={() => handleConfirm(item._id)}
+                                                class="font-medium text-green-500 dark:text-green-500 hover:underline"
+                                            >
+                                                Cho phép
+                                            </button>
                                             {' / '}
 
                                             <button
-                                                onClick={() => handleDelete(item._id)}
+                                                onClick={() => handleRemove(item._id)}
                                                 class="font-medium text-red-500 dark:text-red-500 hover:underline"
                                             >
                                                 Xóa

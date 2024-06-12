@@ -60,7 +60,7 @@ function Home() {
             </div>
 
             {/* Renter card */}
-            <div className="w-full bg-m_main dark:bg-d_main">
+            {/* <div className="w-full bg-m_main dark:bg-d_main">
                 <div className="p-5 max-w-7xl mx-auto">
                     <div className="mb-5">
                         <span className="text-xl text-primary-default font-semibold">Chủ nhà được ưa thích nhất</span>
@@ -72,7 +72,7 @@ function Home() {
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 }

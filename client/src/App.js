@@ -19,7 +19,7 @@ import About from './pages/public/About';
 import Infor from './pages/public/Infor';
 import Detail from './pages/public/Details';
 import History from './pages/public/History';
-import RenterLogin from './pages/public/RenterLogin';
+import RenterLogin from './pages/public/RenterSign';
 
 // ============ Private =============
 import Dashboard from './pages/system/Dashboard';
@@ -30,7 +30,7 @@ import EditPost from './pages/system/Post/EditPost';
 import Profile from './pages/system/User/Profile';
 import Category from './pages/system/Category/ListCategory';
 import Comment from './pages/system/Message/Message';
-import Host from './pages/system/User/Host';
+import Host from './pages/system/User/Renter';
 import Bill from './pages/system/Bill';
 
 function App() {

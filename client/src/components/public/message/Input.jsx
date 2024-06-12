@@ -5,7 +5,7 @@ import { currentUser } from '~/redux/selectors';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 import { IoIosSend } from 'react-icons/io';
 
-function Input({ data }) {
+function Input({ userId, onSend }) {
     const [message, setMessage] = useState('');
     const User = useSelector(currentUser);
     const axiosPrivate = useAxiosPrivate();
@@ -15,7 +15,7 @@ function Input({ data }) {
         try {
             const res = await axiosPrivate.post(
                 '/api/message/send',
-                { receiverId: data?._id, message: message },
+                { receiverId: userId, message: message },
                 {
                     headers: { token: `bearer ${User.accessToken}` },
                     withCredentials: true,
@@ -34,6 +34,7 @@ function Input({ data }) {
         e.preventDefault();
         if (!message) return;
         await sendMessage(message);
+        onSend();
         setMessage('');
     };
 

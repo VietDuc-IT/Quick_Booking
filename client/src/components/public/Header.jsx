@@ -39,8 +39,8 @@ function Header() {
     const navItems = [
         { link: 'Trang chủ', path: '/' },
         { link: 'Cho thuê', path: '/rent' },
-        { link: 'Môi giới', path: '/renter' },
-        { link: 'Giới thiệu', path: '/about' },
+        // { link: 'Môi giới', path: '/renter' },
+        // { link: 'Giới thiệu', path: '/about' },
     ];
     return (
         <>

@@ -84,7 +84,7 @@ function User() {
                                 <Table.HeadCell>Tên & Email</Table.HeadCell>
                                 <Table.HeadCell>Số điện thoại</Table.HeadCell>
                                 <Table.HeadCell>Quyền</Table.HeadCell>
-                                <Table.HeadCell>Trạng thái</Table.HeadCell>
+
                                 <Table.HeadCell>Ngày tạo</Table.HeadCell>
                                 <Table.HeadCell>
                                     <span className="sr-only">Action</span>
@@ -108,11 +108,7 @@ function User() {
                                         </Table.Cell>
                                         <Table.Cell>{item.phoneNumber && `0${item.phoneNumber}`}</Table.Cell>
                                         <Table.Cell>{item.role}</Table.Cell>
-                                        <Table.Cell>
-                                            <div class="flex items-center">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                            </div>
-                                        </Table.Cell>
+
                                         <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
 
                                         <Table.Cell>

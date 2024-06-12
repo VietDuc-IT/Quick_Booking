@@ -1,28 +1,37 @@
-import { IoCloseOutline } from 'react-icons/io5';
-import Input from './Input';
-import MessageContainer from './Container';
+import { useSelector } from 'react-redux';
+import useConversation from '~/zustand/useConversation';
+import { extractTime } from '~/ultils/extractTime';
+import { currentUser } from '~/redux/selectors';
 
-function Message({ data }) {
+function Message({ message }) {
+    const User = useSelector(currentUser);
+    const fromMe = message.senderId === User._id;
+    const formattedTime = extractTime(message.createdAt);
     return (
         <>
-            <div class="fixed bottom-5 end-24">
-                {/* <div class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10"> */}
-                <div class="flex flex-col flex-grow w-full max-w-xl h-96 bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
-                    <div class="bg-gray-300 dark:bg-gray-700 p-2 flex justify-between">
-                        <div className="flex items-center">
-                            <img class="w-7 h-7 rounded-full" src={data?.profilePicture} alt="Rounded avatar" />
-                            <p className="ml-5">{data?.username}</p>
+            {!fromMe ? (
+                <div class={`flex w-full mt-2 mx-3 space-x-3 max-w-xs`}>
+                    {/* <img class="flex-shrink-0 h-10 w-10 rounded-full" src={} /> */}
+                    <div>
+                        <div class="bg-gray-300 dark:bg-gray-700 p-3 rounded-r-lg rounded-bl-lg">
+                            <p class="text-sm">{message.message}</p>
                         </div>
-                        <div className="flex items-center">
-                            <IoCloseOutline className="h-5 w-5 cursor-pointer" />
+                        <span class="text-xs text-gray-500 leading-none">{formattedTime}</span>
+                    </div>
+                </div>
+            ) : null}
+            {fromMe ? (
+                <div class="flex w-full mt-2 mx-3 space-x-3 max-w-xs ml-auto justify-end">
+                    <div>
+                        <div class="bg-primary-default text-white p-3 rounded-l-lg rounded-br-lg">
+                            <p class="text-sm">{message.message}</p>
                         </div>
+                        <span class="text-xs text-gray-500 leading-none">{formattedTime}</span>
                     </div>
 
-                    <MessageContainer />
-
-                    <Input data={data} />
+                    {/* <img class="flex-shrink-0 h-10 w-10 rounded-full" src={User.profilePicture} /> */}
                 </div>
-            </div>
+            ) : null}
         </>
     );
 }

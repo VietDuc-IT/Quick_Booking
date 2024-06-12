@@ -63,25 +63,25 @@ function Suggest() {
     return (
         <>
             <div className="max-w-7xl mx-auto px-5 py-3 space-y-3">
-                <div className="space-x-3">
+                {/* <div className="space-x-3">
                     {area.map(({ id, name }) => (
                         <Button btn="round">{name}</Button>
                     ))}
-                </div>
+                </div> */}
                 <div className="space-x-3">
                     Giá :{' '}
                     {price.map(({ id, name }) => (
                         <Button btn="round">{name}</Button>
                     ))}
                 </div>
-                <div className="space-x-3">
+                {/* <div className="space-x-3">
                     Diện tích :{' '}
                     {ground.map(({ id, name }) => (
                         <Button btn="round">
                             {name} <span>m</span>2
                         </Button>
                     ))}
-                </div>
+                </div> */}
                 <div className="space-x-3">
                     Nhu cầu :{' '}
                     {need.map(({ id, name }) => (

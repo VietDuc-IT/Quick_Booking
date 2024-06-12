@@ -47,7 +47,7 @@ router.post("/logout", verifyToken, logout);
 // [PUT] /api/user/:id
 router.put("/:id", verifyUpdate, updateProfile);
 
-// [PUT] /api/user/role
+// [PUT] /api/user/role/:id
 router.put("/role/:id", verifyAdmin, role);
 
 // [GET] /api/user

@@ -5,6 +5,8 @@ import postRouter from "./post.route";
 import categoryRouter from "./category.route";
 import commentRouter from "./comment.route";
 import messageRouter from "./message.route";
+import renterRouter from "./renter.route";
+import scheduleRouter from "./schedule.router";
 import path from "path";
 import { uploadImage } from "../utils/uploadFile";
 
@@ -34,6 +36,8 @@ function route(app) {
   app.use("/api/category", categoryRouter);
   app.use("/api/comment", commentRouter);
   app.use("/api/message", messageRouter);
+  app.use("/api/renter", renterRouter);
+  app.use("/api/schedule", scheduleRouter);
 
   app.post(
     "/uploadFile",

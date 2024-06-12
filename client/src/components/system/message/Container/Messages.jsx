@@ -10,9 +10,11 @@ function Messages() {
     const lastMessageRef = useRef();
 
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
+
+        return () => clearTimeout(timer);
     }, [messages]);
 
     return (
