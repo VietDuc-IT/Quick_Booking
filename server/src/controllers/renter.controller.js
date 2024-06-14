@@ -1,3 +1,4 @@
+import { compareFaces } from "../faceRecognition/compareFaces";
 import User from "../models/user.model";
 
 //[PUT] /api/renter/sign/:id
@@ -20,6 +21,20 @@ export const renterSign = async (req, res) => {
   }
 
   try {
+    const confidence = await compareFaces(cccdtruocUrl, faceUrl);
+
+    if (confidence === null) {
+      return res.status(400).json({
+        message: "Không tìm thấy khuôn mặt trong một hoặc cả hai hình ảnh.",
+      });
+    }
+
+    if (confidence < 80) {
+      return res
+        .status(400)
+        .json({ message: "Khuôn mặt không khớp, dưới 80%!" });
+    }
+
     await User.findByIdAndUpdate(
       req.params.id,
       {
@@ -34,7 +49,11 @@ export const renterSign = async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json({ message: "Đăng ký thành công!" });
+    const integerPart = Math.floor(confidence);
+
+    return res.status(200).json({
+      message: `Tỷ lệ khớp: ${integerPart}%, Chờ duyệt!`,
+    });
   } catch (err) {
     return res.status(500).json(err);
   }

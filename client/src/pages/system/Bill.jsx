@@ -31,7 +31,27 @@ function Bill() {
         fetchData();
     }, []);
 
-    const handleStatus = () => {};
+    const handleStatus = async (id) => {
+        const post = data.find(({ _id }) => _id === id);
+        try {
+            const res = await axiosPrivate.put(
+                `/api/`,
+                { status: post.status },
+                {
+                    headers: { token: `bearer ${User.accessToken}` },
+                },
+            );
+
+            toast.success(res.data.message);
+            fetchData();
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message);
+            } else {
+                console.log(err.message);
+            }
+        }
+    };
 
     const handleDelete = () => {};
 
@@ -110,7 +130,7 @@ function Bill() {
                                                 // onClick={() => handleDelete(item._id)}
                                                 class="font-medium text-green-500 dark:text-green-500 hover:underline"
                                             >
-                                                Duyệt
+                                                Chờ duyệt
                                             </button>
                                             {' / '}
                                             <button

@@ -32,6 +32,7 @@ import Category from './pages/system/Category/ListCategory';
 import Comment from './pages/system/Message/Message';
 import Host from './pages/system/User/Renter';
 import Bill from './pages/system/Bill';
+import FaceDetection from './faceDetection/FaceDetection';
 
 function App() {
     return (
@@ -54,6 +55,7 @@ function App() {
                         <Route path="/information" element={<Infor />} />
                         <Route path="/history/:id" element={<History />} />
                         <Route path="/newpost" element={<RenterLogin />} />
+                        <Route path="/face" element={<FaceDetection />} />
                     </Route>
                 </Route>
 
