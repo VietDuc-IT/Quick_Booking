@@ -20,6 +20,11 @@ function Posts() {
                 headers: { token: `bearer ${User.accessToken}` },
             });
             setData(res.data.Post);
+            // if (res?.data.Post.length === 8) {
+            //     setShowMore(true);
+            // } else {
+            //     setShowMore(false);
+            // }
         } catch (err) {
             console.log(err.message);
         }
@@ -81,9 +86,9 @@ function Posts() {
                     <div className="overflow-x-auto">
                         <Table hoverable>
                             <Table.Head className="text-nowrap">
-                                <Table.HeadCell className="p-4">
+                                {/* <Table.HeadCell className="p-4">
                                     <Checkbox />
-                                </Table.HeadCell>
+                                </Table.HeadCell> */}
                                 <Table.HeadCell>Bài đăng</Table.HeadCell>
                                 {User.role === 'Admin' && <Table.HeadCell>Tác giả</Table.HeadCell>}
                                 <Table.HeadCell>Loại</Table.HeadCell>
@@ -97,9 +102,9 @@ function Posts() {
                             <Table.Body className="divide-y text-nowrap">
                                 {data?.map((item) => (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="p-4">
+                                        {/* <Table.Cell className="p-4">
                                             <Checkbox />
-                                        </Table.Cell>
+                                        </Table.Cell> */}
                                         <Table.Cell>
                                             <div className="flex">
                                                 <img class="w-14 h-10 rounded-sm" src={item.imageUrls} />
@@ -170,13 +175,13 @@ function Posts() {
                             </Table.Body>
                         </Table>
                     </div>
-                    {showMore && (
+                    {/* {showMore && (
                         <div className="flex justify-center px-6 py-4">
                             <button onClick={handleShowMore} class="font-medium hover:underline">
                                 Xem thêm ...
                             </button>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </>

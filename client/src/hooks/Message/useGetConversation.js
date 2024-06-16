@@ -19,7 +19,9 @@ const useGetConversations = () => {
                 headers: { token: `bearer ${User.accessToken}` },
             });
 
-            setConversations(res.data?.users);
+            const data = res.data?.users.filter((user) => user.username !== User.username);
+
+            setConversations(data);
         } catch (err) {
             console.log(err.message);
         }

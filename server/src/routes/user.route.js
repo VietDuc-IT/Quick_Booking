@@ -19,6 +19,7 @@ import {
   verifyUpdate,
   verifyDelete,
   verifyAdmin,
+  verifyAdminAndUser,
 } from "../middlewares/verifyToken";
 
 const router = express.Router();
@@ -51,7 +52,7 @@ router.put("/:id", verifyUpdate, updateProfile);
 router.put("/role/:id", verifyAdmin, role);
 
 // [GET] /api/user
-router.get("/", verifyAdmin, getUser);
+router.get("/", verifyAdminAndUser, getUser);
 
 // [GET] /api/user/renter
 router.get("/renter", renter);

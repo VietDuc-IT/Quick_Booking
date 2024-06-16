@@ -6,6 +6,8 @@ function FaceDetection() {
     const canvasRef = useRef(null);
     const [capturedPhotoUrl, setCapturedPhotoUrl] = useState(null);
     const [isVideoVisible, setIsVideoVisible] = useState(false);
+    const [count, setCount] = useState(null);
+    const [openCount, setOpenCount] = useState(false);
     let smileDetectedTime = null;
     let intervalId = null;
 
@@ -56,7 +58,8 @@ function FaceDetection() {
                 const elapsedTime = Date.now() - smileDetectedTime;
                 if (elapsedTime >= 3000) {
                     clearInterval(intervalId);
-                    capturePhoto();
+                    setOpenCount(true);
+                    setCount(3);
                 }
             }, 100);
         };
@@ -120,10 +123,26 @@ function FaceDetection() {
         setIsVideoVisible(false);
     };
 
-    return (
-        <div className="flex flex-col items-center justify-between">
-            <p className="p-2 font-medium">Nhận diện khuôn mặt (Sau 3 giây bạn cười ảnh sẽ tự động được chụp lại)</p>
+    useEffect(() => {
+        if (count === 0) {
+            setOpenCount(false);
+            capturePhoto();
+        } else if (count > 0) {
+            const timerId = setTimeout(() => {
+                setCount(count - 1);
+            }, 1000);
+            return () => clearTimeout(timerId);
+        }
+    }, [count]);
 
+    return (
+        <div className="flex flex-col items-center justify-center">
+            <p className="p-2 font-medium">Nhận diện khuôn mặt (Sau 3 giây bạn cười ảnh sẽ tự động được chụp lại)</p>
+            {openCount && (
+                <>
+                    <p>Đếm ngược: {count} giây</p>
+                </>
+            )}
             {isVideoVisible && (
                 <div className="flex items-center">
                     <video crossOrigin="anonymous" ref={videoRef} autoPlay></video>
@@ -153,8 +172,10 @@ function FaceDetection() {
 
             {capturedPhotoUrl && (
                 <>
-                    <div>
-                        <h2>Ảnh đã chụp</h2>
+                    <div className="mt-2">
+                        <div className="flex items-center justify-center">
+                            <h2>Ảnh đã chụp</h2>
+                        </div>
                         <img src={capturedPhotoUrl} alt="Captured" style={{ maxWidth: '100%' }} />
                     </div>
                 </>

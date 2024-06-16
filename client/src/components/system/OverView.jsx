@@ -6,10 +6,10 @@ import { HiOutlineHome } from 'react-icons/hi';
 import { BsHouseCheck, BsCalendar2Date } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
 import axios from '~/ultils/axios';
-import { httpRequest } from '~/ultils/httpRequest';
+import useAxiosPrivate from '~/hooks/useAxiosPrivate';
+import { currentUser } from '~/redux/selectors';
 
 const Card = () => {
-    const { currentUser } = useSelector((state) => state.user);
     const [users, setUsers] = useState([]);
     const [comments, setComments] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -20,13 +20,14 @@ const Card = () => {
     const [lastMonthPosts, setLastMonthPosts] = useState(0);
     const [lastMonthComments, setLastMonthComments] = useState(0);
     const dispatch = useDispatch();
-    let axiosJWT = httpRequest(currentUser, dispatch);
+    const User = useSelector(currentUser);
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axiosJWT.get('/user?limit=5', {
-                    headers: { token: `bearer ${currentUser.accessToken}` },
+                const res = await axiosPrivate.get('/api/user?limit=5', {
+                    headers: { token: `bearer ${User.accessToken}` },
                 });
                 setUsers(res.data.users);
                 setTotalUsers(res.data.totalUsers);
@@ -37,7 +38,7 @@ const Card = () => {
         };
         const fetchPosts = async () => {
             try {
-                const res = await axios.get('/post/get?limit=5');
+                const res = await axios.get('/api/post?limit=5');
                 setPosts(res.data.posts);
                 setTotalPosts(res.data.totalPosts);
                 setLastMonthPosts(res.data.lastMonthPosts);
@@ -56,7 +57,7 @@ const Card = () => {
             <div class="items-center justify-center h-36 rounded bg-gray-50 dark:bg-gray-800 p-5">
                 <div className="ml-6">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
-                        <HiOutlineHome className="text-primary text-2xl" />
+                        <HiOutlineHome className="text-primary-default text-2xl" />
                     </div>
                 </div>
 
@@ -67,7 +68,7 @@ const Card = () => {
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
                         <Tooltip content="Bài đăng trong tháng">
-                            <span className="text-lg flex text-white">
+                            <span className="text-lg flex">
                                 {lastMonthPosts} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>
@@ -78,18 +79,18 @@ const Card = () => {
             <div class="items-center justify-center h-36 rounded bg-gray-50 dark:bg-gray-800 p-5">
                 <div className="ml-5">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
-                        <FaRegUser className="text-primary text-2xl" />
+                        <FaRegUser className="text-primary-default text-2xl" />
                     </div>
                 </div>
 
                 <div className="mt-3 flex justify-between">
                     <div>
                         <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalUsers}</h4>
-                        <span className="text-sm font-medium">Tổng đăng kí</span>
+                        <span className="text-sm font-medium">Người dùng</span>
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
                         <Tooltip content="Đăng kí trong tháng">
-                            <span className="text-lg flex text-white">
+                            <span className="text-lg flex">
                                 {lastMonthUsers} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>
@@ -101,18 +102,18 @@ const Card = () => {
             <div class="items-center justify-center h-36 rounded bg-gray-50 dark:bg-gray-800 p-5">
                 <div className="ml-7">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
-                        <BsHouseCheck className="text-primary text-2xl" />
+                        <BsHouseCheck className="text-primary-default text-2xl" />
                     </div>
                 </div>
 
                 <div className="mt-3 flex justify-between">
                     <div>
                         <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalPosts}</h4>
-                        <span className="text-sm font-medium">Tổng thanh toán</span>
+                        <span className="text-sm font-medium">Chủ nhà</span>
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
-                        <Tooltip content="Thanh toán trong tháng">
-                            <span className="text-lg flex text-white">
+                        <Tooltip content="Đăng ký trong tháng">
+                            <span className="text-lg flex">
                                 {lastMonthPosts} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>
@@ -123,7 +124,7 @@ const Card = () => {
             <div class="items-center justify-center h-36 rounded bg-gray-50 dark:bg-gray-800 p-5">
                 <div className="ml-5">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
-                        <BsCalendar2Date className="text-primary text-2xl" />
+                        <BsCalendar2Date className="text-primary-default text-2xl" />
                     </div>
                 </div>
 
@@ -134,7 +135,7 @@ const Card = () => {
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
                         <Tooltip content="Lịch hẹn trong tháng">
-                            <span className="text-lg flex text-white">
+                            <span className="text-lg flex">
                                 {lastMonthPosts} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>

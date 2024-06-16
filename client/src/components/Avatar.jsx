@@ -26,13 +26,15 @@ function AvatarUser() {
     };
 
     const menu = [
-        { link: '/dashboard', icon: HiViewGrid, name: 'Hệ thống' },
         { link: '/history', icon: FaListAlt, name: 'Lịch sử' },
         { link: '/infomation', icon: FaUsersCog, name: 'Cá nhân' },
-        { link: '/setting', icon: HiCog, name: 'Cài đặt' },
+        // { link: '/setting', icon: HiCog, name: 'Cài đặt' },
     ];
     if (User.role === 'Customer') {
         menu.push({ link: '/newpost', icon: FaUserEdit, name: 'Đăng ký' });
+    }
+    if (User.role === 'Admin' || User.role === 'User') {
+        menu.unshift({ link: '/dashboard', icon: HiViewGrid, name: 'Hệ thống' });
     }
 
     return (

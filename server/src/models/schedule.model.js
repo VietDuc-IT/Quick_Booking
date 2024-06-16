@@ -27,7 +27,7 @@ const scheduleSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      require: true,
+      default: "Chờ duyệt",
     },
   },
   { timestamps: true }

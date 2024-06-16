@@ -31,8 +31,8 @@ function Contact({ data }) {
             year: 'numeric',
         });
         const dataBookcalendar = {
-            renterId: data._id,
-            hostId: User._id,
+            renterId: User._id,
+            hostId: data._id,
             postId: id,
             date: formattedDate,
             time,

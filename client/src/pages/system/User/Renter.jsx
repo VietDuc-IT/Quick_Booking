@@ -65,63 +65,69 @@ function Host() {
             <div>
                 <div class="relative overflow-x-auto">
                     <SearchTop />
-                    <div className="overflow-x-auto">
-                        <Table hoverable>
-                            <Table.Head>
-                                <Table.HeadCell className="p-4">
-                                    <Checkbox />
-                                </Table.HeadCell>
-                                <Table.HeadCell>Tên & Email</Table.HeadCell>
-                                <Table.HeadCell>Số điện thoại</Table.HeadCell>
-                                <Table.HeadCell>Quyền</Table.HeadCell>
+                    {data.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <Table hoverable>
+                                <Table.Head>
+                                    <Table.HeadCell className="p-4">
+                                        <Checkbox />
+                                    </Table.HeadCell>
+                                    <Table.HeadCell>Tên & Email</Table.HeadCell>
+                                    <Table.HeadCell>Số điện thoại</Table.HeadCell>
+                                    <Table.HeadCell>Quyền</Table.HeadCell>
 
-                                <Table.HeadCell>Ngày tạo</Table.HeadCell>
-                                <Table.HeadCell>
-                                    <span className="sr-only">Action</span>
-                                </Table.HeadCell>
-                            </Table.Head>
-                            <Table.Body className="divide-y text-nowrap">
-                                {data?.map((item) => (
-                                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="p-4">
-                                            <Checkbox />
-                                        </Table.Cell>
-                                        <Table.Cell className="flex">
-                                            <Avatar img={item.profilePicture} rounded>
-                                                <div className="space-y-1 font-medium dark:text-white">
-                                                    <div>{item.username}</div>
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        {item.email}
+                                    <Table.HeadCell>Ngày tạo</Table.HeadCell>
+                                    <Table.HeadCell>
+                                        <span className="sr-only">Action</span>
+                                    </Table.HeadCell>
+                                </Table.Head>
+                                <Table.Body className="divide-y text-nowrap">
+                                    {data?.map((item) => (
+                                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                            <Table.Cell className="p-4">
+                                                <Checkbox />
+                                            </Table.Cell>
+                                            <Table.Cell className="flex">
+                                                <Avatar img={item.profilePicture} rounded>
+                                                    <div className="space-y-1 font-medium dark:text-white">
+                                                        <div>{item.username}</div>
+                                                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                                                            {item.email}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Avatar>
-                                        </Table.Cell>
-                                        <Table.Cell>{item.phoneNumber && `0${item.phoneNumber}`}</Table.Cell>
-                                        <Table.Cell>{item.role}</Table.Cell>
+                                                </Avatar>
+                                            </Table.Cell>
+                                            <Table.Cell>{item.phoneNumber && `0${item.phoneNumber}`}</Table.Cell>
+                                            <Table.Cell>{item.role}</Table.Cell>
 
-                                        <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
+                                            <Table.Cell>{new Date(item.createdAt).toLocaleDateString()}</Table.Cell>
 
-                                        <Table.Cell>
-                                            <button
-                                                onClick={() => handleConfirm(item._id)}
-                                                class="font-medium text-green-500 dark:text-green-500 hover:underline"
-                                            >
-                                                Cho phép
-                                            </button>
-                                            {' / '}
+                                            <Table.Cell>
+                                                <button
+                                                    onClick={() => handleConfirm(item._id)}
+                                                    class="font-medium text-green-500 dark:text-green-500 hover:underline"
+                                                >
+                                                    Cho phép
+                                                </button>
+                                                {' / '}
 
-                                            <button
-                                                onClick={() => handleRemove(item._id)}
-                                                class="font-medium text-red-500 dark:text-red-500 hover:underline"
-                                            >
-                                                Xóa
-                                            </button>
-                                        </Table.Cell>
-                                    </Table.Row>
-                                ))}
-                            </Table.Body>
-                        </Table>
-                    </div>
+                                                <button
+                                                    onClick={() => handleRemove(item._id)}
+                                                    class="font-medium text-red-500 dark:text-red-500 hover:underline"
+                                                >
+                                                    Xóa
+                                                </button>
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    ))}
+                                </Table.Body>
+                            </Table>
+                        </div>
+                    ) : (
+                        <div className="flex justify-center items-center">
+                            <p className="font-normal">Chưa có người đăng ký mới.</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

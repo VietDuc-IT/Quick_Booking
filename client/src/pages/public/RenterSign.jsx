@@ -271,7 +271,7 @@ function RenterLogin() {
                                         // to="/face"
                                         onClick={() => setIsFaceDetectionVisible(!isFaceDetectionVisible)}
                                     >
-                                        Xác thực khuôn mặt
+                                        Chụp ảnh chân dung
                                     </div>
                                 </div>
 

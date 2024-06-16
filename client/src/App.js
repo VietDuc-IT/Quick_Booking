@@ -52,8 +52,8 @@ function App() {
                     <Route path="/about" element={<About />} />
 
                     <Route element={<PrivateRoute />}>
-                        <Route path="/information" element={<Infor />} />
-                        <Route path="/history/:id" element={<History />} />
+                        <Route path="/infomation" element={<Infor />} />
+                        <Route path="/history" element={<History />} />
                         <Route path="/newpost" element={<RenterLogin />} />
                         <Route path="/face" element={<FaceDetection />} />
                     </Route>
@@ -66,12 +66,12 @@ function App() {
                             <Route path="/user" element={<User />} />
                             <Route path="/category" element={<Category />} />
                             <Route path="/host" element={<Host />} />
-                            <Route path="/bill" element={<Bill />} />
                         </Route>
 
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/create-post" element={<CreatePost />} />
                         <Route path="/posts" element={<Posts />} />
+                        <Route path="/bill" element={<Bill />} />
                         <Route path="/update-post/:postId" element={<EditPost />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/comment" element={<Comment />} />

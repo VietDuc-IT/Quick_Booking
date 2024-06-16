@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import BreadCrumb from '~/components/system/BreadCrumb';
 import SearchTop from '~/components/system/SearchTop';
 import { toast } from 'react-toastify';
-import { Avatar, Checkbox, Dropdown, Table, Tooltip } from 'flowbite-react';
+import { Table, Tooltip } from 'flowbite-react';
 import { currentUser } from '~/redux/selectors';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 
@@ -32,28 +32,70 @@ function Bill() {
     }, []);
 
     const handleStatus = async (id) => {
-        const post = data.find(({ _id }) => _id === id);
-        try {
-            const res = await axiosPrivate.put(
-                `/api/`,
-                { status: post.status },
-                {
-                    headers: { token: `bearer ${User.accessToken}` },
-                },
-            );
+        const schedule = data.find(({ _id }) => _id === id);
 
-            toast.success(res.data.message);
-            fetchData();
-        } catch (err) {
-            if (err.response) {
-                toast.error(err.response.data.message);
-            } else {
-                console.log(err.message);
+        if (schedule.status === 'Hũy lịch') {
+            const confirm = window.confirm('Bạn chắc chắn muốn hũy lịch hẹn này?');
+            if (confirm) {
+                try {
+                    await axiosPrivate.put(
+                        `/api/schedule/v1/status/${id}`,
+                        { status: schedule.status },
+                        {
+                            headers: { token: `bearer ${User.accessToken}` },
+                        },
+                    );
+
+                    toast.success('Bạn hũy lịch hẹn thành công!');
+                    fetchData();
+                } catch (err) {
+                    if (err.response) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        console.log(err.message);
+                    }
+                }
+            }
+        } else {
+            try {
+                const res = await axiosPrivate.put(
+                    `/api/schedule/v1/status/${id}`,
+                    { status: schedule.status },
+                    {
+                        headers: { token: `bearer ${User.accessToken}` },
+                    },
+                );
+
+                toast.success(res.data.message);
+                fetchData();
+            } catch (err) {
+                if (err.response) {
+                    toast.error(err.response.data.message);
+                } else {
+                    console.log(err.message);
+                }
             }
         }
     };
 
-    const handleDelete = () => {};
+    const handleDelete = async (id) => {
+        const confirm = window.confirm('Bạn chắc chắn muốn xóa lịch hẹn này?');
+        if (confirm) {
+            try {
+                const res = await axiosPrivate.delete(`/api/schedule/${id}`, {
+                    headers: { token: `bearer ${User.accessToken}` },
+                });
+                toast.success(res.data.message);
+                fetchData();
+            } catch (err) {
+                if (err.response) {
+                    toast.error(err.response.data.message);
+                } else {
+                    console.log(err.message);
+                }
+            }
+        }
+    };
 
     return (
         <>
@@ -65,9 +107,9 @@ function Bill() {
                     <div className="overflow-x-auto">
                         <Table hoverable>
                             <Table.Head>
-                                <Table.HeadCell className="p-4">
+                                {/* <Table.HeadCell className="p-4">
                                     <Checkbox />
-                                </Table.HeadCell>
+                                </Table.HeadCell> */}
                                 <Table.HeadCell>Bài đăng</Table.HeadCell>
                                 <Table.HeadCell>Người thuê</Table.HeadCell>
                                 <Table.HeadCell>Ngày đặt</Table.HeadCell>
@@ -80,9 +122,9 @@ function Bill() {
                             <Table.Body className="divide-y text-nowrap">
                                 {data?.map((item) => (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="p-4">
+                                        {/* <Table.Cell className="p-4">
                                             <Checkbox />
-                                        </Table.Cell>
+                                        </Table.Cell> */}
                                         <Table.Cell>
                                             <div className="flex">
                                                 <img class="w-14 h-10 rounded-sm" src={item.postId.imageUrls} />
@@ -126,12 +168,22 @@ function Bill() {
                                         </Table.Cell>
 
                                         <Table.Cell>
-                                            <button
-                                                // onClick={() => handleDelete(item._id)}
-                                                class="font-medium text-green-500 dark:text-green-500 hover:underline"
-                                            >
-                                                Chờ duyệt
-                                            </button>
+                                            {User._id === item.hostId?._id && (
+                                                <button
+                                                    onClick={() => {
+                                                        handleStatus(item._id);
+                                                    }}
+                                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                                >
+                                                    {item.status === 'Chờ duyệt' ? 'Chờ duyệt' : 'Hũy lịch'}
+                                                </button>
+                                            )}
+                                            {User._id !== item.hostId?._id && (
+                                                <button class="font-medium text-green-600 dark:text-green-500 cursor-not-allowed">
+                                                    {item.status === 'Chờ duyệt' ? 'Chờ duyệt' : 'Hũy lịch'}
+                                                </button>
+                                            )}
+
                                             {' / '}
                                             <button
                                                 onClick={() => handleDelete(item._id)}
