@@ -146,7 +146,7 @@ function FaceDetection() {
             {isVideoVisible && (
                 <div className="flex items-center">
                     <video crossOrigin="anonymous" ref={videoRef} autoPlay></video>
-                    <canvas ref={canvasRef} width="940" height="650" className="absolute top-[100px]" />
+                    <canvas ref={canvasRef} width="940" height="650" className="absolute top-[170px] left-[120px]" />
                 </div>
             )}
 

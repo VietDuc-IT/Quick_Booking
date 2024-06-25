@@ -5,8 +5,11 @@ import Button from '../../Button';
 import { Datepicker } from 'flowbite-react';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { currentUser } from '~/redux/selectors';
 
 function Container({ onBook }) {
+    const User = useSelector(currentUser);
     const [openModal, setOpenModal] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTimes, setSelectedTimes] = useState([]);
@@ -55,9 +58,17 @@ function Container({ onBook }) {
         '17:00 - 18:00',
     ];
 
+    const handelOpenModal = () => {
+        if (User) {
+            setOpenModal(true);
+        } else {
+            toast.error('Bạn cần đăng nhập để đặt lịch!');
+        }
+    };
+
     return (
         <>
-            <Button btn="dark" className="w-full flex justify-center items-center" onClick={() => setOpenModal(true)}>
+            <Button btn="dark" className="w-full flex justify-center items-center" onClick={handelOpenModal}>
                 <IoCalendarSharp className="h-6 w-6 mr-5" />
                 Đặt lịch xem phòng
             </Button>

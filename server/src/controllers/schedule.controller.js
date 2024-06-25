@@ -36,7 +36,21 @@ export const getAllSchedule = async (req, res) => {
       .populate("hostId")
       .populate("postId");
 
-    return res.status(200).json(schedule);
+    const totalSchedule = await Schedule.countDocuments();
+
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthSchedule = await Schedule.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    return res
+      .status(200)
+      .json({ schedule: schedule, totalSchedule, lastMonthSchedule });
   } catch (error) {
     return res.status(500).json({ message: "Lỗi hệ thống!" });
   }

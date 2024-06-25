@@ -51,6 +51,14 @@ function Contact({ data }) {
         }
     };
 
+    const handleOpenMessage = () => {
+        if (User) {
+            setOpenMessage(!openMessage);
+        } else {
+            toast.error('Bạn cần đăng nhập để gửi tin nhắn!');
+        }
+    };
+
     return (
         <>
             <div className="bg-m_main dark:bg-d_main p-5 sticky top-20">
@@ -82,7 +90,7 @@ function Contact({ data }) {
                     <Button
                         btn="primary"
                         className="w-full flex justify-center items-center"
-                        onClick={() => setOpenMessage(!openMessage)}
+                        onClick={handleOpenMessage}
                     >
                         <AiFillMessage className="h-6 w-6 mr-5" />
                         Nhắn tin với người cho thuê

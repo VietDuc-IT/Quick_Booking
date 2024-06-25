@@ -4,6 +4,7 @@ import {
   getrenter,
   remove,
   renterSign,
+  getRenters,
 } from "../controllers/renter.controller";
 import { verifyToken } from "../middlewares/verifyToken";
 
@@ -20,5 +21,8 @@ router.put("/confirm/:id", verifyToken, confirm);
 
 //[PUT] /api/renter/remove/:id
 router.put("/remove/:id", verifyToken, remove);
+
+//[GET] /api/renter/getRenters
+router.get("/getRenters", verifyToken, getRenters);
 
 export default router;

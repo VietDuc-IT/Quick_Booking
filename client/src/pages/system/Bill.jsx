@@ -17,7 +17,7 @@ function Bill() {
             const res = await axiosPrivate.get(`api/schedule`, {
                 headers: { token: `bearer ${User.accessToken}` },
             });
-            setData(res.data);
+            setData(res.data?.schedule);
         } catch (err) {
             if (err.response) {
                 toast.error(err.response.data.message);

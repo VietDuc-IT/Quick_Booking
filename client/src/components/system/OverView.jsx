@@ -11,14 +11,20 @@ import { currentUser } from '~/redux/selectors';
 
 const Card = () => {
     const [users, setUsers] = useState([]);
-    const [comments, setComments] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [schedule, setSchedule] = useState([]);
+    const [renter, setRenter] = useState([]);
+
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalPosts, setTotalPosts] = useState(0);
-    const [totalComments, setTotalComments] = useState(0);
+    const [totalSchedule, setTotalSchedule] = useState(0);
+    const [totalRenter, setTotalRenter] = useState(0);
+
     const [lastMonthUsers, setLastMonthUsers] = useState(0);
     const [lastMonthPosts, setLastMonthPosts] = useState(0);
-    const [lastMonthComments, setLastMonthComments] = useState(0);
+    const [lastMonthSchedule, setLastMonthSchedule] = useState(0);
+    const [lastMonthRenter, setLastMonthRenter] = useState(0);
+
     const dispatch = useDispatch();
     const User = useSelector(currentUser);
     const axiosPrivate = useAxiosPrivate();
@@ -46,9 +52,35 @@ const Card = () => {
                 console.log(error);
             }
         };
+        const fetchRenter = async () => {
+            try {
+                const res = await axiosPrivate.get(`/api/renter/getRenters`, {
+                    headers: { token: `bearer ${User.accessToken}` },
+                });
+                setRenter(res.data.renter);
+                setTotalRenter(res.data.totalUser);
+                setLastMonthRenter(res.data.lastMonthUser);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        const fetchSchedule = async () => {
+            try {
+                const res = await axiosPrivate.get(`api/schedule`, {
+                    headers: { token: `bearer ${User.accessToken}` },
+                });
+                setSchedule(res.data.posts);
+                setTotalSchedule(res.data.totalSchedule);
+                setLastMonthSchedule(res.data.lastMonthSchedule);
+            } catch (error) {
+                console.log(error);
+            }
+        };
 
         fetchUsers();
         fetchPosts();
+        fetchRenter();
+        fetchSchedule();
     }, []);
 
     return (
@@ -98,7 +130,7 @@ const Card = () => {
                 </div>
             </div>
 
-            {/* Booking */}
+            {/* Renter */}
             <div class="items-center justify-center h-36 rounded bg-gray-50 dark:bg-gray-800 p-5">
                 <div className="ml-7">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
@@ -108,13 +140,13 @@ const Card = () => {
 
                 <div className="mt-3 flex justify-between">
                     <div>
-                        <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalPosts}</h4>
+                        <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalRenter}</h4>
                         <span className="text-sm font-medium">Chủ nhà</span>
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
                         <Tooltip content="Đăng ký trong tháng">
                             <span className="text-lg flex">
-                                {lastMonthPosts} <AiFillCaretUp className="mt-1 ml-1" />
+                                {lastMonthRenter} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>
                     </div>
@@ -130,13 +162,13 @@ const Card = () => {
 
                 <div className="mt-3 flex justify-between">
                     <div>
-                        <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalPosts}</h4>
+                        <h4 className="text-lg font-bold text-black dark:text-white text-center">{totalSchedule}</h4>
                         <span className="text-sm font-medium">Tổng lịch hẹn</span>
                     </div>
                     <div className="bg-primary h-7 w-16 flex justify-center rounded-full mt-5">
                         <Tooltip content="Lịch hẹn trong tháng">
                             <span className="text-lg flex">
-                                {lastMonthPosts} <AiFillCaretUp className="mt-1 ml-1" />
+                                {lastMonthSchedule} <AiFillCaretUp className="mt-1 ml-1" />
                             </span>
                         </Tooltip>
                     </div>

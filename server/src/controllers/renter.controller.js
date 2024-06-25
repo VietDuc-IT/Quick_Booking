@@ -106,3 +106,33 @@ export const remove = async (req, res) => {
     return res.status(500).json({ message: "Thất bại!" });
   }
 };
+
+//[GET] /api/getRenters
+export const getRenters = async (req, res) => {
+  try {
+    // const renter = await User.find()
+    //   .populate("renterId")
+    //   .populate("hostId")
+    //   .populate("postId");
+
+    // const totalUser = await User.find({
+    //   role: "User",
+    // }).countDocuments();
+
+    const totalUser = await User.countDocuments({ role: "User" });
+
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthUser = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    return res.status(200).json({ totalUser, lastMonthUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Lỗi hệ thống!" });
+  }
+};
